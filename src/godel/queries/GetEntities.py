@@ -1,9 +1,9 @@
-from dapp_api.fragments.EntityLink import fragment_entity_link
+from godel.fragments.EntityLink import fragment_entity_link
 import sgqlc.types
 import sgqlc.operation
-import dapp_api.schema
+import godel.schema
 
-_schema = dapp_api.schema
+_schema = godel.schema
 _schema_root = _schema.schema
 
 __all__ = ('Operations',)
