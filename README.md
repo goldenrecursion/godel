@@ -10,7 +10,7 @@ Godel's repository includes a python package and software to help provide develo
 
 ## Documentation
 
-Godel guides and documentation can be found in [Golden's API Docs](https://golden-1.gitbook.io/api-docs/bIDcMAB995oqcXDPByjt/).
+Godel guides and documentation can be found in [Golden's API Docs](htts://docs.golden.xyz).
 
 ## Installation
 
