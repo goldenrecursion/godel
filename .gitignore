@@ -1,0 +1,65 @@
+# Python stuff
+__pycache__/
+*.py[cod]
+*$py.class
+
+.direnv/
+
+# env stuff
+.env
+.env/
+env/
+ENV/
+venv/
+.venv/
+
+# Random files
+*.log
+*#
+*~
+\#*
+*.DS_Store
+
+# IDEs
+.project
+.pydevproject
+.idea
+.settings
+
+# Node modules
+node_modules/
+package-lock.json
+npm-debug.log
+.yarn-cache
+
+# Generated files
+static_dist/
+static_server/
+golden/db.sqlite3
+media/
+coverage/
+webpack/webpack-stats.json
+docker/development/postgres/data
+
+# Celery Beat
+celerybeat*
+
+# Timezone library
+GeoLite2-City.mmdb
+
+# PyTest
+.pytest_cache/
+
+# Unison files (for docker-sync)
+.unison.*
+
+# Local file to indicate that the postgresql dump has been restored
+pg-restored.txt
+
+# Mergetool helper files
+*.orig
+
+# Ipython Notebooks
+*.ipynb_checkpoints
+
+golden-models/

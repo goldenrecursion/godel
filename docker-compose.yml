@@ -1,0 +1,16 @@
+services:
+  jupyter:
+    build: .
+    image: godel
+    working_dir: /opt/godel
+    command: jupyter lab --ip=0.0.0.0 --no-browser --port=8888 --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --allow-root
+    ports:
+      - 8888:8888
+    volumes:
+      - ./:/opt/godel/
+      - ./godel-logs:/var/log
+  tests:
+    image: godel
+    volumes:
+      - ./:/opt/godel/
+    command: pytest /opt/godel/tests/

@@ -1,0 +1,1158 @@
+import sgqlc.types
+import sgqlc.types.relay
+
+
+schema = sgqlc.types.Schema()
+
+
+# Unexport Node/PageInfo, let schema re-declare them
+schema -= sgqlc.types.relay.Node
+schema -= sgqlc.types.relay.PageInfo
+
+
+
+########################################################################
+# Scalars and Enumerations
+########################################################################
+class BigInt(sgqlc.types.Scalar):
+    __schema__ = schema
+
+
+Boolean = sgqlc.types.Boolean
+
+class Cursor(sgqlc.types.Scalar):
+    __schema__ = schema
+
+
+class Datetime(sgqlc.types.Scalar):
+    __schema__ = schema
+
+
+class EntitiesOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+
+
+ID = sgqlc.types.ID
+
+Int = sgqlc.types.Int
+
+class JwtToken(sgqlc.types.Scalar):
+    __schema__ = schema
+
+
+class PredicatesOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CID_ASC', 'CID_DESC', 'DESCRIPTION_ASC', 'DESCRIPTION_DESC', 'ID_ASC', 'ID_DESC', 'NAME_ASC', 'NAME_DESC', 'NATURAL', 'OBJECT_TYPE_ASC', 'OBJECT_TYPE_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+
+
+class QualifiersOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CITATION_URL_ASC', 'CITATION_URL_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
+class StatementsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CITATION_URL_ASC', 'CITATION_URL_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
+String = sgqlc.types.String
+
+class TemplatePredicatesOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ID_ASC', 'ID_DESC', 'NATURAL', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'RANK_ASC', 'RANK_DESC', 'TEMPLATE_ID_ASC', 'TEMPLATE_ID_DESC')
+
+
+class TemplatesOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ENTITY_ID_ASC', 'ENTITY_ID_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'RANK_ASC', 'RANK_DESC')
+
+
+class TopUsersOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ACCEPTED_STATEMENT_COUNT_ASC', 'ACCEPTED_STATEMENT_COUNT_DESC', 'NATURAL', 'SUBMITTED_STATEMENT_COUNT_ASC', 'SUBMITTED_STATEMENT_COUNT_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
+class TripleRequestsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ENTITY_ID_ASC', 'SUBJECT_ENTITY_ID_DESC')
+
+
+class TriplesOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CITATION_URL_ASC', 'CITATION_URL_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
+class UUID(sgqlc.types.Scalar):
+    __schema__ = schema
+
+
+class ValidationStatus(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ACCEPTED', 'PENDING', 'REJECTED')
+
+
+class ValidationType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ACCEPTED', 'REJECTED', 'SKIPPED')
+
+
+class ValueType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ANY_URI', 'DATE_TIME', 'DECIMAL', 'ENTITY', 'FLOAT', 'INTEGER', 'STRING')
+
+
+
+########################################################################
+# Input Objects
+########################################################################
+class AuthenticateInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'user_id', 'signature')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+    signature = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='signature')
+
+
+class CreateEntityInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'name', 'statements')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    statements = sgqlc.types.Field(sgqlc.types.list_of('StatementInputRecordInput'), graphql_name='statements')
+
+
+class CreateQualifierInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+
+
+class CreateStatementInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'qualifiers')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    qualifiers = sgqlc.types.Field(sgqlc.types.list_of('QualifierInputRecordInput'), graphql_name='qualifiers')
+
+
+class CreateValidationInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'triple_id', 'validation_type')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    triple_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleId')
+    validation_type = sgqlc.types.Field(sgqlc.types.non_null(ValidationType), graphql_name='validationType')
+
+
+class EntityCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id',)
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+
+
+class FulfillTripleRequestInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'triple_request_id', 'input_object_value', 'input_object_entity_id')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    triple_request_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleRequestId')
+    input_object_value = sgqlc.types.Field(String, graphql_name='inputObjectValue')
+    input_object_entity_id = sgqlc.types.Field(UUID, graphql_name='inputObjectEntityId')
+
+
+class GetAuthenticationMessageInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'user_id')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+
+
+class PredicateCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    object_type = sgqlc.types.Field(ValueType, graphql_name='objectType')
+    cid = sgqlc.types.Field(String, graphql_name='cid')
+
+
+class QualifierCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'validation_status')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
+    predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
+    date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
+    date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
+
+
+class QualifierInputRecordInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('predicate_id', 'object_value', 'object_entity_id', 'citation_url')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+
+
+class StatementCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'validation_status')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
+    predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
+    date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
+    date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
+
+
+class StatementInputRecordInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'qualifiers')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    qualifiers = sgqlc.types.Field(sgqlc.types.list_of(QualifierInputRecordInput), graphql_name='qualifiers')
+
+
+class TemplateCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'entity_id', 'rank')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    entity_id = sgqlc.types.Field(UUID, graphql_name='entityId')
+    rank = sgqlc.types.Field(Int, graphql_name='rank')
+
+
+class TemplatePredicateCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'template_id', 'predicate_id', 'rank')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    template_id = sgqlc.types.Field(UUID, graphql_name='templateId')
+    predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
+    rank = sgqlc.types.Field(Int, graphql_name='rank')
+
+
+class TopUserCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    submitted_statement_count = sgqlc.types.Field(Int, graphql_name='submittedStatementCount')
+    accepted_statement_count = sgqlc.types.Field(Int, graphql_name='acceptedStatementCount')
+
+
+class TripleCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'citation_url', 'user_id', 'date_accepted', 'date_rejected', 'validation_status')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
+    predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
+    date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
+
+
+class TripleRequestCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'subject_entity_id', 'predicate_id', 'date_created')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    subject_entity_id = sgqlc.types.Field(UUID, graphql_name='subjectEntityId')
+    predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
+    date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
+
+
+
+########################################################################
+# Output Objects and Interfaces
+########################################################################
+class AuthenticatePayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'jwt_token', 'query')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    jwt_token = sgqlc.types.Field(JwtToken, graphql_name='jwtToken')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+
+
+class CreateEntityPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'entity', 'query', 'entity_edge')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    entity = sgqlc.types.Field('Entity', graphql_name='entity')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+    entity_edge = sgqlc.types.Field('EntitiesEdge', graphql_name='entityEdge', args=sgqlc.types.ArgDict((
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(EntitiesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
+
+
+class CreateQualifierPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'qualifier', 'query', 'subject', 'predicate', 'object_entity', 'qualifier_edge')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    qualifier = sgqlc.types.Field('Qualifier', graphql_name='qualifier')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+    subject = sgqlc.types.Field(sgqlc.types.non_null('Statement'), graphql_name='subject')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='predicate')
+    object_entity = sgqlc.types.Field('Entity', graphql_name='objectEntity')
+    qualifier_edge = sgqlc.types.Field('QualifiersEdge', graphql_name='qualifierEdge', args=sgqlc.types.ArgDict((
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(QualifiersOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
+
+
+class CreateStatementPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'statement', 'query', 'subject', 'predicate', 'object_entity', 'statement_edge')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    statement = sgqlc.types.Field('Statement', graphql_name='statement')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+    subject = sgqlc.types.Field(sgqlc.types.non_null('Entity'), graphql_name='subject')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='predicate')
+    object_entity = sgqlc.types.Field('Entity', graphql_name='objectEntity')
+    statement_edge = sgqlc.types.Field('StatementsEdge', graphql_name='statementEdge', args=sgqlc.types.ArgDict((
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
+
+
+class CreateValidationPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'validation', 'query', 'triple', 'validation_edge')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    validation = sgqlc.types.Field('Validation', graphql_name='validation')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+    triple = sgqlc.types.Field(sgqlc.types.non_null('Triple'), graphql_name='triple')
+    validation_edge = sgqlc.types.Field('ValidationsEdge', graphql_name='validationEdge')
+
+
+class EntitiesConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Entity'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EntitiesEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null('PageInfo'), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class EntitiesEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Entity'), graphql_name='node')
+
+
+class FulfillTripleRequestPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'statement', 'query', 'subject', 'predicate', 'object_entity', 'statement_edge')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    statement = sgqlc.types.Field('Statement', graphql_name='statement')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+    subject = sgqlc.types.Field(sgqlc.types.non_null('Entity'), graphql_name='subject')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='predicate')
+    object_entity = sgqlc.types.Field('Entity', graphql_name='objectEntity')
+    statement_edge = sgqlc.types.Field('StatementsEdge', graphql_name='statementEdge', args=sgqlc.types.ArgDict((
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
+
+
+class GetAuthenticationMessagePayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'string', 'query')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    string = sgqlc.types.Field(String, graphql_name='string')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+
+
+class GetUserRankingConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('GetUserRankingRecord'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('GetUserRankingEdge'))), graphql_name='edges')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class GetUserRankingEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('GetUserRankingRecord'), graphql_name='node')
+
+
+class GetUserRankingRecord(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count', 'ranking')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    submitted_statement_count = sgqlc.types.Field(Int, graphql_name='submittedStatementCount')
+    accepted_statement_count = sgqlc.types.Field(Int, graphql_name='acceptedStatementCount')
+    ranking = sgqlc.types.Field(Int, graphql_name='ranking')
+
+
+class LedgerRecordChangedPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('event', 'amount', 'balance')
+    event = sgqlc.types.Field(String, graphql_name='event')
+    amount = sgqlc.types.Field(BigInt, graphql_name='amount')
+    balance = sgqlc.types.Field(BigInt, graphql_name='balance')
+
+
+class Mutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('authenticate', 'create_entity', 'create_qualifier', 'create_statement', 'create_validation', 'fulfill_triple_request', 'get_authentication_message')
+    authenticate = sgqlc.types.Field(AuthenticatePayload, graphql_name='authenticate', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(AuthenticateInput), graphql_name='input', default=None)),
+))
+    )
+    create_entity = sgqlc.types.Field(CreateEntityPayload, graphql_name='createEntity', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateEntityInput), graphql_name='input', default=None)),
+))
+    )
+    create_qualifier = sgqlc.types.Field(CreateQualifierPayload, graphql_name='createQualifier', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateQualifierInput), graphql_name='input', default=None)),
+))
+    )
+    create_statement = sgqlc.types.Field(CreateStatementPayload, graphql_name='createStatement', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateStatementInput), graphql_name='input', default=None)),
+))
+    )
+    create_validation = sgqlc.types.Field(CreateValidationPayload, graphql_name='createValidation', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateValidationInput), graphql_name='input', default=None)),
+))
+    )
+    fulfill_triple_request = sgqlc.types.Field(FulfillTripleRequestPayload, graphql_name='fulfillTripleRequest', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(FulfillTripleRequestInput), graphql_name='input', default=None)),
+))
+    )
+    get_authentication_message = sgqlc.types.Field(GetAuthenticationMessagePayload, graphql_name='getAuthenticationMessage', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(GetAuthenticationMessageInput), graphql_name='input', default=None)),
+))
+    )
+
+
+class Node(sgqlc.types.Interface):
+    __schema__ = schema
+    __field_names__ = ('node_id',)
+    node_id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='nodeId')
+
+
+class PageInfo(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('has_next_page', 'has_previous_page', 'start_cursor', 'end_cursor')
+    has_next_page = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='hasNextPage')
+    has_previous_page = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='hasPreviousPage')
+    start_cursor = sgqlc.types.Field(Cursor, graphql_name='startCursor')
+    end_cursor = sgqlc.types.Field(Cursor, graphql_name='endCursor')
+
+
+class PredicatesConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Predicate'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('PredicatesEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class PredicatesEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='node')
+
+
+class QualifiersConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Qualifier'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('QualifiersEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class QualifiersEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Qualifier'), graphql_name='node')
+
+
+class StatementsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Statement'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('StatementsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class StatementsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Statement'), graphql_name='node')
+
+
+class Subscription(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('triple_validated', 'ledger_record_changed', 'user_balance_changed')
+    triple_validated = sgqlc.types.Field('TripleValidatedSubscriptionPayload', graphql_name='tripleValidated')
+    ledger_record_changed = sgqlc.types.Field(LedgerRecordChangedPayload, graphql_name='ledgerRecordChanged')
+    user_balance_changed = sgqlc.types.Field('UserBalanceChangedPayload', graphql_name='userBalanceChanged')
+
+
+class TemplatePredicatesConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TemplatePredicate'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TemplatePredicatesEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class TemplatePredicatesEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('TemplatePredicate'), graphql_name='node')
+
+
+class TemplatesConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Template'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TemplatesEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class TemplatesEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Template'), graphql_name='node')
+
+
+class TopUser(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    submitted_statement_count = sgqlc.types.Field(Int, graphql_name='submittedStatementCount')
+    accepted_statement_count = sgqlc.types.Field(Int, graphql_name='acceptedStatementCount')
+
+
+class TopUsersConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(TopUser))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TopUsersEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class TopUsersEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null(TopUser), graphql_name='node')
+
+
+class TripleRequestsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TripleRequest'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TripleRequestsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class TripleRequestsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('TripleRequest'), graphql_name='node')
+
+
+class TripleValidatedSubscriptionPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('triple', 'event', 'is_valid')
+    triple = sgqlc.types.Field('Triple', graphql_name='triple')
+    event = sgqlc.types.Field(String, graphql_name='event')
+    is_valid = sgqlc.types.Field(Boolean, graphql_name='isValid')
+
+
+class TriplesConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Triple'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TriplesEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class TriplesEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field('Triple', graphql_name='node')
+
+
+class UserBalanceChangedPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('event', 'token_balance', 'stake_balance')
+    event = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='event')
+    token_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='tokenBalance')
+    stake_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='stakeBalance')
+
+
+class ValidationsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Validation'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ValidationsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class ValidationsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Validation'), graphql_name='node')
+
+
+class Entity(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'template', 'triple_requests_by_subject_entity_id', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'pathname', 'thumbnail', 'website')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    template = sgqlc.types.Field('Template', graphql_name='template')
+    triple_requests_by_subject_entity_id = sgqlc.types.Field(sgqlc.types.non_null(TripleRequestsConnection), graphql_name='tripleRequestsBySubjectEntityId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TripleRequestsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TripleRequestCondition, graphql_name='condition', default=None)),
+))
+    )
+    qualifiers_by_object_entity_id = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiersByObjectEntityId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(QualifiersOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(QualifierCondition, graphql_name='condition', default=None)),
+))
+    )
+    statements_by_subject_id = sgqlc.types.Field(sgqlc.types.non_null(StatementsConnection), graphql_name='statementsBySubjectId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(StatementCondition, graphql_name='condition', default=None)),
+))
+    )
+    statements_by_object_entity_id = sgqlc.types.Field(sgqlc.types.non_null(StatementsConnection), graphql_name='statementsByObjectEntityId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(StatementCondition, graphql_name='condition', default=None)),
+))
+    )
+    description = sgqlc.types.Field(String, graphql_name='description')
+    golden_id = sgqlc.types.Field(String, graphql_name='goldenId')
+    is_a = sgqlc.types.Field(sgqlc.types.non_null(EntitiesConnection), graphql_name='isA', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    name = sgqlc.types.Field(String, graphql_name='name')
+    pathname = sgqlc.types.Field(String, graphql_name='pathname')
+    thumbnail = sgqlc.types.Field(String, graphql_name='thumbnail')
+    website = sgqlc.types.Field(String, graphql_name='website')
+
+
+class Predicate(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'triples', 'template_predicates', 'triple_requests', 'qualifiers', 'statements', 'show_in_infobox')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    object_type = sgqlc.types.Field(sgqlc.types.non_null(ValueType), graphql_name='objectType')
+    cid = sgqlc.types.Field(String, graphql_name='cid')
+    triples = sgqlc.types.Field(sgqlc.types.non_null(TriplesConnection), graphql_name='triples', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TriplesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TripleCondition, graphql_name='condition', default=None)),
+))
+    )
+    template_predicates = sgqlc.types.Field(sgqlc.types.non_null(TemplatePredicatesConnection), graphql_name='templatePredicates', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TemplatePredicatesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TemplatePredicateCondition, graphql_name='condition', default=None)),
+))
+    )
+    triple_requests = sgqlc.types.Field(sgqlc.types.non_null(TripleRequestsConnection), graphql_name='tripleRequests', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TripleRequestsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TripleRequestCondition, graphql_name='condition', default=None)),
+))
+    )
+    qualifiers = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiers', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(QualifiersOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(QualifierCondition, graphql_name='condition', default=None)),
+))
+    )
+    statements = sgqlc.types.Field(sgqlc.types.non_null(StatementsConnection), graphql_name='statements', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(StatementCondition, graphql_name='condition', default=None)),
+))
+    )
+    show_in_infobox = sgqlc.types.Field(Boolean, graphql_name='showInInfobox')
+
+
+class Qualifier(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'subject', 'predicate', 'object_entity')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+    date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
+    date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
+    date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    subject = sgqlc.types.Field(sgqlc.types.non_null('Statement'), graphql_name='subject')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null(Predicate), graphql_name='predicate')
+    object_entity = sgqlc.types.Field(Entity, graphql_name='objectEntity')
+
+
+class Query(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('query', 'node', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_users', 'triples', 'triple_requests', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_user_id', 'entity_by_golden_id', 'entity_by_name', 'get_user_ranking', 'pending_triple_request', 'unvalidated_triple', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'validation_by_node_id')
+    query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
+    node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    entities = sgqlc.types.Field(EntitiesConnection, graphql_name='entities', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(EntitiesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(EntityCondition, graphql_name='condition', default=None)),
+))
+    )
+    predicates = sgqlc.types.Field(PredicatesConnection, graphql_name='predicates', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(PredicatesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(PredicateCondition, graphql_name='condition', default=None)),
+))
+    )
+    qualifiers = sgqlc.types.Field(QualifiersConnection, graphql_name='qualifiers', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(QualifiersOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(QualifierCondition, graphql_name='condition', default=None)),
+))
+    )
+    statements = sgqlc.types.Field(StatementsConnection, graphql_name='statements', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(StatementCondition, graphql_name='condition', default=None)),
+))
+    )
+    templates = sgqlc.types.Field(TemplatesConnection, graphql_name='templates', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TemplatesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TemplateCondition, graphql_name='condition', default=None)),
+))
+    )
+    template_predicates = sgqlc.types.Field(TemplatePredicatesConnection, graphql_name='templatePredicates', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TemplatePredicatesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TemplatePredicateCondition, graphql_name='condition', default=None)),
+))
+    )
+    top_users = sgqlc.types.Field(TopUsersConnection, graphql_name='topUsers', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TopUsersOrderBy)), graphql_name='orderBy', default=('NATURAL',))),
+        ('condition', sgqlc.types.Arg(TopUserCondition, graphql_name='condition', default=None)),
+))
+    )
+    triples = sgqlc.types.Field(TriplesConnection, graphql_name='triples', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TriplesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TripleCondition, graphql_name='condition', default=None)),
+))
+    )
+    triple_requests = sgqlc.types.Field(TripleRequestsConnection, graphql_name='tripleRequests', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TripleRequestsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TripleRequestCondition, graphql_name='condition', default=None)),
+))
+    )
+    entity = sgqlc.types.Field(Entity, graphql_name='entity', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    predicate = sgqlc.types.Field(Predicate, graphql_name='predicate', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    predicate_by_name = sgqlc.types.Field(Predicate, graphql_name='predicateByName', args=sgqlc.types.ArgDict((
+        ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
+))
+    )
+    qualifier = sgqlc.types.Field(Qualifier, graphql_name='qualifier', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    statement = sgqlc.types.Field('Statement', graphql_name='statement', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    template = sgqlc.types.Field('Template', graphql_name='template', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    template_by_entity_id = sgqlc.types.Field('Template', graphql_name='templateByEntityId', args=sgqlc.types.ArgDict((
+        ('entity_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='entityId', default=None)),
+))
+    )
+    template_predicate = sgqlc.types.Field('TemplatePredicate', graphql_name='templatePredicate', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    triple = sgqlc.types.Field('Triple', graphql_name='triple', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    triple_request = sgqlc.types.Field('TripleRequest', graphql_name='tripleRequest', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    validation = sgqlc.types.Field('Validation', graphql_name='validation', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    _statement_by_sp = sgqlc.types.Field('Statement', graphql_name='_statementBySp', args=sgqlc.types.ArgDict((
+        ('subject', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='subject', default=None)),
+        ('predicate', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='predicate', default=None)),
+))
+    )
+    _statements_by_sp = sgqlc.types.Field('Statement', graphql_name='_statementsBySp', args=sgqlc.types.ArgDict((
+        ('subject', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='subject', default=None)),
+        ('predicate', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='predicate', default=None)),
+))
+    )
+    current_user = sgqlc.types.Field('User', graphql_name='currentUser')
+    current_user_user_id = sgqlc.types.Field(String, graphql_name='currentUserUserId')
+    entity_by_golden_id = sgqlc.types.Field(Entity, graphql_name='entityByGoldenId', args=sgqlc.types.ArgDict((
+        ('golden_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='goldenId', default=None)),
+))
+    )
+    entity_by_name = sgqlc.types.Field(EntitiesConnection, graphql_name='entityByName', args=sgqlc.types.ArgDict((
+        ('entity_name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='entityName', default=None)),
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    get_user_ranking = sgqlc.types.Field(GetUserRankingConnection, graphql_name='getUserRanking', args=sgqlc.types.ArgDict((
+        ('sort_key', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='sortKey', default=None)),
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    pending_triple_request = sgqlc.types.Field('TripleRequest', graphql_name='pendingTripleRequest')
+    unvalidated_triple = sgqlc.types.Field('Triple', graphql_name='unvalidatedTriple')
+    entity_by_node_id = sgqlc.types.Field(Entity, graphql_name='entityByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    predicate_by_node_id = sgqlc.types.Field(Predicate, graphql_name='predicateByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    qualifier_by_node_id = sgqlc.types.Field(Qualifier, graphql_name='qualifierByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    statement_by_node_id = sgqlc.types.Field('Statement', graphql_name='statementByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    template_by_node_id = sgqlc.types.Field('Template', graphql_name='templateByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    template_predicate_by_node_id = sgqlc.types.Field('TemplatePredicate', graphql_name='templatePredicateByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    triple_by_node_id = sgqlc.types.Field('Triple', graphql_name='tripleByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    triple_request_by_node_id = sgqlc.types.Field('TripleRequest', graphql_name='tripleRequestByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    validation_by_node_id = sgqlc.types.Field('Validation', graphql_name='validationByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+
+
+class Statement(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'subject', 'predicate', 'object_entity', 'qualifiers_by_subject_id')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+    date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
+    date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
+    date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    subject = sgqlc.types.Field(sgqlc.types.non_null(Entity), graphql_name='subject')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null(Predicate), graphql_name='predicate')
+    object_entity = sgqlc.types.Field(Entity, graphql_name='objectEntity')
+    qualifiers_by_subject_id = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiersBySubjectId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(QualifiersOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(QualifierCondition, graphql_name='condition', default=None)),
+))
+    )
+
+
+class Template(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'entity_id', 'rank', 'entity', 'template_predicates')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    entity_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='entityId')
+    rank = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='rank')
+    entity = sgqlc.types.Field(sgqlc.types.non_null(Entity), graphql_name='entity')
+    template_predicates = sgqlc.types.Field(sgqlc.types.non_null(TemplatePredicatesConnection), graphql_name='templatePredicates', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TemplatePredicatesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TemplatePredicateCondition, graphql_name='condition', default=None)),
+))
+    )
+
+
+class TemplatePredicate(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'template_id', 'predicate_id', 'rank', 'template', 'predicate')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    template_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='templateId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    rank = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='rank')
+    template = sgqlc.types.Field(sgqlc.types.non_null(Template), graphql_name='template')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null(Predicate), graphql_name='predicate')
+
+
+class TripleRequest(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'subject_entity_id', 'predicate_id', 'date_created', 'subject_entity', 'predicate')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    subject_entity_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectEntityId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
+    subject_entity = sgqlc.types.Field(sgqlc.types.non_null(Entity), graphql_name='subjectEntity')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null(Predicate), graphql_name='predicate')
+
+
+class User(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'qualifiers', 'statements', 'top_users', 'balance', 'short_address')
+    id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
+    nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+    stake_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='stakeBalance')
+    token_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='tokenBalance')
+    triples = sgqlc.types.Field(sgqlc.types.non_null(TriplesConnection), graphql_name='triples', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TriplesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(TripleCondition, graphql_name='condition', default=None)),
+))
+    )
+    validations = sgqlc.types.Field(sgqlc.types.non_null(ValidationsConnection), graphql_name='validations', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    qualifiers = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiers', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(QualifiersOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(QualifierCondition, graphql_name='condition', default=None)),
+))
+    )
+    statements = sgqlc.types.Field(sgqlc.types.non_null(StatementsConnection), graphql_name='statements', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(StatementCondition, graphql_name='condition', default=None)),
+))
+    )
+    top_users = sgqlc.types.Field(sgqlc.types.non_null(TopUsersConnection), graphql_name='topUsers', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TopUsersOrderBy)), graphql_name='orderBy', default=('NATURAL',))),
+        ('condition', sgqlc.types.Arg(TopUserCondition, graphql_name='condition', default=None)),
+))
+    )
+    balance = sgqlc.types.Field(BigInt, graphql_name='balance')
+    short_address = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='shortAddress')
+
+
+class Validation(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'triple_id', 'user_id', 'validation_type', 'created_at', 'triple')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    triple_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleId')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    validation_type = sgqlc.types.Field(sgqlc.types.non_null(ValidationType), graphql_name='validationType')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+    triple = sgqlc.types.Field(sgqlc.types.non_null('Triple'), graphql_name='triple')
+
+
+
+########################################################################
+# Unions
+########################################################################
+class Triple(sgqlc.types.Union):
+    __schema__ = schema
+    __types__ = (Statement, Qualifier)
+
+
+
+########################################################################
+# Schema Entry Points
+########################################################################
+schema.query_type = Query
+schema.mutation_type = Mutation
+schema.subscription_type = Subscription
+
