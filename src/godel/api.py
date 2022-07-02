@@ -258,7 +258,7 @@ class GoldenAPI:
         return data
 
     def entity_with_triples(self, entity_id: str) -> dict:
-        """
+        """Retrieve entity with both entity to value triples and entity to entity triples
 
         Args:
             entity_id (str): id of entity to retrieve
