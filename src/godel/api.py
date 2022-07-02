@@ -257,6 +257,38 @@ class GoldenAPI:
         data = self.endpoint(op, variables)
         return data
 
+    def entity_with_triples(self, entity_id: str) -> dict:
+        """
+
+        Args:
+            entity_id (str): id of entity to retrieve
+
+        Returns:
+            dict: Entity with triples
+        """
+
+        query = f"""query MyQuery {{
+              entity(id: "{entity_id}") {{
+              id
+                statementsBySubjectId {{
+                  nodes {{
+                    id
+                    objectEntityId
+                    objectValue
+                    predicate {{
+                      name
+                    }}
+                    objectEntity {{
+                      name
+                    }}
+                  }}
+                }}
+              }}
+            }}"""
+        variables = {}
+        data = self.endpoint(query, variables)
+        return data
+
     # Predicates
 
     def predicate_by_name(self, name: str, **kwargs) -> dict:
