@@ -262,10 +262,10 @@ class GoldenAPI:
         """Retrieve entity details, includes rich template and statement values
 
         Args:
-            id (str): _description_
+            id (str): id of entity to retrieve
 
         Returns:
-            dict: _description_
+            dict: Entity with details
         """        
         params = locals()
         params.pop("kwargs")
