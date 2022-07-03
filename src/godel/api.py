@@ -258,12 +258,7 @@ class GoldenAPI:
         data = self.endpoint(op, variables)
         return data
 
-<<<<<<< Updated upstream
-    def entity_with_triples(self, entity_id: str) -> dict:
-=======
-<<<<<<< Updated upstream
-=======
-    def entity_detail(self, id: str, **kwargs) -> dict:
+def entity_detail(self, id: str, **kwargs) -> dict:
         """Retrieve entity details, includes rich template and statement values
 
         Args:
@@ -282,7 +277,6 @@ class GoldenAPI:
         return data
 
     def entity_with_triples(self, id: str) -> dict:
->>>>>>> Stashed changes
         """Retrieve entity with both entity to value triples and entity to entity triples
 
         Args:
@@ -293,11 +287,7 @@ class GoldenAPI:
         """
 
         query = f"""query MyQuery {{
-<<<<<<< Updated upstream
-              entity(id: "{entity_id}") {{
-=======
               entity(id: "{id}") {{
->>>>>>> Stashed changes
               id
                 statementsBySubjectId {{
                   nodes {{
