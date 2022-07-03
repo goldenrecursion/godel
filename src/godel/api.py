@@ -32,6 +32,7 @@ from godel.queries.GetTripleForValidation import (
 from godel.queries.LiveView import Operations as LiveViewOperations
 from godel.queries.Predicate import Operations as PredicateOperations
 from godel.queries.Templates import Operations as TemplatesOperations
+from godel.queries.EntityDetail import Operations as EntityDetailOperations
 
 logger = logging.getLogger(__name__)
 
@@ -257,7 +258,31 @@ class GoldenAPI:
         data = self.endpoint(op, variables)
         return data
 
+<<<<<<< Updated upstream
     def entity_with_triples(self, entity_id: str) -> dict:
+=======
+<<<<<<< Updated upstream
+=======
+    def entity_detail(self, id: str, **kwargs) -> dict:
+        """Retrieve entity details, includes rich template and statement values
+
+        Args:
+            id (str): _description_
+
+        Returns:
+            dict: _description_
+        """        
+        params = locals()
+        params.pop("kwargs")
+        params.pop("self")
+        params.update(kwargs)
+        op = EntityDetailOperations.query.entity_detail
+        variables = self.generate_variables(op, params)
+        data = self.endpoint(op, variables)
+        return data
+
+    def entity_with_triples(self, id: str) -> dict:
+>>>>>>> Stashed changes
         """Retrieve entity with both entity to value triples and entity to entity triples
 
         Args:
@@ -268,7 +293,11 @@ class GoldenAPI:
         """
 
         query = f"""query MyQuery {{
+<<<<<<< Updated upstream
               entity(id: "{entity_id}") {{
+=======
+              entity(id: "{id}") {{
+>>>>>>> Stashed changes
               id
                 statementsBySubjectId {{
                   nodes {{
@@ -289,6 +318,10 @@ class GoldenAPI:
         data = self.endpoint(query, variables)
         return data
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     # Predicates
 
     def predicate_by_name(self, name: str, **kwargs) -> dict:
