@@ -308,10 +308,6 @@ class GoldenAPI:
         data = self.endpoint(query, variables)
         return data
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     # Predicates
 
     def predicate_by_name(self, name: str, **kwargs) -> dict:
