@@ -32,6 +32,7 @@ from godel.queries.GetTripleForValidation import (
 from godel.queries.LiveView import Operations as LiveViewOperations
 from godel.queries.Predicate import Operations as PredicateOperations
 from godel.queries.Templates import Operations as TemplatesOperations
+from godel.queries.EntityDetail import Operations as EntityDetailOperations
 
 logger = logging.getLogger(__name__)
 
@@ -255,6 +256,56 @@ class GoldenAPI:
         op = EntitySearchOperations.query.entity_search
         variables = self.generate_variables(op, params)
         data = self.endpoint(op, variables)
+        return data
+
+    def entity_detail(self, id: str, **kwargs) -> dict:
+        """Retrieve entity details, includes rich template and statement values
+
+        Args:
+            id (str): id of entity to retrieve
+
+        Returns:
+            dict: Entity with details
+        """        
+        params = locals()
+        params.pop("kwargs")
+        params.pop("self")
+        params.update(kwargs)
+        op = EntityDetailOperations.query.entity_detail
+        variables = self.generate_variables(op, params)
+        data = self.endpoint(op, variables)
+        return data
+
+    def entity_with_triples(self, id: str) -> dict:
+        """Retrieve entity with both entity to value triples and entity to entity triples
+
+        Args:
+            entity_id (str): id of entity to retrieve
+
+        Returns:
+            dict: Entity with triples
+        """
+
+        query = f"""query MyQuery {{
+              entity(id: "{id}") {{
+              id
+                statementsBySubjectId {{
+                  nodes {{
+                    id
+                    objectEntityId
+                    objectValue
+                    predicate {{
+                      name
+                    }}
+                    objectEntity {{
+                      name
+                    }}
+                  }}
+                }}
+              }}
+            }}"""
+        variables = {}
+        data = self.endpoint(query, variables)
         return data
 
     # Predicates
