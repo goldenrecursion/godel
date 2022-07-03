@@ -258,7 +258,7 @@ class GoldenAPI:
         data = self.endpoint(op, variables)
         return data
 
-def entity_detail(self, id: str, **kwargs) -> dict:
+    def entity_detail(self, id: str, **kwargs) -> dict:
         """Retrieve entity details, includes rich template and statement values
 
         Args:
