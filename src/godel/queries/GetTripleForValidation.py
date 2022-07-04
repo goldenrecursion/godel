@@ -1,9 +1,9 @@
-from godel.fragments.TripleWidget import fragment_triple_widget
+from dapp_api.fragments.TripleWidget import fragment_triple_widget
 import sgqlc.types
 import sgqlc.operation
-import godel.schema
+import dapp_api.schema
 
-_schema = godel.schema
+_schema = dapp_api.schema
 _schema_root = _schema.schema
 
 __all__ = ('Operations',)
@@ -24,6 +24,8 @@ def query_get_triple_for_validation():
     _op_unvalidated_triple__as__Statement_object_entity.thumbnail()
     _op_unvalidated_triple__as__Statement_object_entity.website()
     _op_unvalidated_triple__as__Statement_object_entity.golden_id()
+    _op_current_user = _op.current_user()
+    _op_current_user.remaining_skips()
     return _op
 
 

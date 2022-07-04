@@ -1,10 +1,10 @@
-from godel.fragments.PredicateDetails import fragment_predicate_details
-from godel.fragments.EntityDetail import fragment_entity_detail
+from dapp_api.fragments.PredicateDetails import fragment_predicate_details
+from dapp_api.fragments.EntityDetail import fragment_entity_detail
 import sgqlc.types
 import sgqlc.operation
-import godel.schema
+import dapp_api.schema
 
-_schema = godel.schema
+_schema = dapp_api.schema
 _schema_root = _schema.schema
 
 __all__ = ('Operations',)

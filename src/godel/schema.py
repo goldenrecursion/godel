@@ -1070,7 +1070,7 @@ class TripleRequest(sgqlc.types.Type, Node):
 
 class User(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'qualifiers', 'statements', 'top_users', 'balance', 'short_address')
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'qualifiers', 'statements', 'top_users', 'balance', 'remaining_skips', 'short_address')
     id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
@@ -1125,6 +1125,7 @@ class User(sgqlc.types.Type, Node):
 ))
     )
     balance = sgqlc.types.Field(BigInt, graphql_name='balance')
+    remaining_skips = sgqlc.types.Field(Int, graphql_name='remainingSkips')
     short_address = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='shortAddress')
 
 
