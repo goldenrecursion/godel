@@ -87,6 +87,16 @@ class UUID(sgqlc.types.Scalar):
     __schema__ = schema
 
 
+class UserFlagType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('WELCOME_MODAL',)
+
+
+class UserFlagsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CREATED_AT_ASC', 'CREATED_AT_DESC', 'FLAG_ASC', 'FLAG_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
 class ValidationStatus(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('ACCEPTED', 'PENDING', 'REJECTED')
@@ -143,6 +153,13 @@ class CreateStatementInput(sgqlc.types.Input):
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
     citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
     qualifiers = sgqlc.types.Field(sgqlc.types.list_of('QualifierInputRecordInput'), graphql_name='qualifiers')
+
+
+class CreateUserFlagInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'flag')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    flag = sgqlc.types.Field(sgqlc.types.non_null(UserFlagType), graphql_name='flag')
 
 
 class CreateValidationInput(sgqlc.types.Input):
@@ -284,6 +301,15 @@ class TripleRequestCondition(sgqlc.types.Input):
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
 
 
+class UserFlagCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'user_id', 'flag', 'created_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    flag = sgqlc.types.Field(UserFlagType, graphql_name='flag')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+
+
 
 ########################################################################
 # Output Objects and Interfaces
@@ -334,6 +360,18 @@ class CreateStatementPayload(sgqlc.types.Type):
     object_entity = sgqlc.types.Field('Entity', graphql_name='objectEntity')
     statement_edge = sgqlc.types.Field('StatementsEdge', graphql_name='statementEdge', args=sgqlc.types.ArgDict((
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(StatementsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
+
+
+class CreateUserFlagPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'user_flag', 'query', 'user_flag_edge')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    user_flag = sgqlc.types.Field('UserFlag', graphql_name='userFlag')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+    user_flag_edge = sgqlc.types.Field('UserFlagsEdge', graphql_name='userFlagEdge', args=sgqlc.types.ArgDict((
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(UserFlagsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
 ))
     )
 
@@ -421,7 +459,7 @@ class LedgerRecordChangedPayload(sgqlc.types.Type):
 
 class Mutation(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('authenticate', 'create_entity', 'create_qualifier', 'create_statement', 'create_validation', 'fulfill_triple_request', 'get_authentication_message')
+    __field_names__ = ('authenticate', 'create_entity', 'create_qualifier', 'create_statement', 'create_user_flag', 'create_validation', 'fulfill_triple_request', 'get_authentication_message')
     authenticate = sgqlc.types.Field(AuthenticatePayload, graphql_name='authenticate', args=sgqlc.types.ArgDict((
         ('input', sgqlc.types.Arg(sgqlc.types.non_null(AuthenticateInput), graphql_name='input', default=None)),
 ))
@@ -436,6 +474,10 @@ class Mutation(sgqlc.types.Type):
     )
     create_statement = sgqlc.types.Field(CreateStatementPayload, graphql_name='createStatement', args=sgqlc.types.ArgDict((
         ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateStatementInput), graphql_name='input', default=None)),
+))
+    )
+    create_user_flag = sgqlc.types.Field(CreateUserFlagPayload, graphql_name='createUserFlag', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateUserFlagInput), graphql_name='input', default=None)),
 ))
     )
     create_validation = sgqlc.types.Field(CreateValidationPayload, graphql_name='createValidation', args=sgqlc.types.ArgDict((
@@ -627,6 +669,22 @@ class UserBalanceChangedPayload(sgqlc.types.Type):
     stake_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='stakeBalance')
 
 
+class UserFlagsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('UserFlag'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('UserFlagsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class UserFlagsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('UserFlag'), graphql_name='node')
+
+
 class ValidationsConnection(sgqlc.types.relay.Connection):
     __schema__ = schema
     __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
@@ -785,7 +843,7 @@ class Qualifier(sgqlc.types.Type, Node):
 
 class Query(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('query', 'node', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_users', 'triples', 'triple_requests', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_user_id', 'entity_by_golden_id', 'entity_by_name', 'get_user_ranking', 'pending_triple_request', 'unvalidated_triple', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'validation_by_node_id')
+    __field_names__ = ('query', 'node', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_users', 'triples', 'triple_requests', 'user_flags', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_user_id', 'entity_by_golden_id', 'entity_by_name', 'get_user_ranking', 'pending_triple_request', 'unvalidated_triple', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
     query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
     node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
@@ -881,6 +939,16 @@ class Query(sgqlc.types.Type, Node):
         ('condition', sgqlc.types.Arg(TripleRequestCondition, graphql_name='condition', default=None)),
 ))
     )
+    user_flags = sgqlc.types.Field(UserFlagsConnection, graphql_name='userFlags', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(UserFlagsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(UserFlagCondition, graphql_name='condition', default=None)),
+))
+    )
     entity = sgqlc.types.Field(Entity, graphql_name='entity', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
@@ -919,6 +987,15 @@ class Query(sgqlc.types.Type, Node):
     )
     triple_request = sgqlc.types.Field('TripleRequest', graphql_name='tripleRequest', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    user_flag = sgqlc.types.Field('UserFlag', graphql_name='userFlag', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    user_flag_by_user_id_and_flag = sgqlc.types.Field('UserFlag', graphql_name='userFlagByUserIdAndFlag', args=sgqlc.types.ArgDict((
+        ('user_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='userId', default=None)),
+        ('flag', sgqlc.types.Arg(sgqlc.types.non_null(UserFlagType), graphql_name='flag', default=None)),
 ))
     )
     validation = sgqlc.types.Field('Validation', graphql_name='validation', args=sgqlc.types.ArgDict((
@@ -990,6 +1067,10 @@ class Query(sgqlc.types.Type, Node):
 ))
     )
     triple_request_by_node_id = sgqlc.types.Field('TripleRequest', graphql_name='tripleRequestByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    user_flag_by_node_id = sgqlc.types.Field('UserFlag', graphql_name='userFlagByNodeId', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
 ))
     )
@@ -1070,7 +1151,7 @@ class TripleRequest(sgqlc.types.Type, Node):
 
 class User(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'qualifiers', 'statements', 'top_users', 'balance', 'remaining_skips', 'short_address')
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'user_flags', 'qualifiers', 'statements', 'top_users', 'balance', 'remaining_skips', 'short_address')
     id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
@@ -1092,6 +1173,16 @@ class User(sgqlc.types.Type, Node):
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    user_flags = sgqlc.types.Field(sgqlc.types.non_null(UserFlagsConnection), graphql_name='userFlags', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(UserFlagsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(UserFlagCondition, graphql_name='condition', default=None)),
 ))
     )
     qualifiers = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiers', args=sgqlc.types.ArgDict((
@@ -1127,6 +1218,15 @@ class User(sgqlc.types.Type, Node):
     balance = sgqlc.types.Field(BigInt, graphql_name='balance')
     remaining_skips = sgqlc.types.Field(Int, graphql_name='remainingSkips')
     short_address = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='shortAddress')
+
+
+class UserFlag(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'user_id', 'flag', 'created_at')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+    flag = sgqlc.types.Field(sgqlc.types.non_null(UserFlagType), graphql_name='flag')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
 
 
 class Validation(sgqlc.types.Type, Node):
