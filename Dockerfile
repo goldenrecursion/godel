@@ -53,7 +53,7 @@ RUN poetry install && \
     poetry install -E "web3 data-tools"
 
 # Copy source code to the image
-COPY --chown=$USER_UID:$USER_GID . ./godel
+COPY . ./godel
 ENV PYTHONPATH=/opt/godel/src:$PYTHONPATH
 
 from base as test
