@@ -9,6 +9,14 @@ services:
     volumes:
       - ./:/opt/godel/
       - ./godel-logs:/var/log
+  docs:
+    image: godel
+    working_dir: /opt/godel
+    command: mkdocs serve -a 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/opt/godel/
   tests:
     image: godel
     volumes:
