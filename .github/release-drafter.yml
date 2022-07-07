@@ -1,0 +1,34 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+template: |
+  # What's Changed
+  $CHANGES
+categories:
+  - title: '🚀 Features and Improvements'
+    labels:
+      - 'feature'
+      - 'improvement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+  - title: '🧰 Maintenance'
+    labels:
+      - 'maintenance'
+      - 'dependencies'
+
+version-resolver:
+  minor:
+    labels:
+      - 'dependencies'
+      - 'bug'
+      - 'documentation'
+  patch:
+    labels:
+      - 'improvement'
+      - 'maintenance'
+  major:
+    labels:
+      - 'feature'
+
+exclude-labels:
+  - 'skip-changelog
