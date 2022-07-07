@@ -1,5 +1,15 @@
 # Godel: Golden's Python SDK for its Decentralized Canonical Knowledge Graph
 
+<a href="https://pypi.org/project/godel" target="_blank">
+    <img src="https://img.shields.io/pypi/v/godel">
+</a>
+<a href="https://github.com/goldenrecursion/godel/tree/master/.github/workflows" target="_blank">
+    <img src="https://img.shields.io/github/workflow/status/goldenrecursion/godel/Docker%20Compose%20CI">
+</a>
+<a href="https://github.com/goldenrecursion/godel/blob/master/LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/goldenrecursion/godel">
+</a>
+
 ## Overview
 
 [Golden's protocol](https://golden.xyz/) provides users with the opportunity to query from and contribute towards building the world's most extensive decentralized graph of canonical knowledge.
