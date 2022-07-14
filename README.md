@@ -1,13 +1,13 @@
 # Godel: Golden's Python SDK for its Decentralized Canonical Knowledge Graph
 
 <a href="https://pypi.org/project/godel" target="_blank">
-    <img src="https://img.shields.io/pypi/v/godel">
+    <img src="https://img.shields.io/pypi/v/godel?logo=pypi">
 </a>
 <a href="https://github.com/goldenrecursion/godel/tree/master/.github/workflows" target="_blank">
-    <img src="https://img.shields.io/github/workflow/status/goldenrecursion/godel/Docker%20Compose%20CI">
+    <img src="https://img.shields.io/github/workflow/status/goldenrecursion/godel/Docker%20Compose%20CI?logo=github">
 </a>
 <a href="https://github.com/goldenrecursion/godel/blob/master/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/goldenrecursion/godel">
+    <img src="https://img.shields.io/github/license/goldenrecursion/godel?logo=open-source-initiative">
 </a>
 
 ## Overview

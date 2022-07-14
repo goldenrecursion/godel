@@ -50,7 +50,7 @@ RUN python3.9 -m pip install --upgrade pip
 # install poetry dependencies
 COPY pyproject.toml poetry.lock ./
 RUN poetry install && \
-    poetry install -E "web3 data-tools"
+    poetry install -E "web3 data-tools docs"
 
 # Copy source code to the image
 COPY . ./godel
