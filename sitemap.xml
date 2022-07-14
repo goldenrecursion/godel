@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://github.com/goldenrecursion/godel/index.html</loc>
+         <lastmod>2022-07-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/goldenrecursion/godel/api_reference.html</loc>
+         <lastmod>2022-07-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/goldenrecursion/godel/user_guide/Create%20Entities%20and%20Triples.html</loc>
+         <lastmod>2022-07-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/goldenrecursion/godel/user_guide/Validating%20Triples.html</loc>
+         <lastmod>2022-07-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>
