@@ -558,8 +558,12 @@ class SubmittorsRanking(sgqlc.types.Type):
 
 class Subscription(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('triple_validated', 'ledger_record_changed', 'user_balance_changed')
-    triple_validated = sgqlc.types.Field('TripleValidatedSubscriptionPayload', graphql_name='tripleValidated')
+    __field_names__ = ('user_triple_validated', 'triple_validated', 'ledger_record_changed', 'user_balance_changed')
+    user_triple_validated = sgqlc.types.Field('TripleValidatedSubscriptionPayload', graphql_name='userTripleValidated')
+    triple_validated = sgqlc.types.Field('TripleValidatedSubscriptionPayload', graphql_name='tripleValidated', args=sgqlc.types.ArgDict((
+        ('triple_id', sgqlc.types.Arg(String, graphql_name='tripleId', default=None)),
+))
+    )
     ledger_record_changed = sgqlc.types.Field(LedgerRecordChangedPayload, graphql_name='ledgerRecordChanged')
     user_balance_changed = sgqlc.types.Field('UserBalanceChangedPayload', graphql_name='userBalanceChanged')
 
