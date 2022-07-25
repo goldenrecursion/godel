@@ -33,6 +33,8 @@ class EntitiesOrderBy(sgqlc.types.Enum):
     __choices__ = ('ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
 
 
+Float = sgqlc.types.Float
+
 ID = sgqlc.types.ID
 
 Int = sgqlc.types.Int
@@ -110,6 +112,11 @@ class ValidationStatus(sgqlc.types.Enum):
 class ValidationType(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('ACCEPTED', 'REJECTED', 'SKIPPED')
+
+
+class ValidationsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CREATED_AT_ASC', 'CREATED_AT_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
 
 
 class ValueType(sgqlc.types.Enum):
@@ -397,7 +404,10 @@ class CreateValidationPayload(sgqlc.types.Type):
     validation = sgqlc.types.Field('Validation', graphql_name='validation')
     query = sgqlc.types.Field('Query', graphql_name='query')
     triple = sgqlc.types.Field(sgqlc.types.non_null('Triple'), graphql_name='triple')
-    validation_edge = sgqlc.types.Field('ValidationsEdge', graphql_name='validationEdge')
+    validation_edge = sgqlc.types.Field('ValidationsEdge', graphql_name='validationEdge', args=sgqlc.types.ArgDict((
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(ValidationsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
 
 
 class EntitiesConnection(sgqlc.types.relay.Connection):
@@ -711,6 +721,15 @@ class UserFlagsEdge(sgqlc.types.Type):
     __field_names__ = ('cursor', 'node')
     cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
     node = sgqlc.types.Field(sgqlc.types.non_null('UserFlag'), graphql_name='node')
+
+
+class UserStat(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('accuracy', 'agreed_with_consensus_count', 'disagreed_with_consensus_count', 'pending_count')
+    accuracy = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='accuracy')
+    agreed_with_consensus_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='agreedWithConsensusCount')
+    disagreed_with_consensus_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='disagreedWithConsensusCount')
+    pending_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='pendingCount')
 
 
 class ValidationsConnection(sgqlc.types.relay.Connection):
@@ -1193,7 +1212,7 @@ class TripleRequest(sgqlc.types.Type, Node):
 
 class User(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'user_flags', 'qualifiers', 'statements', 'balance', 'remaining_skips', 'short_address')
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'user_flags', 'qualifiers', 'statements', 'balance', 'remaining_skips', 'short_address', 'stats')
     id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
@@ -1215,6 +1234,7 @@ class User(sgqlc.types.Type, Node):
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(ValidationsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
 ))
     )
     user_flags = sgqlc.types.Field(sgqlc.types.non_null(UserFlagsConnection), graphql_name='userFlags', args=sgqlc.types.ArgDict((
@@ -1250,6 +1270,7 @@ class User(sgqlc.types.Type, Node):
     balance = sgqlc.types.Field(BigInt, graphql_name='balance')
     remaining_skips = sgqlc.types.Field(Int, graphql_name='remainingSkips')
     short_address = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='shortAddress')
+    stats = sgqlc.types.Field(sgqlc.types.non_null(UserStat), graphql_name='stats')
 
 
 class UserFlag(sgqlc.types.Type, Node):

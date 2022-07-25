@@ -13,6 +13,7 @@ def fragment_entity_link():
     _frag.id()
     _frag.pathname()
     _frag.name()
+    _frag.thumbnail()
     return _frag
 
 
