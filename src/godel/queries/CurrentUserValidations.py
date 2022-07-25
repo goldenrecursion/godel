@@ -10,7 +10,7 @@ __all__ = ('Operations',)
 
 
 def query_current_user_validations():
-    _op = sgqlc.operation.Operation(_schema_root.query_type, name='CurrentUserValidations', variables=dict(first=sgqlc.types.Arg(_schema.Int, default=5), after=sgqlc.types.Arg(_schema.Cursor, default=None)))
+    _op = sgqlc.operation.Operation(_schema_root.query_type, name='CurrentUserValidations', variables=dict(first=sgqlc.types.Arg(_schema.Int, default=20), after=sgqlc.types.Arg(_schema.Cursor, default=None)))
     _op_current_user = _op.current_user()
     _op_current_user_stats = _op_current_user.stats()
     _op_current_user_stats.accuracy()
