@@ -43,7 +43,7 @@ class JwtToken(sgqlc.types.Scalar):
 
 class PredicatesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('CID_ASC', 'CID_DESC', 'DESCRIPTION_ASC', 'DESCRIPTION_DESC', 'ID_ASC', 'ID_DESC', 'NAME_ASC', 'NAME_DESC', 'NATURAL', 'OBJECT_TYPE_ASC', 'OBJECT_TYPE_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+    __choices__ = ('CID_ASC', 'CID_DESC', 'DESCRIPTION_ASC', 'DESCRIPTION_DESC', 'ID_ASC', 'ID_DESC', 'LABEL_ASC', 'LABEL_DESC', 'NAME_ASC', 'NAME_DESC', 'NATURAL', 'OBJECT_TYPE_ASC', 'OBJECT_TYPE_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
 
 
 class QualifiersOrderBy(sgqlc.types.Enum):
@@ -199,12 +199,13 @@ class GetAuthenticationMessageInput(sgqlc.types.Input):
 
 class PredicateCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid')
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     description = sgqlc.types.Field(String, graphql_name='description')
     object_type = sgqlc.types.Field(ValueType, graphql_name='objectType')
     cid = sgqlc.types.Field(String, graphql_name='cid')
+    label = sgqlc.types.Field(String, graphql_name='label')
 
 
 class QualifierCondition(sgqlc.types.Input):
@@ -801,12 +802,13 @@ class Entity(sgqlc.types.Type, Node):
 
 class Predicate(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'triples', 'template_predicates', 'triple_requests', 'qualifiers', 'statements', 'show_in_infobox')
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'triples', 'template_predicates', 'triple_requests', 'qualifiers', 'statements', 'show_in_infobox')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     description = sgqlc.types.Field(String, graphql_name='description')
     object_type = sgqlc.types.Field(sgqlc.types.non_null(ValueType), graphql_name='objectType')
     cid = sgqlc.types.Field(String, graphql_name='cid')
+    label = sgqlc.types.Field(String, graphql_name='label')
     triples = sgqlc.types.Field(sgqlc.types.non_null(TriplesConnection), graphql_name='triples', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
