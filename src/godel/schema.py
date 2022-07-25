@@ -814,7 +814,7 @@ class Entity(sgqlc.types.Type, Node):
 ))
     )
     name = sgqlc.types.Field(String, graphql_name='name')
-    pathname = sgqlc.types.Field(String, graphql_name='pathname')
+    pathname = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='pathname')
     thumbnail = sgqlc.types.Field(String, graphql_name='thumbnail')
     website = sgqlc.types.Field(String, graphql_name='website')
 
