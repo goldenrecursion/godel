@@ -14,6 +14,7 @@ def fragment_predicate_details():
     _frag.name()
     _frag.description()
     _frag.object_type()
+    _frag.label()
     return _frag
 
 
