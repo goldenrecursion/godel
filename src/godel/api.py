@@ -13,6 +13,7 @@ from godel.queries.AddTripleToEntityById import (
 from godel.queries.Authenticate import Operations as AuthenticateOperations
 from godel.queries.CreateEntity import Operations as CreateEntityOperations
 from godel.queries.CreateValidation import Operations as CreateValidationOperations
+from godel.queries.CreateStatement import Operations as CreateStatementOperations
 
 # from godel.queries.CurrentUserBlockchainData import Operations as CurrentUserBlockchainDataOperations
 from godel.queries.CurrentUserValidations import (
@@ -266,7 +267,7 @@ class GoldenAPI:
 
         Returns:
             dict: Entity with details
-        """        
+        """
         params = locals()
         params.pop("kwargs")
         params.pop("self")
@@ -469,6 +470,24 @@ class GoldenAPI:
 
     # Triples Submissions
 
+    def create_statement(self, input: str, **kwargs):
+        """Create statement triple given the statement input combinations of subject entity id, predicate id, object id/value, and citation url
+
+        Args:
+            input (str): Create statement record input
+
+        Returns:
+            dict: created statement
+        """
+        params = locals()
+        params.pop("kwargs")
+        params.pop("self")
+        params.update(kwargs)
+        op = CreateStatementOperations.mutation.create_entity
+        variables = self.generate_variables(op, params)
+        data = self.endpoint(op, variables)
+        return data
+
     def add_triple_to_entity(
         self,
         entity_id: str,
@@ -478,7 +497,7 @@ class GoldenAPI:
         object_value: str = None,
         **kwargs,
     ) -> dict:
-        """Add a triple given the subject enity id, predicate id, subject id, and citation url
+        """Add a triple given the subject enity id, predicate id, object id/value, and citation url
 
         Args:
             entity_id (str): UID of the subject entity
