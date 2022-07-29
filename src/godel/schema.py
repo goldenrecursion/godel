@@ -20,6 +20,11 @@ class BigInt(sgqlc.types.Scalar):
 
 Boolean = sgqlc.types.Boolean
 
+class CitationsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'TRIPLE_ID_ASC', 'TRIPLE_ID_DESC', 'URL_ASC', 'URL_DESC')
+
+
 class Cursor(sgqlc.types.Scalar):
     __schema__ = schema
 
@@ -50,12 +55,12 @@ class PredicatesOrderBy(sgqlc.types.Enum):
 
 class QualifiersOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('CITATION_URL_ASC', 'CITATION_URL_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
 
 
 class StatementsOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('CITATION_URL_ASC', 'CITATION_URL_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
 
 
 String = sgqlc.types.String
@@ -87,7 +92,7 @@ class TripleRequestsOrderBy(sgqlc.types.Enum):
 
 class TriplesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('CITATION_URL_ASC', 'CITATION_URL_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
 
 
 class UUID(sgqlc.types.Scalar):
@@ -136,6 +141,14 @@ class AuthenticateInput(sgqlc.types.Input):
     signature = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='signature')
 
 
+class CitationCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'triple_id', 'url')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
+    url = sgqlc.types.Field(String, graphql_name='url')
+
+
 class CreateEntityInput(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('client_mutation_id', 'name', 'statements')
@@ -146,24 +159,24 @@ class CreateEntityInput(sgqlc.types.Input):
 
 class CreateQualifierInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('client_mutation_id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url')
+    __field_names__ = ('client_mutation_id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_urls')
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    citation_urls = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='citationUrls')
 
 
 class CreateStatementInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('client_mutation_id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'qualifiers')
+    __field_names__ = ('client_mutation_id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_urls', 'qualifiers')
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    citation_urls = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='citationUrls')
     qualifiers = sgqlc.types.Field(sgqlc.types.list_of('QualifierInputRecordInput'), graphql_name='qualifiers')
 
 
@@ -190,11 +203,12 @@ class EntityCondition(sgqlc.types.Input):
 
 class FulfillTripleRequestInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('client_mutation_id', 'triple_request_id', 'input_object_value', 'input_object_entity_id')
+    __field_names__ = ('client_mutation_id', 'input_triple_request_id', 'input_object_value', 'input_object_entity_id', 'input_citation_urls')
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
-    triple_request_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleRequestId')
+    input_triple_request_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='inputTripleRequestId')
     input_object_value = sgqlc.types.Field(String, graphql_name='inputObjectValue')
     input_object_entity_id = sgqlc.types.Field(UUID, graphql_name='inputObjectEntityId')
+    input_citation_urls = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='inputCitationUrls')
 
 
 class GetAuthenticationMessageInput(sgqlc.types.Input):
@@ -217,13 +231,12 @@ class PredicateCondition(sgqlc.types.Input):
 
 class QualifierCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'validation_status')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
@@ -233,22 +246,21 @@ class QualifierCondition(sgqlc.types.Input):
 
 class QualifierInputRecordInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('predicate_id', 'object_value', 'object_entity_id', 'citation_url')
+    __field_names__ = ('predicate_id', 'object_value', 'object_entity_id', 'citation_urls')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    citation_urls = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='citationUrls')
 
 
 class StatementCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'validation_status')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
@@ -258,11 +270,11 @@ class StatementCondition(sgqlc.types.Input):
 
 class StatementInputRecordInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'qualifiers')
+    __field_names__ = ('predicate_id', 'object_value', 'object_entity_id', 'citation_urls', 'qualifiers')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
+    citation_urls = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='citationUrls')
     qualifiers = sgqlc.types.Field(sgqlc.types.list_of(QualifierInputRecordInput), graphql_name='qualifiers')
 
 
@@ -301,12 +313,11 @@ class TopUserValidatorCondition(sgqlc.types.Input):
 
 class TripleCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'citation_url', 'user_id', 'date_accepted', 'date_rejected', 'validation_status')
+    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
     date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
@@ -341,6 +352,22 @@ class AuthenticatePayload(sgqlc.types.Type):
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     jwt_token = sgqlc.types.Field(JwtToken, graphql_name='jwtToken')
     query = sgqlc.types.Field('Query', graphql_name='query')
+
+
+class CitationsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Citation'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CitationsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null('PageInfo'), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class CitationsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('Citation'), graphql_name='node')
 
 
 class CreateEntityPayload(sgqlc.types.Type):
@@ -758,6 +785,16 @@ class ValidatorsRanking(sgqlc.types.Type):
     ranking_validation_consensus_count = sgqlc.types.Field(Int, graphql_name='rankingValidationConsensusCount')
 
 
+class Citation(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'triple_id', 'url', 'citation', 'triple')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    triple_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleId')
+    url = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='url')
+    citation = sgqlc.types.Field(sgqlc.types.non_null('Triple'), graphql_name='citation')
+    triple = sgqlc.types.Field(sgqlc.types.non_null('Statement'), graphql_name='triple')
+
+
 class Entity(sgqlc.types.Type, Node):
     __schema__ = schema
     __field_names__ = ('id', 'template', 'triple_requests_by_subject_entity_id', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'pathname', 'thumbnail', 'website')
@@ -883,13 +920,12 @@ class Predicate(sgqlc.types.Type, Node):
 
 class Qualifier(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'subject', 'predicate', 'object_entity')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'subject', 'predicate', 'object_entity')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
     user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
@@ -901,10 +937,20 @@ class Qualifier(sgqlc.types.Type, Node):
 
 class Query(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('query', 'node', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submittors', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submittors_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
+    __field_names__ = ('query', 'node', 'citations', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submittors', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'citation', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submittors_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'citation_by_node_id', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
     query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
     node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    citations = sgqlc.types.Field(CitationsConnection, graphql_name='citations', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(CitationsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(CitationCondition, graphql_name='condition', default=None)),
 ))
     )
     entities = sgqlc.types.Field(EntitiesConnection, graphql_name='entities', args=sgqlc.types.ArgDict((
@@ -1017,6 +1063,10 @@ class Query(sgqlc.types.Type, Node):
         ('condition', sgqlc.types.Arg(UserFlagCondition, graphql_name='condition', default=None)),
 ))
     )
+    citation = sgqlc.types.Field(Citation, graphql_name='citation', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
     entity = sgqlc.types.Field(Entity, graphql_name='entity', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
@@ -1099,6 +1149,10 @@ class Query(sgqlc.types.Type, Node):
     )
     pending_triple_request = sgqlc.types.Field('TripleRequest', graphql_name='pendingTripleRequest')
     unvalidated_triple = sgqlc.types.Field('Triple', graphql_name='unvalidatedTriple')
+    citation_by_node_id = sgqlc.types.Field(Citation, graphql_name='citationByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
     entity_by_node_id = sgqlc.types.Field(Entity, graphql_name='entityByNodeId', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
 ))
@@ -1143,13 +1197,12 @@ class Query(sgqlc.types.Type, Node):
 
 class Statement(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'citation_url', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'subject', 'predicate', 'object_entity', 'qualifiers_by_subject_id')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'subject', 'predicate', 'object_entity', 'citations_by_triple_id', 'qualifiers_by_subject_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
     object_value = sgqlc.types.Field(String, graphql_name='objectValue')
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
-    citation_url = sgqlc.types.Field(String, graphql_name='citationUrl')
     user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
@@ -1157,6 +1210,16 @@ class Statement(sgqlc.types.Type, Node):
     subject = sgqlc.types.Field(sgqlc.types.non_null(Entity), graphql_name='subject')
     predicate = sgqlc.types.Field(sgqlc.types.non_null(Predicate), graphql_name='predicate')
     object_entity = sgqlc.types.Field(Entity, graphql_name='objectEntity')
+    citations_by_triple_id = sgqlc.types.Field(sgqlc.types.non_null(CitationsConnection), graphql_name='citationsByTripleId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(CitationsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(CitationCondition, graphql_name='condition', default=None)),
+))
+    )
     qualifiers_by_subject_id = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiersBySubjectId', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
