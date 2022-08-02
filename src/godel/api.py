@@ -6,7 +6,7 @@ import requests
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
-from godel import schema
+from godel import schema, version
 from godel.queries.AddTripleToEntityById import (
     Operations as AddTripleToEntityByIdOperations,
 )
@@ -44,7 +44,8 @@ class GoldenAPI:
     ):
         self.url = url
         self.jwt_token = jwt_token
-        self.headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        self.headers = {"User-Agent": f"golden sdk v{version}", 
+                        "Authorizaiton": f"Bearer {jwt_token}"}
         self.endpoint = HTTPEndpoint(self.url, self.headers)
         self.predicates_cache = self.predicates()
         self.templates_cache = self.templates()
