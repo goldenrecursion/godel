@@ -24,7 +24,6 @@ def fragment_entity_detail():
     _frag_statements_by_subject_id = _frag.statements_by_subject_id()
     _frag_statements_by_subject_id_nodes = _frag_statements_by_subject_id.nodes()
     _frag_statements_by_subject_id_nodes.__fragment__(fragment_triple_widget())
-    _frag_statements_by_subject_id_nodes.date_rejected()
     return _frag
 
 
