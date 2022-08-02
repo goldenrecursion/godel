@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "godel"
-version = "0.3.1"
+version = "0.3.2"
 description = "Golden's Python SDK for its Protocol: Decentralized Canonical Knowledge Graph"
 authors = ["aychang95"]
 
