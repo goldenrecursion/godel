@@ -1,6 +1,8 @@
 import sgqlc.types
 import sgqlc.operation
 import godel.schema
+from godel.fragments.TripleWidget import fragment_triple_widget
+
 
 _schema = godel.schema
 _schema_root = _schema.schema
