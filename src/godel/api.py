@@ -65,7 +65,7 @@ class GoldenAPI:
             jwt_token (str): JWT Token. Defaults to "".
         """
         self.jwt_token = jwt_token
-        self.headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        self.headers["Authorization"] = f"Bearer {jwt_token}"
         self.endpoint = HTTPEndpoint(self.url, self.headers)
 
     def query(self, query: str = "", headers: dict = {}):
