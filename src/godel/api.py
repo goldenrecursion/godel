@@ -49,7 +49,7 @@ class GoldenAPI:
         self.url = url
         self.jwt_token = jwt_token
         self.headers = {"User-Agent": f"golden sdk v-{get_godel_version()}_{platform().lower()}", 
-                        "Authorizaiton": f"Bearer {jwt_token}"}
+                        "Authorization": f"Bearer {jwt_token}"}
         self.endpoint = HTTPEndpoint(self.url, self.headers)
         self.predicates_cache = self.predicates()
         self.templates_cache = self.templates()
