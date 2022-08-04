@@ -419,7 +419,11 @@ class GoldenAPI:
             unvalidatedTriple {
               ... on Statement {
                 id
-                citationUrl
+                citationsByTripleId {
+                     nodes {
+                         url
+                     }
+                 }
                 dateCreated
                 objectEntityId
                 objectValue
