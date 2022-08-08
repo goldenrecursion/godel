@@ -1,3 +1,4 @@
+from godel.fragments.TripleWidget import fragment_triple_widget
 import sgqlc.types
 import sgqlc.operation
 import godel.schema
