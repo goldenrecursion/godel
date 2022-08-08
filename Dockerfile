@@ -34,6 +34,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
     git \
+    curl \
     git-lfs \
     ssh \
     python3.9 \
