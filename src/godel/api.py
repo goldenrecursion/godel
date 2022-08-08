@@ -48,8 +48,13 @@ class GoldenAPI:
     ):
         self.url = url
         self.jwt_token = jwt_token
-        self.headers = {"User-Agent": f"golden sdk v-{get_godel_version()}_{platform().lower()}", 
-                        "Authorization": f"Bearer {jwt_token}"}
+        self.headers = {}
+        self.headers[
+            "User-Agent"
+        ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
+        self.headers.update(
+            {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        )
         self.endpoint = HTTPEndpoint(self.url, self.headers)
         self.predicates_cache = self.predicates()
         self.templates_cache = self.templates()
@@ -65,7 +70,9 @@ class GoldenAPI:
             jwt_token (str): JWT Token. Defaults to "".
         """
         self.jwt_token = jwt_token
-        self.headers["Authorization"] = f"Bearer {jwt_token}"
+        self.headers.update(
+            {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        )
         self.endpoint = HTTPEndpoint(self.url, self.headers)
 
     def query(self, query: str = "", headers: dict = {}):
@@ -549,14 +556,8 @@ def get_godel_version() -> str:
 
     try:
         pyproject_toml = toml.load(
-            os.path.join(
-                script_path, 
-                os.pardir,
-                os.pardir,
-                "pyproject.toml"
-            )
+            os.path.join(script_path, os.pardir, os.pardir, "pyproject.toml")
         )
         return pyproject_toml["tool"]["poetry"]["version"]
     except (FileNotFoundError, KeyError, toml.decoder.TomlDecodeError):
         return "unknown"
-
