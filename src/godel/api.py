@@ -1,6 +1,10 @@
 import logging
+import os
+import toml
+
 import sys
 from typing import List, Union
+from platform import platform
 
 import requests
 from sgqlc.endpoint.http import HTTPEndpoint
@@ -44,7 +48,13 @@ class GoldenAPI:
     ):
         self.url = url
         self.jwt_token = jwt_token
-        self.headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        self.headers = {}
+        self.headers[
+            "User-Agent"
+        ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
+        self.headers.update(
+            {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        )
         self.endpoint = HTTPEndpoint(self.url, self.headers)
         self.predicates_cache = self.predicates()
         self.templates_cache = self.templates()
@@ -60,7 +70,9 @@ class GoldenAPI:
             jwt_token (str): JWT Token. Defaults to "".
         """
         self.jwt_token = jwt_token
-        self.headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        self.headers.update(
+            {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+        )
         self.endpoint = HTTPEndpoint(self.url, self.headers)
 
     def query(self, query: str = "", headers: dict = {}):
@@ -532,3 +544,20 @@ class GoldenAPI:
         variables = self.generate_variables(op, params)
         data = self.endpoint(op, variables)
         return data
+
+
+def get_godel_version() -> str:
+    """Grabs the version of Godel from pyproject.toml file
+
+    Returns:
+        str: version name, unknown if fails to dynamically pull
+    """
+    script_path = os.path.basename(os.path.dirname(__file__))
+
+    try:
+        pyproject_toml = toml.load(
+            os.path.join(script_path, os.pardir, os.pardir, "pyproject.toml")
+        )
+        return pyproject_toml["tool"]["poetry"]["version"]
+    except (FileNotFoundError, KeyError, toml.decoder.TomlDecodeError):
+        return "unknown"

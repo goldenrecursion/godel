@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.0-devel-ubuntu20.04 as base
+FROM nvidia/cuda:11.0.3-devel-ubuntu20.04 as base
 
 # Set lang
 ENV LC_ALL C.UTF-8
@@ -34,6 +34,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
     git \
+    curl \
     git-lfs \
     ssh \
     python3.9 \
