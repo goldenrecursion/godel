@@ -55,12 +55,12 @@ class PredicatesOrderBy(sgqlc.types.Enum):
 
 class QualifiersOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'DATE_SLASHED_ASC', 'DATE_SLASHED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_STATUS_ASC', 'VALIDATION_STATUS_DESC')
+    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CONSTRAINTS_VIOLATED_ASC', 'DATE_CONSTRAINTS_VIOLATED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'DATE_SLASHED_ASC', 'DATE_SLASHED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_STATUS_ASC', 'VALIDATION_STATUS_DESC')
 
 
 class StatementsOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'DATE_SLASHED_ASC', 'DATE_SLASHED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_STATUS_ASC', 'VALIDATION_STATUS_DESC')
+    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CONSTRAINTS_VIOLATED_ASC', 'DATE_CONSTRAINTS_VIOLATED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'DATE_SLASHED_ASC', 'DATE_SLASHED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_ENTITY_ID_ASC', 'OBJECT_ENTITY_ID_DESC', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ID_ASC', 'SUBJECT_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_STATUS_ASC', 'VALIDATION_STATUS_DESC')
 
 
 String = sgqlc.types.String
@@ -111,7 +111,7 @@ class UserFlagsOrderBy(sgqlc.types.Enum):
 
 class ValidationStatus(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ACCEPTED', 'PAUSED', 'PENDING', 'REJECTED')
+    __choices__ = ('ACCEPTED', 'INVALID', 'PAUSED', 'PENDING', 'REJECTED')
 
 
 class ValidationType(sgqlc.types.Enum):
@@ -231,7 +231,7 @@ class PredicateCondition(sgqlc.types.Input):
 
 class QualifierCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_slashed', 'validation_status')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -241,6 +241,7 @@ class QualifierCondition(sgqlc.types.Input):
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
     date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    date_constraints_violated = sgqlc.types.Field(Datetime, graphql_name='dateConstraintsViolated')
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
 
@@ -256,7 +257,7 @@ class QualifierInputRecordInput(sgqlc.types.Input):
 
 class StatementCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_slashed', 'validation_status')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -266,6 +267,7 @@ class StatementCondition(sgqlc.types.Input):
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
     date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    date_constraints_violated = sgqlc.types.Field(Datetime, graphql_name='dateConstraintsViolated')
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
 
@@ -923,7 +925,7 @@ class Predicate(sgqlc.types.Type, Node):
 
 class Qualifier(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_slashed', 'validation_status', 'subject', 'predicate', 'object_entity')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'subject', 'predicate', 'object_entity')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
@@ -933,6 +935,7 @@ class Qualifier(sgqlc.types.Type, Node):
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
     date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    date_constraints_violated = sgqlc.types.Field(Datetime, graphql_name='dateConstraintsViolated')
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     validation_status = sgqlc.types.Field(sgqlc.types.non_null(ValidationStatus), graphql_name='validationStatus')
     subject = sgqlc.types.Field(sgqlc.types.non_null('Statement'), graphql_name='subject')
@@ -1202,7 +1205,7 @@ class Query(sgqlc.types.Type, Node):
 
 class Statement(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_slashed', 'validation_status', 'subject', 'predicate', 'object_entity', 'citations_by_triple_id', 'qualifiers_by_subject_id')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'subject', 'predicate', 'object_entity', 'citations_by_triple_id', 'qualifiers_by_subject_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
@@ -1212,6 +1215,7 @@ class Statement(sgqlc.types.Type, Node):
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
     date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
+    date_constraints_violated = sgqlc.types.Field(Datetime, graphql_name='dateConstraintsViolated')
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     validation_status = sgqlc.types.Field(sgqlc.types.non_null(ValidationStatus), graphql_name='validationStatus')
     subject = sgqlc.types.Field(sgqlc.types.non_null(Entity), graphql_name='subject')
