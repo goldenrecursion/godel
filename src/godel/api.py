@@ -1,6 +1,6 @@
 import logging
 import os
-import toml
+from importlib.metadata import version
 
 import sys
 from typing import List, Union
@@ -547,17 +547,12 @@ class GoldenAPI:
 
 
 def get_godel_version() -> str:
-    """Grabs the version of Godel from pyproject.toml file
+    """Grabs the version of Godel from builtin importlib library
 
     Returns:
         str: version name, unknown if fails to dynamically pull
     """
-    script_path = os.path.basename(os.path.dirname(__file__))
-
     try:
-        pyproject_toml = toml.load(
-            os.path.join(script_path, os.pardir, os.pardir, "pyproject.toml")
-        )
-        return pyproject_toml["tool"]["poetry"]["version"]
-    except (FileNotFoundError, KeyError, toml.decoder.TomlDecodeError):
+        return version('godel')
+    except:
         return "unknown"
