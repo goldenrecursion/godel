@@ -1,6 +1,6 @@
 import logging
 import os
-from importlib.metadata import version
+from importlib_metadata import version
 
 import sys
 from typing import List, Union
