@@ -24,7 +24,7 @@ Godel guides and documentation can be found in [Golden's API Docs](htts://docs.g
 
 ## Installation
 
-Godel requires Python 3.8+
+Godel requires Python 3.7+
 
 ```
 pip install godel
