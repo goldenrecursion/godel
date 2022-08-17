@@ -1286,12 +1286,13 @@ class TripleRequest(sgqlc.types.Type, Node):
 
 class User(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'user_flags', 'qualifiers', 'statements', 'balance', 'remaining_skips', 'short_address', 'stats')
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'balance', 'triples', 'validations', 'user_flags', 'qualifiers', 'statements', 'remaining_skips', 'short_address', 'stats')
     id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
     stake_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='stakeBalance')
     token_balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='tokenBalance')
+    balance = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='balance')
     triples = sgqlc.types.Field(sgqlc.types.non_null(TriplesConnection), graphql_name='triples', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
@@ -1341,7 +1342,6 @@ class User(sgqlc.types.Type, Node):
         ('condition', sgqlc.types.Arg(StatementCondition, graphql_name='condition', default=None)),
 ))
     )
-    balance = sgqlc.types.Field(BigInt, graphql_name='balance')
     remaining_skips = sgqlc.types.Field(Int, graphql_name='remainingSkips')
     short_address = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='shortAddress')
     stats = sgqlc.types.Field(sgqlc.types.non_null(UserStat), graphql_name='stats')
