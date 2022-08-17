@@ -48,6 +48,16 @@ class JwtToken(sgqlc.types.Scalar):
     __schema__ = schema
 
 
+class LedgerRecordReason(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ADMIN', 'GROUND_TRUTH_TRIPLE_VOTE', 'INITIAL_AWARD', 'SUBMITTED_TRIPLE', 'VOTE_CONCLUDED')
+
+
+class LedgerRecordsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('AMOUNT_ASC', 'AMOUNT_DESC', 'CREATED_AT_ASC', 'CREATED_AT_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'REASON_ASC', 'REASON_DESC', 'TRIPLE_ID_ASC', 'TRIPLE_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
 class PredicatesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('CID_ASC', 'CID_DESC', 'DESCRIPTION_ASC', 'DESCRIPTION_DESC', 'ID_ASC', 'ID_DESC', 'LABEL_ASC', 'LABEL_DESC', 'NAME_ASC', 'NAME_DESC', 'NATURAL', 'OBJECT_TYPE_ASC', 'OBJECT_TYPE_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
@@ -216,6 +226,17 @@ class GetAuthenticationMessageInput(sgqlc.types.Input):
     __field_names__ = ('client_mutation_id', 'user_id')
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+
+
+class LedgerRecordCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'user_id', 'created_at', 'amount', 'reason', 'triple_id')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+    amount = sgqlc.types.Field(BigInt, graphql_name='amount')
+    reason = sgqlc.types.Field(LedgerRecordReason, graphql_name='reason')
+    triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
 
 
 class PredicateCondition(sgqlc.types.Input):
@@ -487,6 +508,22 @@ class LedgerRecordChangedPayload(sgqlc.types.Type):
     event = sgqlc.types.Field(String, graphql_name='event')
     amount = sgqlc.types.Field(BigInt, graphql_name='amount')
     balance = sgqlc.types.Field(BigInt, graphql_name='balance')
+
+
+class LedgerRecordsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('LedgerRecord'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('LedgerRecordsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null('PageInfo'), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class LedgerRecordsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('LedgerRecord'), graphql_name='node')
 
 
 class Mutation(sgqlc.types.Type):
@@ -861,6 +898,18 @@ class Entity(sgqlc.types.Type, Node):
     website = sgqlc.types.Field(String, graphql_name='website')
 
 
+class LedgerRecord(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'user_id', 'created_at', 'amount', 'reason', 'triple_id', 'triple')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+    amount = sgqlc.types.Field(sgqlc.types.non_null(BigInt), graphql_name='amount')
+    reason = sgqlc.types.Field(sgqlc.types.non_null(LedgerRecordReason), graphql_name='reason')
+    triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
+    triple = sgqlc.types.Field('Triple', graphql_name='triple')
+
+
 class Predicate(sgqlc.types.Type, Node):
     __schema__ = schema
     __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'triples', 'template_predicates', 'triple_requests', 'qualifiers', 'statements', 'show_in_infobox')
@@ -945,7 +994,7 @@ class Qualifier(sgqlc.types.Type, Node):
 
 class Query(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('query', 'node', 'citations', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submitters', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'citation', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submitters_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'citation_by_node_id', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
+    __field_names__ = ('query', 'node', 'citations', 'entities', 'ledger_records', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submitters', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'citation', 'entity', 'ledger_record', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submitters_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'citation_by_node_id', 'entity_by_node_id', 'ledger_record_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
     query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
     node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
@@ -969,6 +1018,16 @@ class Query(sgqlc.types.Type, Node):
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(EntitiesOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
         ('condition', sgqlc.types.Arg(EntityCondition, graphql_name='condition', default=None)),
+))
+    )
+    ledger_records = sgqlc.types.Field(LedgerRecordsConnection, graphql_name='ledgerRecords', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(LedgerRecordsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(LedgerRecordCondition, graphql_name='condition', default=None)),
 ))
     )
     predicates = sgqlc.types.Field(PredicatesConnection, graphql_name='predicates', args=sgqlc.types.ArgDict((
@@ -1079,6 +1138,10 @@ class Query(sgqlc.types.Type, Node):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
     )
+    ledger_record = sgqlc.types.Field(LedgerRecord, graphql_name='ledgerRecord', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
     predicate = sgqlc.types.Field(Predicate, graphql_name='predicate', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
@@ -1162,6 +1225,10 @@ class Query(sgqlc.types.Type, Node):
 ))
     )
     entity_by_node_id = sgqlc.types.Field(Entity, graphql_name='entityByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    ledger_record_by_node_id = sgqlc.types.Field(LedgerRecord, graphql_name='ledgerRecordByNodeId', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
 ))
     )
@@ -1286,7 +1353,7 @@ class TripleRequest(sgqlc.types.Type, Node):
 
 class User(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'balance', 'triples', 'validations', 'user_flags', 'qualifiers', 'statements', 'remaining_skips', 'short_address', 'stats')
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'balance', 'triples', 'validations', 'ledger_records', 'user_flags', 'qualifiers', 'statements', 'remaining_skips', 'short_address', 'stats')
     id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
@@ -1310,6 +1377,16 @@ class User(sgqlc.types.Type, Node):
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(ValidationsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+))
+    )
+    ledger_records = sgqlc.types.Field(sgqlc.types.non_null(LedgerRecordsConnection), graphql_name='ledgerRecords', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(LedgerRecordsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(LedgerRecordCondition, graphql_name='condition', default=None)),
 ))
     )
     user_flags = sgqlc.types.Field(sgqlc.types.non_null(UserFlagsConnection), graphql_name='userFlags', args=sgqlc.types.ArgDict((
