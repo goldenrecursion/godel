@@ -75,7 +75,7 @@ class TemplatesOrderBy(sgqlc.types.Enum):
     __choices__ = ('ENTITY_ID_ASC', 'ENTITY_ID_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'RANK_ASC', 'RANK_DESC')
 
 
-class TopUserSubmittorsOrderBy(sgqlc.types.Enum):
+class TopUserSubmittersOrderBy(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('ACCEPTED_STATEMENT_COUNT_ASC', 'ACCEPTED_STATEMENT_COUNT_DESC', 'NATURAL', 'SUBMITTED_STATEMENT_COUNT_ASC', 'SUBMITTED_STATEMENT_COUNT_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
 
@@ -299,7 +299,7 @@ class TemplatePredicateCondition(sgqlc.types.Input):
     rank = sgqlc.types.Field(Int, graphql_name='rank')
 
 
-class TopUserSubmittorCondition(sgqlc.types.Input):
+class TopUserSubmitterCondition(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
@@ -589,7 +589,7 @@ class StatementsEdge(sgqlc.types.Type):
     node = sgqlc.types.Field(sgqlc.types.non_null('Statement'), graphql_name='node')
 
 
-class SubmittorsRanking(sgqlc.types.Type):
+class SubmittersRanking(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count', 'ranking_submitted_statement_count', 'ranking_accepted_statement_count')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
@@ -643,7 +643,7 @@ class TemplatesEdge(sgqlc.types.Type):
     node = sgqlc.types.Field(sgqlc.types.non_null('Template'), graphql_name='node')
 
 
-class TopUserSubmittor(sgqlc.types.Type):
+class TopUserSubmitter(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count')
     user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
@@ -651,20 +651,20 @@ class TopUserSubmittor(sgqlc.types.Type):
     accepted_statement_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='acceptedStatementCount')
 
 
-class TopUserSubmittorsConnection(sgqlc.types.relay.Connection):
+class TopUserSubmittersConnection(sgqlc.types.relay.Connection):
     __schema__ = schema
     __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
-    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(TopUserSubmittor))), graphql_name='nodes')
-    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TopUserSubmittorsEdge'))), graphql_name='edges')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(TopUserSubmitter))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TopUserSubmittersEdge'))), graphql_name='edges')
     page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
     total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
 
 
-class TopUserSubmittorsEdge(sgqlc.types.Type):
+class TopUserSubmittersEdge(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('cursor', 'node')
     cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
-    node = sgqlc.types.Field(sgqlc.types.non_null(TopUserSubmittor), graphql_name='node')
+    node = sgqlc.types.Field(sgqlc.types.non_null(TopUserSubmitter), graphql_name='node')
 
 
 class TopUserValidator(sgqlc.types.Type):
@@ -945,7 +945,7 @@ class Qualifier(sgqlc.types.Type, Node):
 
 class Query(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('query', 'node', 'citations', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submittors', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'citation', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submittors_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'citation_by_node_id', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
+    __field_names__ = ('query', 'node', 'citations', 'entities', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submitters', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'citation', 'entity', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submitters_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'citation_by_node_id', 'entity_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
     query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
     node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
@@ -1021,14 +1021,14 @@ class Query(sgqlc.types.Type, Node):
         ('condition', sgqlc.types.Arg(TemplatePredicateCondition, graphql_name='condition', default=None)),
 ))
     )
-    top_user_submittors = sgqlc.types.Field(TopUserSubmittorsConnection, graphql_name='topUserSubmittors', args=sgqlc.types.ArgDict((
+    top_user_submitters = sgqlc.types.Field(TopUserSubmittersConnection, graphql_name='topUserSubmitters', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TopUserSubmittorsOrderBy)), graphql_name='orderBy', default=('NATURAL',))),
-        ('condition', sgqlc.types.Arg(TopUserSubmittorCondition, graphql_name='condition', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TopUserSubmittersOrderBy)), graphql_name='orderBy', default=('NATURAL',))),
+        ('condition', sgqlc.types.Arg(TopUserSubmitterCondition, graphql_name='condition', default=None)),
 ))
     )
     top_user_validators = sgqlc.types.Field(TopUserValidatorsConnection, graphql_name='topUserValidators', args=sgqlc.types.ArgDict((
@@ -1139,7 +1139,7 @@ class Query(sgqlc.types.Type, Node):
 ))
     )
     current_user = sgqlc.types.Field('User', graphql_name='currentUser')
-    current_user_submittors_ranking = sgqlc.types.Field(SubmittorsRanking, graphql_name='currentUserSubmittorsRanking')
+    current_user_submitters_ranking = sgqlc.types.Field(SubmittersRanking, graphql_name='currentUserSubmittersRanking')
     current_user_user_id = sgqlc.types.Field(String, graphql_name='currentUserUserId')
     current_user_validators_ranking = sgqlc.types.Field(ValidatorsRanking, graphql_name='currentUserValidatorsRanking')
     entity_by_golden_id = sgqlc.types.Field(Entity, graphql_name='entityByGoldenId', args=sgqlc.types.ArgDict((
