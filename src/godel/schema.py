@@ -38,6 +38,11 @@ class EntitiesOrderBy(sgqlc.types.Enum):
     __choices__ = ('ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
 
 
+class EnumPredicateConstraintTargetType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('OBJECT', 'SUBJECT')
+
+
 Float = sgqlc.types.Float
 
 ID = sgqlc.types.ID
@@ -56,6 +61,16 @@ class LedgerRecordReason(sgqlc.types.Enum):
 class LedgerRecordsOrderBy(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('AMOUNT_ASC', 'AMOUNT_DESC', 'CREATED_AT_ASC', 'CREATED_AT_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'REASON_ASC', 'REASON_DESC', 'TRIPLE_ID_ASC', 'TRIPLE_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
+
+
+class PoPredicateObjectConstraintTargetType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('OBJECT', 'SUBJECT')
+
+
+class PredicateConstraintType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ENUM', 'FORMAT', 'PREDICATE_OBJECT')
 
 
 class PredicatesOrderBy(sgqlc.types.Enum):
@@ -380,6 +395,22 @@ class AuthenticatePayload(sgqlc.types.Type):
     query = sgqlc.types.Field('Query', graphql_name='query')
 
 
+class BasePredicateConstraintsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('BasePredicateConstraint'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('BasePredicateConstraintsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null('PageInfo'), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class BasePredicateConstraintsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('BasePredicateConstraint'), graphql_name='node')
+
+
 class CitationsConnection(sgqlc.types.relay.Connection):
     __schema__ = schema
     __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
@@ -479,6 +510,22 @@ class EntitiesEdge(sgqlc.types.Type):
     node = sgqlc.types.Field(sgqlc.types.non_null('Entity'), graphql_name='node')
 
 
+class EnumPredicateConstraintElementsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EnumPredicateConstraintElement'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EnumPredicateConstraintElementsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null('PageInfo'), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class EnumPredicateConstraintElementsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('EnumPredicateConstraintElement'), graphql_name='node')
+
+
 class FulfillTripleRequestPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('client_mutation_id', 'statement', 'query', 'subject', 'predicate', 'object_entity', 'statement_edge')
@@ -576,6 +623,22 @@ class PageInfo(sgqlc.types.Type):
     has_previous_page = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='hasPreviousPage')
     start_cursor = sgqlc.types.Field(Cursor, graphql_name='startCursor')
     end_cursor = sgqlc.types.Field(Cursor, graphql_name='endCursor')
+
+
+class PoPredicateConstraintRulesConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('PoPredicateConstraintRule'))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('PoPredicateConstraintRulesEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null(PageInfo), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class PoPredicateConstraintRulesEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null('PoPredicateConstraintRule'), graphql_name='node')
 
 
 class PredicatesConnection(sgqlc.types.relay.Connection):
@@ -827,6 +890,19 @@ class ValidatorsRanking(sgqlc.types.Type):
     ranking_validation_consensus_count = sgqlc.types.Field(Int, graphql_name='rankingValidationConsensusCount')
 
 
+class BasePredicateConstraint(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'predicate_id', 'type', 'allow', 'predicate', 'child_format_predicate_constraint', 'child_po_predicate_constraint', 'child_enum_predicate_constraint')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    type = sgqlc.types.Field(sgqlc.types.non_null(PredicateConstraintType), graphql_name='type')
+    allow = sgqlc.types.Field(Boolean, graphql_name='allow')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='predicate')
+    child_format_predicate_constraint = sgqlc.types.Field('FormatPredicateConstraint', graphql_name='childFormatPredicateConstraint')
+    child_po_predicate_constraint = sgqlc.types.Field('PoPredicateConstraint', graphql_name='childPoPredicateConstraint')
+    child_enum_predicate_constraint = sgqlc.types.Field('EnumPredicateConstraint', graphql_name='childEnumPredicateConstraint')
+
+
 class Citation(sgqlc.types.Type, Node):
     __schema__ = schema
     __field_names__ = ('id', 'triple_id', 'url', 'citation', 'triple')
@@ -839,7 +915,7 @@ class Citation(sgqlc.types.Type, Node):
 
 class Entity(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'template', 'triple_requests_by_subject_entity_id', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'pathname', 'thumbnail', 'website')
+    __field_names__ = ('id', 'template', 'triple_requests_by_subject_entity_id', 'po_predicate_constraint_rules_by_object_entity_id', 'enum_predicate_constraint_elements_by_object_entity_id', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'pathname', 'thumbnail', 'website')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     template = sgqlc.types.Field('Template', graphql_name='template')
     triple_requests_by_subject_entity_id = sgqlc.types.Field(sgqlc.types.non_null(TripleRequestsConnection), graphql_name='tripleRequestsBySubjectEntityId', args=sgqlc.types.ArgDict((
@@ -850,6 +926,22 @@ class Entity(sgqlc.types.Type, Node):
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TripleRequestsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
         ('condition', sgqlc.types.Arg(TripleRequestCondition, graphql_name='condition', default=None)),
+))
+    )
+    po_predicate_constraint_rules_by_object_entity_id = sgqlc.types.Field(sgqlc.types.non_null(PoPredicateConstraintRulesConnection), graphql_name='poPredicateConstraintRulesByObjectEntityId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    enum_predicate_constraint_elements_by_object_entity_id = sgqlc.types.Field(sgqlc.types.non_null(EnumPredicateConstraintElementsConnection), graphql_name='enumPredicateConstraintElementsByObjectEntityId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
 ))
     )
     qualifiers_by_object_entity_id = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiersByObjectEntityId', args=sgqlc.types.ArgDict((
@@ -898,6 +990,41 @@ class Entity(sgqlc.types.Type, Node):
     website = sgqlc.types.Field(String, graphql_name='website')
 
 
+class EnumPredicateConstraint(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('parent_id', 'target', 'parent', 'enum_predicate_constraint_elements_by_constraint_id')
+    parent_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='parentId')
+    target = sgqlc.types.Field(sgqlc.types.non_null(EnumPredicateConstraintTargetType), graphql_name='target')
+    parent = sgqlc.types.Field(sgqlc.types.non_null(BasePredicateConstraint), graphql_name='parent')
+    enum_predicate_constraint_elements_by_constraint_id = sgqlc.types.Field(sgqlc.types.non_null(EnumPredicateConstraintElementsConnection), graphql_name='enumPredicateConstraintElementsByConstraintId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+
+
+class EnumPredicateConstraintElement(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'constraint_id', 'object_value', 'object_entity_id', 'constraint', 'object_entity')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    constraint_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='constraintId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    constraint = sgqlc.types.Field(sgqlc.types.non_null(EnumPredicateConstraint), graphql_name='constraint')
+    object_entity = sgqlc.types.Field(Entity, graphql_name='objectEntity')
+
+
+class FormatPredicateConstraint(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('parent_id', 'regex_pattern', 'parent')
+    parent_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='parentId')
+    regex_pattern = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='regexPattern')
+    parent = sgqlc.types.Field(sgqlc.types.non_null(BasePredicateConstraint), graphql_name='parent')
+
+
 class LedgerRecord(sgqlc.types.Type, Node):
     __schema__ = schema
     __field_names__ = ('id', 'user_id', 'created_at', 'amount', 'reason', 'triple_id', 'triple')
@@ -910,9 +1037,38 @@ class LedgerRecord(sgqlc.types.Type, Node):
     triple = sgqlc.types.Field('Triple', graphql_name='triple')
 
 
+class PoPredicateConstraint(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('parent_id', 'target', 'parent', 'po_predicate_constraint_rules_by_constraint_id')
+    parent_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='parentId')
+    target = sgqlc.types.Field(sgqlc.types.non_null(PoPredicateObjectConstraintTargetType), graphql_name='target')
+    parent = sgqlc.types.Field(sgqlc.types.non_null(BasePredicateConstraint), graphql_name='parent')
+    po_predicate_constraint_rules_by_constraint_id = sgqlc.types.Field(sgqlc.types.non_null(PoPredicateConstraintRulesConnection), graphql_name='poPredicateConstraintRulesByConstraintId', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+
+
+class PoPredicateConstraintRule(sgqlc.types.Type, Node):
+    __schema__ = schema
+    __field_names__ = ('id', 'constraint_id', 'predicate_id', 'object_value', 'object_entity_id', 'constraint', 'predicate', 'object_entity')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    constraint_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='constraintId')
+    predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
+    object_value = sgqlc.types.Field(String, graphql_name='objectValue')
+    object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
+    constraint = sgqlc.types.Field(sgqlc.types.non_null(PoPredicateConstraint), graphql_name='constraint')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='predicate')
+    object_entity = sgqlc.types.Field(Entity, graphql_name='objectEntity')
+
+
 class Predicate(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'triples', 'template_predicates', 'triple_requests', 'qualifiers', 'statements', 'show_in_infobox')
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'triples', 'template_predicates', 'triple_requests', 'base_predicate_constraints', 'po_predicate_constraint_rules', 'qualifiers', 'statements', 'show_in_infobox')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     description = sgqlc.types.Field(String, graphql_name='description')
@@ -947,6 +1103,22 @@ class Predicate(sgqlc.types.Type, Node):
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(TripleRequestsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
         ('condition', sgqlc.types.Arg(TripleRequestCondition, graphql_name='condition', default=None)),
+))
+    )
+    base_predicate_constraints = sgqlc.types.Field(sgqlc.types.non_null(BasePredicateConstraintsConnection), graphql_name='basePredicateConstraints', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+))
+    )
+    po_predicate_constraint_rules = sgqlc.types.Field(sgqlc.types.non_null(PoPredicateConstraintRulesConnection), graphql_name='poPredicateConstraintRules', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
 ))
     )
     qualifiers = sgqlc.types.Field(sgqlc.types.non_null(QualifiersConnection), graphql_name='qualifiers', args=sgqlc.types.ArgDict((
@@ -994,10 +1166,18 @@ class Qualifier(sgqlc.types.Type, Node):
 
 class Query(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('query', 'node', 'citations', 'entities', 'ledger_records', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submitters', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'citation', 'entity', 'ledger_record', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submitters_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'citation_by_node_id', 'entity_by_node_id', 'ledger_record_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
+    __field_names__ = ('query', 'node', 'base_predicate_constraints', 'citations', 'entities', 'ledger_records', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'top_user_submitters', 'top_user_validators', 'triples', 'triple_requests', 'user_flags', 'base_predicate_constraint', 'citation', 'entity', 'enum_predicate_constraint', 'enum_predicate_constraint_element', 'format_predicate_constraint', 'ledger_record', 'po_predicate_constraint', 'po_predicate_constraint_rule', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_submitters_ranking', 'current_user_user_id', 'current_user_validators_ranking', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'unvalidated_triple', 'base_predicate_constraint_by_node_id', 'citation_by_node_id', 'entity_by_node_id', 'enum_predicate_constraint_by_node_id', 'enum_predicate_constraint_element_by_node_id', 'format_predicate_constraint_by_node_id', 'ledger_record_by_node_id', 'po_predicate_constraint_by_node_id', 'po_predicate_constraint_rule_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id')
     query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
     node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    base_predicate_constraints = sgqlc.types.Field(BasePredicateConstraintsConnection, graphql_name='basePredicateConstraints', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
 ))
     )
     citations = sgqlc.types.Field(CitationsConnection, graphql_name='citations', args=sgqlc.types.ArgDict((
@@ -1130,6 +1310,10 @@ class Query(sgqlc.types.Type, Node):
         ('condition', sgqlc.types.Arg(UserFlagCondition, graphql_name='condition', default=None)),
 ))
     )
+    base_predicate_constraint = sgqlc.types.Field(BasePredicateConstraint, graphql_name='basePredicateConstraint', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
     citation = sgqlc.types.Field(Citation, graphql_name='citation', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
@@ -1138,7 +1322,27 @@ class Query(sgqlc.types.Type, Node):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
     )
+    enum_predicate_constraint = sgqlc.types.Field(EnumPredicateConstraint, graphql_name='enumPredicateConstraint', args=sgqlc.types.ArgDict((
+        ('parent_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='parentId', default=None)),
+))
+    )
+    enum_predicate_constraint_element = sgqlc.types.Field(EnumPredicateConstraintElement, graphql_name='enumPredicateConstraintElement', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    format_predicate_constraint = sgqlc.types.Field(FormatPredicateConstraint, graphql_name='formatPredicateConstraint', args=sgqlc.types.ArgDict((
+        ('parent_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='parentId', default=None)),
+))
+    )
     ledger_record = sgqlc.types.Field(LedgerRecord, graphql_name='ledgerRecord', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    po_predicate_constraint = sgqlc.types.Field(PoPredicateConstraint, graphql_name='poPredicateConstraint', args=sgqlc.types.ArgDict((
+        ('parent_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='parentId', default=None)),
+))
+    )
+    po_predicate_constraint_rule = sgqlc.types.Field(PoPredicateConstraintRule, graphql_name='poPredicateConstraintRule', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
     )
@@ -1220,6 +1424,10 @@ class Query(sgqlc.types.Type, Node):
     )
     pending_triple_request = sgqlc.types.Field('TripleRequest', graphql_name='pendingTripleRequest')
     unvalidated_triple = sgqlc.types.Field('Triple', graphql_name='unvalidatedTriple')
+    base_predicate_constraint_by_node_id = sgqlc.types.Field(BasePredicateConstraint, graphql_name='basePredicateConstraintByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
     citation_by_node_id = sgqlc.types.Field(Citation, graphql_name='citationByNodeId', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
 ))
@@ -1228,7 +1436,27 @@ class Query(sgqlc.types.Type, Node):
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
 ))
     )
+    enum_predicate_constraint_by_node_id = sgqlc.types.Field(EnumPredicateConstraint, graphql_name='enumPredicateConstraintByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    enum_predicate_constraint_element_by_node_id = sgqlc.types.Field(EnumPredicateConstraintElement, graphql_name='enumPredicateConstraintElementByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    format_predicate_constraint_by_node_id = sgqlc.types.Field(FormatPredicateConstraint, graphql_name='formatPredicateConstraintByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
     ledger_record_by_node_id = sgqlc.types.Field(LedgerRecord, graphql_name='ledgerRecordByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    po_predicate_constraint_by_node_id = sgqlc.types.Field(PoPredicateConstraint, graphql_name='poPredicateConstraintByNodeId', args=sgqlc.types.ArgDict((
+        ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
+))
+    )
+    po_predicate_constraint_rule_by_node_id = sgqlc.types.Field(PoPredicateConstraintRule, graphql_name='poPredicateConstraintRuleByNodeId', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
 ))
     )
