@@ -13,6 +13,7 @@ def fragment_predicate_fields():
     _frag.id()
     _frag.name()
     _frag.description()
+    _frag.label()
     _frag.object_type()
     _frag.show_in_infobox()
     return _frag
