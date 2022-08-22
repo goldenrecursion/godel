@@ -134,6 +134,11 @@ class UserFlagsOrderBy(sgqlc.types.Enum):
     __choices__ = ('CREATED_AT_ASC', 'CREATED_AT_DESC', 'FLAG_ASC', 'FLAG_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
 
 
+class ValidationConsensusStatus(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('AGREED', 'DISAGREED', 'PENDING')
+
+
 class ValidationStatus(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('ACCEPTED', 'INVALID', 'PAUSED', 'PENDING', 'REJECTED')
@@ -381,6 +386,17 @@ class UserFlagCondition(sgqlc.types.Input):
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     flag = sgqlc.types.Field(UserFlagType, graphql_name='flag')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+
+
+class ValidationCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'triple_id', 'user_id', 'validation_type', 'created_at', 'validation_consensus_status')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    validation_type = sgqlc.types.Field(ValidationType, graphql_name='validationType')
+    created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
+    validation_consensus_status = sgqlc.types.Field(ValidationConsensusStatus, graphql_name='validationConsensusStatus')
 
 
 
@@ -1605,6 +1621,7 @@ class User(sgqlc.types.Type, Node):
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(ValidationsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(ValidationCondition, graphql_name='condition', default=None)),
 ))
     )
     ledger_records = sgqlc.types.Field(sgqlc.types.non_null(LedgerRecordsConnection), graphql_name='ledgerRecords', args=sgqlc.types.ArgDict((
