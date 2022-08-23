@@ -444,23 +444,13 @@ class GoldenAPI:
         data = self.endpoint(query, variables)
         return data
 
-    def create_validation(self, triple_id: str, validation_type: str, **kwargs) -> dict:
-        params = locals()
-        params.pop("kwargs")
-        params.pop("self")
-        params.update(kwargs)
-        op = CreateValidationOperations.mutation.create_validation
-        variables = self.generate_variables(op, params)
-        data = self.endpoint(op, variables)
-        return data
 
     ###############
     ## Mutations ##
     ###############
 
     # Entity Submissions
-    def create_entity(self, input: str, **kwargs):
-
+    def create_entity(self, create_entity_input: schema.CreateEntityInput, **kwargs):
         # TODO: Debug why entity link fragment isn't registered...for now use query
         # data = self.query(query=f"""
         # mutation MyMutation {{
@@ -475,6 +465,7 @@ class GoldenAPI:
         # )
         # return data
 
+        input = create_entity_input.__to_json_value__()
         params = locals()
         params.pop("kwargs")
         params.pop("self")
@@ -486,7 +477,7 @@ class GoldenAPI:
 
     # Triples Submissions
 
-    def create_statement(self, input: str, **kwargs):
+    def create_statement(self, create_statement_input: schema.CreateStatementInput, **kwargs):
         """Create statement triple given the statement input combinations of subject entity id, predicate id, object id/value, and citation url
 
         Args:
@@ -495,11 +486,24 @@ class GoldenAPI:
         Returns:
             dict: created statement
         """
+        input = create_statement_input.__to_json_value__()
         params = locals()
         params.pop("kwargs")
         params.pop("self")
         params.update(kwargs)
-        op = CreateStatementOperations.mutation.create_entity
+        op = CreateStatementOperations.mutation.create_statement
+        variables = self.generate_variables(op, params)
+        data = self.endpoint(op, variables)
+        return data
+
+    # Validation Submissions
+
+    def create_validation(self, triple_id: str, validation_type: str, **kwargs) -> dict:
+        params = locals()
+        params.pop("kwargs")
+        params.pop("self")
+        params.update(kwargs)
+        op = CreateValidationOperations.mutation.create_validation
         variables = self.generate_variables(op, params)
         data = self.endpoint(op, variables)
         return data
@@ -524,6 +528,7 @@ class GoldenAPI:
         Returns:
             dict: created triple
         """
+        logger.warning("This method will be deprecated")
         pred_object_type = (
             self.predicate_by_id(id=predicate_id)
             .get("data", {})
