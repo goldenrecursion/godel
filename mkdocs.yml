@@ -32,10 +32,10 @@ edit_uri: ''
 nav:
   - Welcome: 'index.md'
   - Guides:
-      - Authentication: "user_guide/Authentication"
+      - Authentication: "user_guide/Authentication.ipynb"
       - Validating Triples: "user_guide/Validating Triples.ipynb"
       - Create Triples: "user_guide/Create Triples.ipynb"
-      - Create Entities: "user_guide/Create Entities"
+      - Create Entities: "user_guide/Create Entities.ipynb"
   - Reference:
     - API Reference: "api_reference.md"
 
