@@ -1680,13 +1680,14 @@ class UserFlag(sgqlc.types.Type, Node):
 
 class Validation(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'triple_id', 'user_id', 'validation_type', 'created_at', 'triple')
+    __field_names__ = ('id', 'triple_id', 'user_id', 'validation_type', 'created_at', 'triple', 'ground_truth_violation_reason')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     triple_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleId')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     validation_type = sgqlc.types.Field(sgqlc.types.non_null(ValidationType), graphql_name='validationType')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
     triple = sgqlc.types.Field(sgqlc.types.non_null('Triple'), graphql_name='triple')
+    ground_truth_violation_reason = sgqlc.types.Field(String, graphql_name='groundTruthViolationReason')
 
 
 
