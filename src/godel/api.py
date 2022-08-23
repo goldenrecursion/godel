@@ -444,7 +444,6 @@ class GoldenAPI:
         data = self.endpoint(query, variables)
         return data
 
-
     ###############
     ## Mutations ##
     ###############
@@ -477,7 +476,9 @@ class GoldenAPI:
 
     # Triples Submissions
 
-    def create_statement(self, create_statement_input: schema.CreateStatementInput, **kwargs):
+    def create_statement(
+        self, create_statement_input: schema.CreateStatementInput, **kwargs
+    ):
         """Create statement triple given the statement input combinations of subject entity id, predicate id, object id/value, and citation url
 
         Args:
@@ -558,6 +559,6 @@ def get_godel_version() -> str:
         str: version name, unknown if fails to dynamically pull
     """
     try:
-        return version('godel')
+        return version("godel")
     except:
         return "unknown"
