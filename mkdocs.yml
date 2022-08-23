@@ -38,6 +38,7 @@ nav:
       - Create Entities: "user_guide/Create Entities.ipynb"
   - Reference:
     - API Reference: "api_reference.md"
+    - Changelog: "changelog.md"
 
 markdown_extensions:
   - toc:
