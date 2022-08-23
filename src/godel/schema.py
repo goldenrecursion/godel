@@ -14,6 +14,11 @@ schema -= sgqlc.types.relay.PageInfo
 ########################################################################
 # Scalars and Enumerations
 ########################################################################
+class BasePredicateConstraintsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ALLOW_ASC', 'ALLOW_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'TYPE_ASC', 'TYPE_DESC')
+
+
 class BigInt(sgqlc.types.Scalar):
     __schema__ = schema
 
@@ -169,6 +174,15 @@ class AuthenticateInput(sgqlc.types.Input):
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
     signature = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='signature')
+
+
+class BasePredicateConstraintCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id', 'predicate_id', 'type', 'allow')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
+    type = sgqlc.types.Field(PredicateConstraintType, graphql_name='type')
+    allow = sgqlc.types.Field(Boolean, graphql_name='allow')
 
 
 class CitationCondition(sgqlc.types.Input):
@@ -1127,6 +1141,8 @@ class Predicate(sgqlc.types.Type, Node):
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(BasePredicateConstraintsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(BasePredicateConstraintCondition, graphql_name='condition', default=None)),
 ))
     )
     po_predicate_constraint_rules = sgqlc.types.Field(sgqlc.types.non_null(PoPredicateConstraintRulesConnection), graphql_name='poPredicateConstraintRules', args=sgqlc.types.ArgDict((
@@ -1194,6 +1210,8 @@ class Query(sgqlc.types.Type, Node):
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
         ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
         ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(BasePredicateConstraintsOrderBy)), graphql_name='orderBy', default=('PRIMARY_KEY_ASC',))),
+        ('condition', sgqlc.types.Arg(BasePredicateConstraintCondition, graphql_name='condition', default=None)),
 ))
     )
     citations = sgqlc.types.Field(CitationsConnection, graphql_name='citations', args=sgqlc.types.ArgDict((
