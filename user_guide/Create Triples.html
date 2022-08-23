@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://github.com/goldenrecursion/godel/user_guide/Validating%20Triples.html">
+        <link rel="canonical" href="https://github.com/goldenrecursion/godel/user_guide/Create%20Triples.html">
       
       <link rel="icon" href="../images/favicon.ico">
       <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.1">
     
     
       
-        <title>Validation - Godel</title>
+        <title>Create Triples - Godel</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#validation" class="md-skip">
+        <a href="#create-triples" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Validation
+              Create Triples
             
           </span>
         </div>
@@ -290,6 +290,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="Validating%20Triples.html" class="md-nav__link">
+        Validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -302,12 +316,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Validation
+          Create Triples
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="Validating%20Triples.html" class="md-nav__link md-nav__link--active">
-        Validation
+      <a href="Create%20Triples.html" class="md-nav__link md-nav__link--active">
+        Create Triples
       </a>
       
         
@@ -341,21 +355,54 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-retrieve-unvalidated-triple" class="md-nav__link">
-    2. Retrieve unvalidated triple
+  <a href="#2-get-predicates" class="md-nav__link">
+    2. Get Predicates
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-create-validation" class="md-nav__link">
-    4. Create validation
+  <a href="#3-create-triple" class="md-nav__link">
+    3. Create Triple
   </a>
+  
+    <nav class="md-nav" aria-label="3. Create Triple">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#triple-with-object-value-example" class="md-nav__link">
+    Triple with Object Value Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data" class="md-nav__link">
+    WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.
+  </a>
+  
+    <nav class="md-nav" aria-label="WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#triple-with-object-entity-id-example" class="md-nav__link">
+    Triple with Object Entity ID Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data_1" class="md-nav__link">
     WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.
   </a>
   
@@ -370,20 +417,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="Create%20Triples.html" class="md-nav__link">
-        Create Triples
-      </a>
     </li>
   
 
@@ -501,21 +534,54 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-retrieve-unvalidated-triple" class="md-nav__link">
-    2. Retrieve unvalidated triple
+  <a href="#2-get-predicates" class="md-nav__link">
+    2. Get Predicates
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-create-validation" class="md-nav__link">
-    4. Create validation
+  <a href="#3-create-triple" class="md-nav__link">
+    3. Create Triple
   </a>
+  
+    <nav class="md-nav" aria-label="3. Create Triple">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#triple-with-object-value-example" class="md-nav__link">
+    Triple with Object Value Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data" class="md-nav__link">
+    WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.
+  </a>
+  
+    <nav class="md-nav" aria-label="WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#triple-with-object-entity-id-example" class="md-nav__link">
+    Triple with Object Entity ID Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data_1" class="md-nav__link">
     WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.
   </a>
   
@@ -1577,7 +1643,19 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="validation">Validation<a class="anchor-link" href="#validation">&#182;</a></h1><p>Here is a short guide to validating triples on the Golden protocol. Before casting votes, be sure to read the <a href="https://www.notion.so/goldenhq/Triple-Validation-Guide-84ec0a78cfe941b9876007cccca61b31">Triple Validation Guide</a></p>
+<h1 id="create-triples">Create Triples<a class="anchor-link" href="#create-triples">&#182;</a></h1><p>A short guide to adding triples to the Golden decentralized knowledge graph using the godel SDK. Please see the <a href="https://www.notion.so/goldenhq/Golden-Protocol-FAQ-78ae2357b9af44aeaa655cb1b1966ee4">Golden Protocol FAQ Guide</a> and the <a href="https://www.notion.so/goldenhq/Adding-Structured-Data-Guide-ae657337bf4f4e54ae4402df083c76ac">Adding Structured Data Guide</a> to learn more about Golden, data submission, and rewards.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Note: Attribution and eligibility for testnet points on triple submissions will be assigned by the earliest timestamped transaction.</p>
 
 </div>
 </div>
@@ -1591,6 +1669,8 @@ Licensed under the Apache License, Version 2.0.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="prerequisite">Prerequisite<a class="anchor-link" href="#prerequisite">&#182;</a></h2><p><a href="https://docs.golden.xyz/guides/authentication">Authentication</a></p>
 <p><a href="https://docs.golden.xyz/godel-python-sdk/authentication">Godel Authentication</a></p>
+<p>This guide requires you install Godel's data-tools.</p>
+<p>You can do this with <code>pip install godel[data-tools]</code> and comes pre-installed if using the godel docker image.</p>
 
 </div>
 </div>
@@ -1614,7 +1694,7 @@ Licensed under the Apache License, Version 2.0.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1653,9 +1733,7 @@ goldapi = GoldenAPI(jwt_token=JWT_TOKEN)</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="2-retrieve-unvalidated-triple">2. Retrieve unvalidated triple<a class="anchor-link" href="#2-retrieve-unvalidated-triple">&#182;</a></h3><p>There are a couple options for retrieving an unvalidated triple.</p>
-<p>The first way we'd recommend is to retrieve a validation task from Golden's API. We'll have an endpoint that provides a queue of validation tasks.</p>
-<p>You can validate the triple by creating a validation for the triple which will submit your validation (accept, reject) to the protocol.</p>
+<p>Test that you can hit the API with <code>entity_search()</code>, and we'll save the results so we can use the resulting entity as our subject entity for this guide.</p>
 
 </div>
 </div>
@@ -1666,7 +1744,7 @@ goldapi = GoldenAPI(jwt_token=JWT_TOKEN)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1681,15 +1759,19 @@ goldapi = GoldenAPI(jwt_token=JWT_TOKEN)</div>
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Get unvalidated triple</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">unvalidated_triple</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
-<span class="n">unvalidated_triple</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;unvalidatedTriple&quot;</span><span class="p">]</span>
-<span class="n">unvalidated_triple</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Test with search</span>
+<span class="n">search_results</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">entity_search</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Miles&quot;</span><span class="p">)</span>
+<span class="n">search_results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">search_results</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;entityByName&quot;</span><span class="p">][</span><span class="s2">&quot;nodes&quot;</span><span class="p">])</span>
+<span class="n">search_results_df</span>
 </pre></div>
-<div id="cell-2" class="clipboard-copy-txt"># Get unvalidated triple
-data = goldapi.unvalidated_triple()["data"]
-unvalidated_triple = data["unvalidatedTriple"]
-unvalidated_triple</div>
+<div id="cell-2" class="clipboard-copy-txt">import pandas as pd
+
+# Test with search
+search_results = goldapi.entity_search(name="Miles")
+search_results_df = pd.DataFrame(search_results["data"]["entityByName"]["nodes"])
+search_results_df</div>
     
         </div>
     </div>
@@ -1707,20 +1789,50 @@ unvalidated_triple</div>
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
 
 
 
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>{&#39;id&#39;: &#39;2a2b80d5-b841-4723-b949-210a11500db3&#39;,
- &#39;citationsByTripleId&#39;: {&#39;nodes&#39;: [{&#39;url&#39;: &#39;https://www.linkedin.com/search/results/all/?keywords=Miles%20Wolff&#39;}]},
- &#39;dateCreated&#39;: &#39;2022-08-22T15:59:24.617456&#39;,
- &#39;objectEntityId&#39;: None,
- &#39;objectValue&#39;: &#39;509.763.3584 x29455&#39;,
- &#39;subjectId&#39;: &#39;d95ef4b0-e006-4203-bfb4-adbe99f63ce7&#39;,
- &#39;userId&#39;: &#39;0xppaf8ojpphfszeokh5eecmqbf82pelqm6f63jpjf&#39;,
- &#39;predicateId&#39;: &#39;c090be24-6c35-45d8-8a81-32e57a3d48dd&#39;}</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>description</th>
+      <th>thumbnail</th>
+      <th>goldenId</th>
+      <th>pathname</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>d95ef4b0-e006-4203-bfb4-adbe99f63ce7</td>
+      <td>Miles Wolff</td>
+      <td>Id nihil blanditiis eius fugit odit blanditiis...</td>
+      <td>https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHir...</td>
+      <td>None</td>
+      <td>/entity/d95ef4b0-e006-4203-bfb4-adbe99f63ce7</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
@@ -1737,7 +1849,8 @@ unvalidated_triple</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="4-create-validation">4. Create validation<a class="anchor-link" href="#4-create-validation">&#182;</a></h3>
+<h3 id="2-get-predicates">2. Get Predicates<a class="anchor-link" href="#2-get-predicates">&#182;</a></h3><p>You can run the code below to get the list of accepted predicates available for the protocol.</p>
+
 </div>
 </div>
 </div>
@@ -1747,7 +1860,7 @@ unvalidated_triple</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1762,15 +1875,23 @@ unvalidated_triple</div>
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">godel.schema</span> <span class="kn">import</span> <span class="n">ValidationType</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="c1"># Retrieve Choices for Validation</span>
-<span class="n">ValidationType</span>
+<span class="n">predicates</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">predicates</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;predicates&quot;</span><span class="p">][</span><span class="s2">&quot;edges&quot;</span><span class="p">]:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">]</span>
+    <span class="n">predicates</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="s2">&quot;objectType&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;objectType&quot;</span><span class="p">]}</span> 
+<span class="n">predicates_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">predicates_df</span>
 </pre></div>
-<div id="cell-3" class="clipboard-copy-txt">from godel.schema import ValidationType
+<div id="cell-3" class="clipboard-copy-txt">import pandas as pd
 
-# Retrieve Choices for Validation
-ValidationType</div>
+predicates = {}
+for p in goldapi.predicates()["data"]["predicates"]["edges"]:
+    p = p["node"]
+    predicates[p["name"]] = {"id": p["id"], "objectType": p["objectType"]} 
+predicates_df = pd.DataFrame(predicates).transpose()
+predicates_df</div>
     
         </div>
     </div>
@@ -1788,80 +1909,247 @@ ValidationType</div>
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 
 
 
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>enum ValidationType {
-  ACCEPTED
-  REJECTED
-  SKIPPED
-}</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>objectType</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CEO</th>
+      <td>0a87e996-34b4-46ba-909a-70ab67b1f811</td>
+      <td>ENTITY</td>
+    </tr>
+    <tr>
+      <th>Email address</th>
+      <td>0efd0441-1ffc-4e30-8806-e58c434770c8</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <th>YouTube channel</th>
+      <td>12acb8fe-0573-4ca8-8cc1-180cc6ba3486</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Total funding amount</th>
+      <td>13a7e8b6-7270-4c99-81e9-9d752e0c295c</td>
+      <td>FLOAT</td>
+    </tr>
+    <tr>
+      <th>Whitepaper</th>
+      <td>14fa743c-8161-42e8-a92f-5c29c70e87f8</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Full address</th>
+      <td>1551ee2a-f6a0-4a4b-b322-d98d3a696cf3</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <th>Pinterest</th>
+      <td>1d7d64c5-c4a1-4889-91c4-2d2da0424dcc</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Source Code</th>
+      <td>1e49b96d-f641-4226-91f0-ed42e6de742e</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Contact URL</th>
+      <td>27897e2f-5d08-40fe-904d-0b0647fa2ff4</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>CEO of</th>
+      <td>3104de39-071c-47b8-86b4-d62ccc4a4fa6</td>
+      <td>ENTITY</td>
+    </tr>
+    <tr>
+      <th>Doctoral Thesis URL</th>
+      <td>33461e27-5454-43c3-b300-88c02a96c280</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Reddit URL</th>
+      <td>36d1a264-da26-4a1a-8f0e-726543749a5f</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Website</th>
+      <td>42cb158b-e836-45ed-9b56-034668b8f05a</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Start time</th>
+      <td>4b4ff1c9-a053-4bc3-87ef-0713453f9992</td>
+      <td>DATE_TIME</td>
+    </tr>
+    <tr>
+      <th>Coinmarketcap URL</th>
+      <td>5387126a-fa27-4a42-8c7f-bf813a6a893d</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Pitchbook URL</th>
+      <td>5bbcbd49-c255-4a6b-b84a-dc076849650d</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Thumbnail</th>
+      <td>60627261-4e6c-4ebf-8879-914576ade417</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Telegram</th>
+      <td>68d490c8-d8d3-4efe-9670-390df48e1ad6</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>End time</th>
+      <td>6b95b113-e331-41bb-8e31-45b198a41ea8</td>
+      <td>DATE_TIME</td>
+    </tr>
+    <tr>
+      <th>Founder</th>
+      <td>71ad3d9e-e211-472b-a16d-861737c57ecd</td>
+      <td>ENTITY</td>
+    </tr>
+    <tr>
+      <th>Medium</th>
+      <td>71f46d7f-6667-4600-90bf-eb82fbba8e17</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Tiktok</th>
+      <td>7e593c0c-457a-464d-9dd2-8e1fc5a8b116</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Angellist URL</th>
+      <td>7f15d788-5df1-4ff3-a5e5-4c9e8e2c57af</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td>7f3869c1-7dc9-4486-9045-6bade487a49d</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <th>Linkedin URL</th>
+      <td>8c4d6279-199f-4e46-9ef7-8702bad1e152</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Apple App Store Link</th>
+      <td>92ae90d8-d4f6-476b-9409-89b7d1b846c0</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Is a</th>
+      <td>94a8d215-ce32-4379-b18e-2aebf0794882</td>
+      <td>ENTITY</td>
+    </tr>
+    <tr>
+      <th>Twitter URL</th>
+      <td>9934d828-963f-403a-a0da-7a52e0224ef5</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Date of incorporation</th>
+      <td>9cb6d628-a0f8-48b0-9828-253596b6ad00</td>
+      <td>DATE_TIME</td>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <td>a27218b8-6a4d-47bb-95b6-5a55334fac1c</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <th>Wikidata ID</th>
+      <td>b996dfba-6f3b-458e-bb98-61939160fd88</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <th>Golden ID</th>
+      <td>bb463b8b-b76c-4f6a-9726-65ab5730b69b</td>
+      <td>INTEGER</td>
+    </tr>
+    <tr>
+      <th>Phone number</th>
+      <td>c090be24-6c35-45d8-8a81-32e57a3d48dd</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <th>Discord URL</th>
+      <td>c094b0f7-d34c-4f5e-86b3-801da1c82091</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Instagram</th>
+      <td>db592366-1c4c-4087-821e-44699ddd29b6</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Github URL</th>
+      <td>e3d0cfb4-3ec1-4ef2-ae08-93fa07aa27dc</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Founder of</th>
+      <td>e4f94b98-c56a-4bd2-a9fd-5fd11603e7e8</td>
+      <td>ENTITY</td>
+    </tr>
+    <tr>
+      <th>Community Forum</th>
+      <td>f348c532-bffd-4ad1-b79c-34258d05c1cd</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Founded date</th>
+      <td>fa1a5ac7-480c-4e44-a545-b0f3dd9d24bf</td>
+      <td>DATE_TIME</td>
+    </tr>
+    <tr>
+      <th>Facebook URL</th>
+      <td>fa39c1f2-bf06-45e9-8995-da919472deb8</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Crunchbase URL</th>
+      <td>facb73aa-82db-45ff-bd87-5ce7983d8ca2</td>
+      <td>ANY_URI</td>
+    </tr>
+    <tr>
+      <th>Google Play Store Link</th>
+      <td>fb06b903-52af-4a79-9126-f2589c2ca881</td>
+      <td>ANY_URI</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-        
-        
-        <div class="CodeMirror cm-s-jupyter">
-        <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-4">
-            <div>
-                <span class="notice" hidden>Copied!</span>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
-                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
-                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
-                </svg>
-                </div>
-            </clipboard-copy>
-        </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create validation with the triple id and your validation type</span>
-<span class="n">triple_id</span> <span class="o">=</span> <span class="n">unvalidated_triple</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
-<span class="n">validation_type</span> <span class="o">=</span> <span class="s2">&quot;REJECTED&quot;</span>
-<span class="n">triple_id</span>
-</pre></div>
-<div id="cell-4" class="clipboard-copy-txt"># Create validation with the triple id and your validation type
-triple_id = unvalidated_triple["id"]
-validation_type = "REJECTED"
-triple_id</div>
-    
-        </div>
-    </div>
-
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;2a2b80d5-b841-4723-b949-210a11500db3&#39;</pre>
 </div>
 
 </div>
@@ -1878,7 +2166,100 @@ triple_id</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.<a class="anchor-link" href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">&#182;</a></h3>
+<h3 id="3-create-triple">3. Create Triple<a class="anchor-link" href="#3-create-triple">&#182;</a></h3><p>First, view the <code>CreateStatementInput</code> object schema.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-4">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">godel.schema</span> <span class="kn">import</span> <span class="n">CreateStatementInput</span><span class="p">,</span> <span class="n">StatementInputRecordInput</span>
+
+<span class="n">CreateStatementInput</span>
+</pre></div>
+<div id="cell-4" class="clipboard-copy-txt">from godel.schema import CreateStatementInput, StatementInputRecordInput
+
+CreateStatementInput</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>input CreateStatementInput {
+  clientMutationId: String
+  subjectId: UUID!
+  predicateId: UUID!
+  objectValue: String
+  objectEntityId: UUID
+  citationUrls: [String]
+  qualifiers: [QualifierInputRecordInput]
+}</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Now you can input your triple data. Make sure to check the predicate object type to ensure your object entity ID or object value matches the object type.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="triple-with-object-value-example">Triple with Object Value Example<a class="anchor-link" href="#triple-with-object-value-example">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -1888,7 +2269,7 @@ triple_id</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1903,16 +2284,30 @@ triple_id</div>
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create Validation</span>
-<span class="n">goldapi</span><span class="o">.</span><span class="n">create_validation</span><span class="p">(</span>
-    <span class="n">triple_id</span><span class="o">=</span><span class="n">triple_id</span><span class="p">,</span>
-    <span class="n">validation_type</span><span class="o">=</span><span class="n">validation_type</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Triple data</span>
+<span class="n">subject_id</span> <span class="o">=</span> <span class="n">search_results_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Miles Wolff</span>
+<span class="n">predicate_id</span> <span class="o">=</span> <span class="n">predicates_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Email Address</span>
+<span class="n">object_value</span> <span class="o">=</span> <span class="s2">&quot;guide@example.com&quot;</span>
+
+<span class="c1"># Create statement input API</span>
+<span class="n">create_statement_input</span> <span class="o">=</span> <span class="n">CreateStatementInput</span><span class="p">(</span>
+    <span class="n">subject_id</span><span class="o">=</span><span class="n">subject_id</span><span class="p">,</span>
+    <span class="n">predicate_id</span><span class="o">=</span><span class="n">predicate_id</span><span class="p">,</span>
+    <span class="n">object_value</span><span class="o">=</span><span class="n">object_value</span><span class="p">,</span>
+    <span class="n">citation_urls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://golden.com&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
-<div id="cell-5" class="clipboard-copy-txt"># Create Validation
-goldapi.create_validation(
-    triple_id=triple_id,
-    validation_type=validation_type
+<div id="cell-5" class="clipboard-copy-txt"># Triple data
+subject_id = search_results_df["id"][0]  # Miles Wolff
+predicate_id = predicates_df["id"][1]  # Email Address
+object_value = "guide@example.com"
+
+# Create statement input API
+create_statement_input = CreateStatementInput(
+    subject_id=subject_id,
+    predicate_id=predicate_id,
+    object_value=object_value,
+    citation_urls=["https://golden.com"],
 )</div>
     
         </div>
@@ -1922,13 +2317,24 @@ goldapi.create_validation(
 </div>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.<a class="anchor-link" href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1943,9 +2349,244 @@ goldapi.create_validation(
                 </div>
             </clipboard-copy>
         </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">create_statement_input</span><span class="o">=</span><span class="n">create_statement_input</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+<div id="cell-6" class="clipboard-copy-txt">data = goldapi.create_statement(create_statement_input=create_statement_input)
+data</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>{&#39;data&#39;: {&#39;createStatement&#39;: {&#39;statement&#39;: {&#39;__typename&#39;: &#39;Statement&#39;,
+    &#39;id&#39;: &#39;76d696d2-5295-4891-ae5a-3efdd9e5c084&#39;,
+    &#39;dateAccepted&#39;: None,
+    &#39;dateRejected&#39;: None,
+    &#39;userId&#39;: &#39;0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266&#39;,
+    &#39;validationStatus&#39;: &#39;PENDING&#39;,
+    &#39;subject&#39;: {&#39;id&#39;: &#39;d95ef4b0-e006-4203-bfb4-adbe99f63ce7&#39;,
+     &#39;pathname&#39;: &#39;/entity/d95ef4b0-e006-4203-bfb4-adbe99f63ce7&#39;,
+     &#39;name&#39;: &#39;Miles Wolff&#39;,
+     &#39;thumbnail&#39;: &#39;https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg&#39;},
+    &#39;predicate&#39;: {&#39;id&#39;: &#39;0efd0441-1ffc-4e30-8806-e58c434770c8&#39;,
+     &#39;name&#39;: &#39;Email address&#39;,
+     &#39;description&#39;: &#39;The email address associated with this entity that is 1. public (it is openly known the entity is associated with this email address) and 2. official (the entity has formally associated themselves with this phone number by posting it on a website, social media link, etc. that they are in control of).&#39;,
+     &#39;label&#39;: &#39;Email address associated with an entity.&#39;,
+     &#39;objectType&#39;: &#39;STRING&#39;,
+     &#39;showInInfobox&#39;: True},
+    &#39;objectValue&#39;: &#39;guide@example.com&#39;,
+    &#39;objectEntity&#39;: None,
+    &#39;citationsByTripleId&#39;: {&#39;nodes&#39;: [{&#39;url&#39;: &#39;https://golden.com&#39;}]},
+    &#39;qualifiersBySubjectId&#39;: {&#39;nodes&#39;: []}}}}}</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="triple-with-object-entity-id-example">Triple with Object Entity ID Example<a class="anchor-link" href="#triple-with-object-entity-id-example">&#182;</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-7">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Triple data</span>
+<span class="n">subject_id</span> <span class="o">=</span> <span class="n">search_results_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Miles Wolff</span>
+<span class="n">predicate_id</span> <span class="o">=</span> <span class="s2">&quot;e4f94b98-c56a-4bd2-a9fd-5fd11603e7e8&quot;</span>  <span class="c1"># CEO Of predicate</span>
+<span class="n">object_entity_id</span> <span class="o">=</span> <span class="s2">&quot;20ab9281-fd5f-4717-ab73-ecd24fff66fe&quot;</span>  <span class="c1"># Huel and Sons Entity ID</span>
+
+<span class="c1"># Create statement input API</span>
+<span class="n">create_statement_input</span> <span class="o">=</span> <span class="n">CreateStatementInput</span><span class="p">(</span>
+    <span class="n">subject_id</span><span class="o">=</span><span class="n">subject_id</span><span class="p">,</span>
+    <span class="n">predicate_id</span><span class="o">=</span><span class="n">predicate_id</span><span class="p">,</span>
+    <span class="n">object_entity_id</span><span class="o">=</span><span class="n">object_entity_id</span><span class="p">,</span>
+    <span class="n">citation_urls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://golden.com&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+<div id="cell-7" class="clipboard-copy-txt"># Triple data
+subject_id = search_results_df["id"][0]  # Miles Wolff
+predicate_id = "e4f94b98-c56a-4bd2-a9fd-5fd11603e7e8"  # CEO Of predicate
+object_entity_id = "20ab9281-fd5f-4717-ab73-ecd24fff66fe"  # Huel and Sons Entity ID
+
+# Create statement input API
+create_statement_input = CreateStatementInput(
+    subject_id=subject_id,
+    predicate_id=predicate_id,
+    object_entity_id=object_entity_id,
+    citation_urls=["https://golden.com"],
+)</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.<a class="anchor-link" href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-8">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">create_statement</span><span class="p">(</span><span class="n">create_statement_input</span><span class="o">=</span><span class="n">create_statement_input</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+<div id="cell-8" class="clipboard-copy-txt">data = goldapi.create_statement(create_statement_input=create_statement_input)
+data</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>{&#39;data&#39;: {&#39;createStatement&#39;: {&#39;statement&#39;: {&#39;__typename&#39;: &#39;Statement&#39;,
+    &#39;id&#39;: &#39;07d779a7-1f2c-4d29-a7d0-94e2decf6ad6&#39;,
+    &#39;dateAccepted&#39;: None,
+    &#39;dateRejected&#39;: None,
+    &#39;userId&#39;: &#39;0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266&#39;,
+    &#39;validationStatus&#39;: &#39;PENDING&#39;,
+    &#39;subject&#39;: {&#39;id&#39;: &#39;d95ef4b0-e006-4203-bfb4-adbe99f63ce7&#39;,
+     &#39;pathname&#39;: &#39;/entity/d95ef4b0-e006-4203-bfb4-adbe99f63ce7&#39;,
+     &#39;name&#39;: &#39;Miles Wolff&#39;,
+     &#39;thumbnail&#39;: &#39;https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg&#39;},
+    &#39;predicate&#39;: {&#39;id&#39;: &#39;e4f94b98-c56a-4bd2-a9fd-5fd11603e7e8&#39;,
+     &#39;name&#39;: &#39;Founder of&#39;,
+     &#39;description&#39;: &#39;&#39;,
+     &#39;label&#39;: &#39;Entity that a person founded.&#39;,
+     &#39;objectType&#39;: &#39;ENTITY&#39;,
+     &#39;showInInfobox&#39;: True},
+    &#39;objectValue&#39;: None,
+    &#39;objectEntity&#39;: {&#39;id&#39;: &#39;20ab9281-fd5f-4717-ab73-ecd24fff66fe&#39;,
+     &#39;pathname&#39;: &#39;/entity/20ab9281-fd5f-4717-ab73-ecd24fff66fe&#39;,
+     &#39;name&#39;: &#39;Huel and Sons&#39;,
+     &#39;thumbnail&#39;: &#39;http://loremflickr.com/90/90/business&#39;},
+    &#39;citationsByTripleId&#39;: {&#39;nodes&#39;: [{&#39;url&#39;: &#39;https://golden.com&#39;}]},
+    &#39;qualifiersBySubjectId&#39;: {&#39;nodes&#39;: []}}}}}</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-9">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
             <div class="highlight-ipynb hl-python"><pre><span></span>
 </pre></div>
-<div id="cell-6" class="clipboard-copy-txt"></div>
+<div id="cell-9" class="clipboard-copy-txt"></div>
     
         </div>
     </div>
@@ -1976,7 +2617,7 @@ goldapi.create_validation(
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Welcome" rel="prev">
+        <a href="Validating%20Triples.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Validation" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1985,20 +2626,20 @@ goldapi.create_validation(
               <span class="md-footer__direction">
                 Previous
               </span>
-              Welcome
+              Validation
             </div>
           </div>
         </a>
       
       
         
-        <a href="Create%20Triples.html" class="md-footer__link md-footer__link--next" aria-label="Next: Create Triples" rel="next">
+        <a href="../api_reference.html" class="md-footer__link md-footer__link--next" aria-label="Next: API Reference" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Create Triples
+              API Reference
             </div>
           </div>
           <div class="md-footer__button md-icon">

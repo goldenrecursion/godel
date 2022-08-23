@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://github.com/goldenrecursion/godel/user_guide/Validating%20Triples.html">
+        <link rel="canonical" href="https://github.com/goldenrecursion/godel/user_guide/Authentication.html">
       
       <link rel="icon" href="../images/favicon.ico">
       <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.1">
     
     
       
-        <title>Validation - Godel</title>
+        <title>Authentication - Godel</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#validation" class="md-skip">
+        <a href="#authentication" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Validation
+              Authentication
             
           </span>
         </div>
@@ -246,16 +246,14 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       
       
@@ -290,86 +288,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Validation
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Validating%20Triples.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="Validating%20Triples.html" class="md-nav__link">
         Validation
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisite" class="md-nav__link">
-    Prerequisite
-  </a>
-  
-    <nav class="md-nav" aria-label="Prerequisite">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-connect-to-golden-web3-api" class="md-nav__link">
-    1. Connect to Golden Web3 API
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-retrieve-unvalidated-triple" class="md-nav__link">
-    2. Retrieve unvalidated triple
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-create-validation" class="md-nav__link">
-    4. Create validation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data" class="md-nav__link">
-    WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -501,22 +424,35 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-retrieve-unvalidated-triple" class="md-nav__link">
-    2. Retrieve unvalidated triple
+  <a href="#2-authenticate-and-set-jwt" class="md-nav__link">
+    2. Authenticate and set JWT
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Authenticate and set JWT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convenience-method-for-authentication" class="md-nav__link">
+    Convenience Method for Authentication
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-create-validation" class="md-nav__link">
-    4. Create validation
+  <a href="#retrieve-jwt-token-from-gui" class="md-nav__link">
+    Retrieve JWT Token from GUI
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data" class="md-nav__link">
-    WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.
+  <a href="#3-test-with-graphql-calls" class="md-nav__link">
+    3. Test with Graphql Calls
   </a>
   
 </li>
@@ -1577,8 +1513,7 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="validation">Validation<a class="anchor-link" href="#validation">&#182;</a></h1><p>Here is a short guide to validating triples on the Golden protocol. Before casting votes, be sure to read the <a href="https://www.notion.so/goldenhq/Triple-Validation-Guide-84ec0a78cfe941b9876007cccca61b31">Triple Validation Guide</a></p>
-
+<h1 id="authentication">Authentication<a class="anchor-link" href="#authentication">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -1589,8 +1524,9 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="prerequisite">Prerequisite<a class="anchor-link" href="#prerequisite">&#182;</a></h2><p><a href="https://docs.golden.xyz/guides/authentication">Authentication</a></p>
-<p><a href="https://docs.golden.xyz/godel-python-sdk/authentication">Godel Authentication</a></p>
+<h2 id="prerequisite">Prerequisite<a class="anchor-link" href="#prerequisite">&#182;</a></h2><p><a href="https://docs.golden.xyz/godel-python-sdk/quickstart">QuickStart</a></p>
+<p>This guide requires installation of <a href="https://github.com/ethereum/web3.py">Web3.py</a>.</p>
+<p>You can do this with <code>pip install godel[web3]</code> and comes pre-installed if using the godel docker image.</p>
 
 </div>
 </div>
@@ -1603,7 +1539,19 @@ Licensed under the Apache License, Version 2.0.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="1-connect-to-golden-web3-api">1. Connect to Golden Web3 API<a class="anchor-link" href="#1-connect-to-golden-web3-api">&#182;</a></h3><p>Let's connect the python wrapper to the Golden GraphQL API.</p>
-<p>Make sure you ran through the prerequisites for this guide and have learned to authenticate and retrieve your JWT token in Godel.</p>
+<p>You can run your basic queries against the API without authenticating, but will be restricted from mutations and certain queries until you connect using your USER_ID (your wallet address) and PRIVATE_KEY (wallet secret).</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Note: If you encounter errors with connection, ensure that the wallet being used has been connected to your profile at</p>
 
 </div>
 </div>
@@ -1614,7 +1562,7 @@ Licensed under the Apache License, Version 2.0.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1629,15 +1577,11 @@ Licensed under the Apache License, Version 2.0.
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">godel</span> <span class="kn">import</span> <span class="n">GoldenAPI</span>
-
-<span class="n">JWT_TOKEN</span> <span class="o">=</span> <span class="s2">&quot;ey098sd908v79899789877986567967845jh567hj5679568df678678daf6786789s569ghm567457hm8g567n8678fb8790678sd56756n456h8d4f5gn865648&quot;</span>
-<span class="n">goldapi</span> <span class="o">=</span> <span class="n">GoldenAPI</span><span class="p">(</span><span class="n">jwt_token</span><span class="o">=</span><span class="n">JWT_TOKEN</span><span class="p">)</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">USER_ID</span> <span class="o">=</span> <span class="s2">&quot;0xd0587b87a875784568gf967679a58f578&quot;</span>
+<span class="n">PRIVATE_KEY</span> <span class="o">=</span> <span class="s2">&quot;65687a467467m357ghf476f5846578678a5858a658758ut58587674674x67567&quot;</span>
 </pre></div>
-<div id="cell-1" class="clipboard-copy-txt">from godel import GoldenAPI
-
-JWT_TOKEN = "ey098sd908v79899789877986567967845jh567hj5679568df678678daf6786789s569ghm567457hm8g567n8678fb8790678sd56756n456h8d4f5gn865648"
-goldapi = GoldenAPI(jwt_token=JWT_TOKEN)</div>
+<div id="cell-1" class="clipboard-copy-txt">USER_ID = "0xd0587b87a875784568gf967679a58f578"
+PRIVATE_KEY = "65687a467467m357ghf476f5846578678a5858a658758ut58587674674x67567"</div>
     
         </div>
     </div>
@@ -1646,27 +1590,13 @@ goldapi = GoldenAPI(jwt_token=JWT_TOKEN)</div>
 </div>
 
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="2-retrieve-unvalidated-triple">2. Retrieve unvalidated triple<a class="anchor-link" href="#2-retrieve-unvalidated-triple">&#182;</a></h3><p>There are a couple options for retrieving an unvalidated triple.</p>
-<p>The first way we'd recommend is to retrieve a validation task from Golden's API. We'll have an endpoint that provides a queue of validation tasks.</p>
-<p>You can validate the triple by creating a validation for the triple which will submit your validation (accept, reject) to the protocol.</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1681,52 +1611,18 @@ goldapi = GoldenAPI(jwt_token=JWT_TOKEN)</div>
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Get unvalidated triple</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">unvalidated_triple</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
-<span class="n">unvalidated_triple</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;unvalidatedTriple&quot;</span><span class="p">]</span>
-<span class="n">unvalidated_triple</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">godel</span> <span class="kn">import</span> <span class="n">GoldenAPI</span>
+
+<span class="n">goldapi</span> <span class="o">=</span> <span class="n">GoldenAPI</span><span class="p">()</span>
 </pre></div>
-<div id="cell-2" class="clipboard-copy-txt"># Get unvalidated triple
-data = goldapi.unvalidated_triple()["data"]
-unvalidated_triple = data["unvalidatedTriple"]
-unvalidated_triple</div>
+<div id="cell-2" class="clipboard-copy-txt">from godel import GoldenAPI
+
+goldapi = GoldenAPI()</div>
     
         </div>
     </div>
 
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>{&#39;id&#39;: &#39;2a2b80d5-b841-4723-b949-210a11500db3&#39;,
- &#39;citationsByTripleId&#39;: {&#39;nodes&#39;: [{&#39;url&#39;: &#39;https://www.linkedin.com/search/results/all/?keywords=Miles%20Wolff&#39;}]},
- &#39;dateCreated&#39;: &#39;2022-08-22T15:59:24.617456&#39;,
- &#39;objectEntityId&#39;: None,
- &#39;objectValue&#39;: &#39;509.763.3584 x29455&#39;,
- &#39;subjectId&#39;: &#39;d95ef4b0-e006-4203-bfb4-adbe99f63ce7&#39;,
- &#39;userId&#39;: &#39;0xppaf8ojpphfszeokh5eecmqbf82pelqm6f63jpjf&#39;,
- &#39;predicateId&#39;: &#39;c090be24-6c35-45d8-8a81-32e57a3d48dd&#39;}</pre>
-</div>
-
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -1737,139 +1633,9 @@ unvalidated_triple</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="4-create-validation">4. Create validation<a class="anchor-link" href="#4-create-validation">&#182;</a></h3>
+<h3 id="2-authenticate-and-set-jwt">2. Authenticate and set JWT<a class="anchor-link" href="#2-authenticate-and-set-jwt">&#182;</a></h3>
 </div>
 </div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-        
-        
-        <div class="CodeMirror cm-s-jupyter">
-        <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-3">
-            <div>
-                <span class="notice" hidden>Copied!</span>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
-                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
-                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
-                </svg>
-                </div>
-            </clipboard-copy>
-        </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">godel.schema</span> <span class="kn">import</span> <span class="n">ValidationType</span>
-
-<span class="c1"># Retrieve Choices for Validation</span>
-<span class="n">ValidationType</span>
-</pre></div>
-<div id="cell-3" class="clipboard-copy-txt">from godel.schema import ValidationType
-
-# Retrieve Choices for Validation
-ValidationType</div>
-    
-        </div>
-    </div>
-
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>enum ValidationType {
-  ACCEPTED
-  REJECTED
-  SKIPPED
-}</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-        
-        
-        <div class="CodeMirror cm-s-jupyter">
-        <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-4">
-            <div>
-                <span class="notice" hidden>Copied!</span>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
-                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
-                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
-                </svg>
-                </div>
-            </clipboard-copy>
-        </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create validation with the triple id and your validation type</span>
-<span class="n">triple_id</span> <span class="o">=</span> <span class="n">unvalidated_triple</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
-<span class="n">validation_type</span> <span class="o">=</span> <span class="s2">&quot;REJECTED&quot;</span>
-<span class="n">triple_id</span>
-</pre></div>
-<div id="cell-4" class="clipboard-copy-txt"># Create validation with the triple id and your validation type
-triple_id = unvalidated_triple["id"]
-validation_type = "REJECTED"
-triple_id</div>
-    
-        </div>
-    </div>
-
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;2a2b80d5-b841-4723-b949-210a11500db3&#39;</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
@@ -1878,7 +1644,8 @@ triple_id</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">WARNING: Running the code below may charge gas fees and stake testnet points with your wallet. You may lose testnet points by submitting incorrect data.<a class="anchor-link" href="#warning-running-the-code-below-may-charge-gas-fees-and-stake-testnet-points-with-your-wallet-you-may-lose-testnet-points-by-submitting-incorrect-data">&#182;</a></h3>
+<p>This will set the JWT token key in your GoldenAPI object so you should have permission to hit all endpoints after running the below.</p>
+
 </div>
 </div>
 </div>
@@ -1893,6 +1660,160 @@ triple_id</div>
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-3">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Retrieve one-off nonce from GraphQL API</span>
+<span class="n">message_response</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">get_authentication_message</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">USER_ID</span><span class="p">)</span>
+<span class="n">message_response</span>
+
+<span class="c1"># Sign and verify nonce with your wallet&#39;s private key (KEEP THIS SECURE)</span>
+<span class="kn">from</span> <span class="nn">web3.auto</span> <span class="kn">import</span> <span class="n">w3</span>
+<span class="kn">from</span> <span class="nn">eth_account.messages</span> <span class="kn">import</span> <span class="n">encode_defunct</span>
+
+<span class="n">message_string</span> <span class="o">=</span> <span class="n">message_response</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;getAuthenticationMessage&quot;</span><span class="p">][</span><span class="s2">&quot;string&quot;</span><span class="p">]</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">encode_defunct</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">message_string</span><span class="p">)</span>
+<span class="n">signed_message</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">sign_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">private_key</span><span class="o">=</span><span class="n">PRIVATE_KEY</span><span class="p">)</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">signed_message</span><span class="o">.</span><span class="n">signature</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+
+<span class="c1"># Authenticate with Golden&#39;s API and you&#39;ll recieve a jwt bearer token</span>
+<span class="n">auth_response</span> <span class="o">=</span> <span class="n">goldapi</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="n">USER_ID</span><span class="p">,</span>
+    <span class="n">signature</span><span class="o">=</span><span class="n">signature</span>
+<span class="p">)</span>
+
+<span class="n">jwt_token</span> <span class="o">=</span> <span class="n">auth_response</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;authenticate&quot;</span><span class="p">][</span><span class="s2">&quot;jwtToken&quot;</span><span class="p">]</span>
+
+<span class="c1"># Set JWT token to verify your wallet/role and unlock permissions to the rest of the API</span>
+<span class="n">goldapi</span><span class="o">.</span><span class="n">set_jwt_token</span><span class="p">(</span><span class="n">jwt_token</span><span class="o">=</span><span class="n">jwt_token</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Your JWT Token:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">jwt_token</span><span class="p">)</span>
+</pre></div>
+<div id="cell-3" class="clipboard-copy-txt"># Retrieve one-off nonce from GraphQL API
+message_response = goldapi.get_authentication_message(user_id=USER_ID)
+message_response
+
+# Sign and verify nonce with your wallet's private key (KEEP THIS SECURE)
+from web3.auto import w3
+from eth_account.messages import encode_defunct
+
+message_string = message_response["data"]["getAuthenticationMessage"]["string"]
+message = encode_defunct(text=message_string)
+signed_message = w3.eth.account.sign_message(message, private_key=PRIVATE_KEY)
+signature = signed_message.signature.hex()
+
+# Authenticate with Golden's API and you'll recieve a jwt bearer token
+auth_response = goldapi.authenticate(
+    user_id=USER_ID,
+    signature=signature
+)
+
+jwt_token = auth_response["data"]["authenticate"]["jwtToken"]
+
+# Set JWT token to verify your wallet/role and unlock permissions to the rest of the API
+goldapi.set_jwt_token(jwt_token=jwt_token)
+
+print("Your JWT Token:\n", jwt_token)</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="convenience-method-for-authentication">Convenience Method for Authentication<a class="anchor-link" href="#convenience-method-for-authentication">&#182;</a></h4><p>Runs the above authentication process in a secure and convenient method.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-4">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">goldapi</span><span class="o">.</span><span class="n">get_authentication_token</span><span class="p">(</span>
+    <span class="n">user_id</span><span class="o">=</span><span class="n">USER_ID</span><span class="p">,</span>
+    <span class="n">wallet_private_key</span><span class="o">=</span><span class="n">PRIVATE_KEY</span>
+<span class="p">)</span>
+</pre></div>
+<div id="cell-4" class="clipboard-copy-txt">goldapi.get_authentication_token(
+    user_id=USER_ID,
+    wallet_private_key=PRIVATE_KEY
+)</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="retrieve-jwt-token-from-gui">Retrieve JWT Token from GUI<a class="anchor-link" href="#retrieve-jwt-token-from-gui">&#182;</a></h4><p>Follow the directions at <a href="https://docs.golden.xyz/guides/authentication">https://docs.golden.xyz/guides/authentication</a> to skip the programmatic authentication and plainly retrieve your JWT token from <a href="https://dapp.golden.xyz">https://dapp.golden.xyz</a>.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="3-test-with-graphql-calls">3. Test with Graphql Calls<a class="anchor-link" href="#3-test-with-graphql-calls">&#182;</a></h3><p>Once authenticated, you'll now have permission to search, disambiguate, validate, and submit data to the Golden Protocol.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
             <clipboard-copy for="cell-5">
             <div>
                 <span class="notice" hidden>Copied!</span>
@@ -1903,22 +1824,159 @@ triple_id</div>
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create Validation</span>
-<span class="n">goldapi</span><span class="o">.</span><span class="n">create_validation</span><span class="p">(</span>
-    <span class="n">triple_id</span><span class="o">=</span><span class="n">triple_id</span><span class="p">,</span>
-    <span class="n">validation_type</span><span class="o">=</span><span class="n">validation_type</span>
-<span class="p">)</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">goldapi</span><span class="o">.</span><span class="n">entity_search</span><span class="p">(</span><span class="s2">&quot;golden&quot;</span><span class="p">)</span>
 </pre></div>
-<div id="cell-5" class="clipboard-copy-txt"># Create Validation
-goldapi.create_validation(
-    triple_id=triple_id,
-    validation_type=validation_type
-)</div>
+<div id="cell-5" class="clipboard-copy-txt">goldapi.entity_search("golden")</div>
     
         </div>
     </div>
 
 </div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>{&#39;data&#39;: {&#39;entityByName&#39;: {&#39;nodes&#39;: [{&#39;id&#39;: &#39;5c0d11ad-b6e7-4d08-a0f1-6a224d93f3a1&#39;,
+     &#39;name&#39;: &#39;Golden&#39;,
+     &#39;description&#39;: &#39;Golden is a company started in San Francisco, USA. The company is building an encyclopedia and knowledge tool. The founder and CEO of Golden is Jude Gomila.&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-media.s3.amazonaws.com/topics/5253ceef-b9f0-49c5-ae0e-e6a445078551.png&#39;,
+     &#39;goldenId&#39;: None,
+     &#39;pathname&#39;: &#39;/entity/5c0d11ad-b6e7-4d08-a0f1-6a224d93f3a1&#39;},
+    {&#39;id&#39;: &#39;7baeabfe-5abe-4f91-a280-1a8d238544c2&#39;,
+     &#39;name&#39;: &#39;Golden State Warriors&#39;,
+     &#39;description&#39;: &#39;The Golden State Warriors of the National Basketball Association are a professional basketball team based in Oakland, California that competes in the Pacific Division of the Western Conference. Founded in 1946, the Warriors have won three NBA championships.&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/b49f887f78404364ac63b084db7e7d79.png&#39;,
+     &#39;goldenId&#39;: &#39;34936&#39;,
+     &#39;pathname&#39;: &#39;/entity/7baeabfe-5abe-4f91-a280-1a8d238544c2&#39;},
+    {&#39;id&#39;: &#39;63d7e9ed-3d0c-429b-9fc4-4a6669f62426&#39;,
+     &#39;name&#39;: &#39;Golden Eagle Award (Russia)&#39;,
+     &#39;description&#39;: &#39;Russian film and television award&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/72ff934c054640b59d496605e2e1a6b2.png&#39;,
+     &#39;goldenId&#39;: &#39;838491&#39;,
+     &#39;pathname&#39;: &#39;/entity/63d7e9ed-3d0c-429b-9fc4-4a6669f62426&#39;},
+    {&#39;id&#39;: &#39;3bb86c99-f521-48fa-ae03-7f4630f64767&#39;,
+     &#39;name&#39;: &#39;Golden Star Resources&#39;,
+     &#39;description&#39;: &#39;&#39;,
+     &#39;thumbnail&#39;: None,
+     &#39;goldenId&#39;: &#39;2273691&#39;,
+     &#39;pathname&#39;: &#39;/entity/3bb86c99-f521-48fa-ae03-7f4630f64767&#39;},
+    {&#39;id&#39;: &#39;6bc05265-e744-4e87-a177-98f47ee0910b&#39;,
+     &#39;name&#39;: &#39;Golden Light&#39;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: None,
+     &#39;goldenId&#39;: &#39;4430269&#39;,
+     &#39;pathname&#39;: &#39;/entity/6bc05265-e744-4e87-a177-98f47ee0910b&#39;},
+    {&#39;id&#39;: &#39;ad0d5905-092c-41fa-8626-eafa0282b090&#39;,
+     &#39;name&#39;: &#39;Golden Goose Deluxe Brand&#39;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/7042a9df023a461c8aef08c385f1ffda.png&#39;,
+     &#39;goldenId&#39;: &#39;5048379&#39;,
+     &#39;pathname&#39;: &#39;/entity/ad0d5905-092c-41fa-8626-eafa0282b090&#39;},
+    {&#39;id&#39;: &#39;eddceeea-2f56-43d1-bfab-02b49749a016&#39;,
+     &#39;name&#39;: &#39;Golden Link Plus&#39;,
+     &#39;description&#39;: &#39;Company&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/c08a826d4ff94cb98cb5655363ff3b47.png&#39;,
+     &#39;goldenId&#39;: &#39;5385158&#39;,
+     &#39;pathname&#39;: &#39;/entity/eddceeea-2f56-43d1-bfab-02b49749a016&#39;},
+    {&#39;id&#39;: &#39;a1c8c3e8-3252-4930-89ff-ee1e07ae5ad4&#39;,
+     &#39;name&#39;: &#39;Golden Triangle Angel Network&#39;,
+     &#39;description&#39;: &#39;&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/3fe466e1d9c24f71a4f9b4163ad16eda.jpeg&#39;,
+     &#39;goldenId&#39;: &#39;5864791&#39;,
+     &#39;pathname&#39;: &#39;/entity/a1c8c3e8-3252-4930-89ff-ee1e07ae5ad4&#39;},
+    {&#39;id&#39;: &#39;4010b371-a216-4dc7-9243-daa863fb1204&#39;,
+     &#39;name&#39;: &#39;Golden Ratio Coin&#39;,
+     &#39;description&#39;: &#39;Golden Ratio Holdings is a blockchain-based real estate marketplace.&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/9abd07c7683f482c854f10c3661bac37.png&#39;,
+     &#39;goldenId&#39;: &#39;11794084&#39;,
+     &#39;pathname&#39;: &#39;/entity/4010b371-a216-4dc7-9243-daa863fb1204&#39;},
+    {&#39;id&#39;: &#39;25c2fd7e-5d52-47a9-a666-72187c5e163e&#39;,
+     &#39;name&#39;: &#39;Golden Ratio Per Liquidity&#39;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/0b57ae51e5c34f71aded47f5011a08d6.png&#39;,
+     &#39;goldenId&#39;: &#39;11794461&#39;,
+     &#39;pathname&#39;: &#39;/entity/25c2fd7e-5d52-47a9-a666-72187c5e163e&#39;},
+    {&#39;id&#39;: &#39;cdd785ae-3923-46e9-bb8b-80deba364a3b&#39;,
+     &#39;name&#39;: &#39;Golden Ocean Management AS&#39;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: None,
+     &#39;goldenId&#39;: &#39;12665977&#39;,
+     &#39;pathname&#39;: &#39;/entity/cdd785ae-3923-46e9-bb8b-80deba364a3b&#39;},
+    {&#39;id&#39;: &#39;843cf991-c25e-40b6-bc4a-154f1a6923bf&#39;,
+     &#39;name&#39;: &#39;Golden Ocean Shipping Co Pte. Ltd.&#39;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: None,
+     &#39;goldenId&#39;: &#39;12665978&#39;,
+     &#39;pathname&#39;: &#39;/entity/843cf991-c25e-40b6-bc4a-154f1a6923bf&#39;},
+    {&#39;id&#39;: &#39;838dcb8c-13f5-45d8-a4b5-27a9e990c5df&#39;,
+     &#39;name&#39;: &#39;Golden Bros&#39;,
+     &#39;description&#39;: &#39;Offical Link WEBSITE: http://goldenbros.netmarble.com Facebook: http://facebook.com/GoldenBrosNM Twitter: https://twitter.com/GoldenBrosNM Discord: http://discord.gg/goldenbros&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/5ba2730ede9641f08fc1fd1779eea48f.png&#39;,
+     &#39;goldenId&#39;: &#39;12766503&#39;,
+     &#39;pathname&#39;: &#39;/entity/838dcb8c-13f5-45d8-a4b5-27a9e990c5df&#39;},
+    {&#39;id&#39;: &#39;bd22f60d-7754-40c7-be0a-80403c34ed2b&#39;,
+     &#39;name&#39;: &#39;Golden Yachts&#39;,
+     &#39;description&#39;: &#39;Yachts Fleet&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/27d0bc749f484e55b97a61bbd2adc223.png&#39;,
+     &#39;goldenId&#39;: &#39;12797348&#39;,
+     &#39;pathname&#39;: &#39;/entity/bd22f60d-7754-40c7-be0a-80403c34ed2b&#39;},
+    {&#39;id&#39;: &#39;07747065-fadb-47f5-9915-d0a5ec63e8c4&#39;,
+     &#39;name&#39;: &#39;Golden Rooster Awards&#39;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: None,
+     &#39;goldenId&#39;: &#39;12858451&#39;,
+     &#39;pathname&#39;: &#39;/entity/07747065-fadb-47f5-9915-d0a5ec63e8c4&#39;},
+    {&#39;id&#39;: &#39;39277dfa-09e8-43a5-9067-6a83613a93fa&#39;,
+     &#39;name&#39;: &#39;California Golden Seals&#39;,
+     &#39;description&#39;: &#39;Former hockey team of the national hockey league&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/6d7359c3eed14ac7b125f99525745538.png&#39;,
+     &#39;goldenId&#39;: &#39;129536&#39;,
+     &#39;pathname&#39;: &#39;/entity/39277dfa-09e8-43a5-9067-6a83613a93fa&#39;},
+    {&#39;id&#39;: &#39;f82ec64d-8ad1-480b-bee9-48656d61615b&#39;,
+     &#39;name&#39;: &#39;Golden Lion&#39;,
+     &#39;description&#39;: &#39;The highest prize given to a film at the venice film festival&#39;,
+     &#39;thumbnail&#39;: None,
+     &#39;goldenId&#39;: &#39;595284&#39;,
+     &#39;pathname&#39;: &#39;/entity/f82ec64d-8ad1-480b-bee9-48656d61615b&#39;},
+    {&#39;id&#39;: &#39;5394c0d0-be65-46a2-b6a1-2efb7e510320&#39;,
+     &#39;name&#39;: &#39;Golden Dragon (company)&#39;,
+     &#39;description&#39;: &#39;&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-media.s3.amazonaws.com/topics/300px-Golden_Dragon_logo_2.jpg&#39;,
+     &#39;goldenId&#39;: &#39;1647119&#39;,
+     &#39;pathname&#39;: &#39;/entity/5394c0d0-be65-46a2-b6a1-2efb7e510320&#39;},
+    {&#39;id&#39;: &#39;049b461d-ef7f-433d-9603-3046120c7e1e&#39;,
+     &#39;name&#39;: &#39;Golden Trailer Awards&#39;,
+     &#39;description&#39;: &#39;Annual awards show that honors achievements in motion picture marketing, especially film trailers.&#39;,
+     &#39;thumbnail&#39;: &#39;https://golden-storage-production.s3.amazonaws.com/topic_images/07ac8509b021459683eab3be2b704fe3.png&#39;,
+     &#39;goldenId&#39;: &#39;2264985&#39;,
+     &#39;pathname&#39;: &#39;/entity/049b461d-ef7f-433d-9603-3046120c7e1e&#39;},
+    {&#39;id&#39;: &#39;0892f3d1-6c1a-443a-b143-624107ef5394&#39;,
+     &#39;name&#39;: &#34;California Golden Bears women&#39;s basketball&#34;,
+     &#39;description&#39;: None,
+     &#39;thumbnail&#39;: &#39;https://golden-media.s3.amazonaws.com/topics/300px-California_Golden_Bears_logo.svg.jpg&#39;,
+     &#39;goldenId&#39;: &#39;3682108&#39;,
+     &#39;pathname&#39;: &#39;/entity/0892f3d1-6c1a-443a-b143-624107ef5394&#39;}]}},
+ &#39;meta&#39;: {&#39;graphqlQueryCost&#39;: 2}}</pre>
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -1971,42 +2029,6 @@ goldapi.create_validation(
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Welcome" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Welcome
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="Create%20Triples.html" class="md-footer__link md-footer__link--next" aria-label="Next: Create Triples" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Create Triples
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
