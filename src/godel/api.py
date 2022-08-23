@@ -518,7 +518,9 @@ class GoldenAPI:
         object_value: str = None,
         **kwargs,
     ) -> dict:
-        """Add a triple given the subject enity id, predicate id, object id/value, and citation url
+        """ *WARNING: To be deprecated in near future version*
+        
+        Add a triple given the subject enity id, predicate id, object id/value, and citation url
 
         Args:
             entity_id (str): UID of the subject entity
