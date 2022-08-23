@@ -11,6 +11,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/goldenrecursion/godel/changelog.html</loc>
+         <lastmod>2022-08-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/goldenrecursion/godel/user_guide/Authentication.html</loc>
          <lastmod>2022-08-23</lastmod>
          <changefreq>daily</changefreq>
