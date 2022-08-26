@@ -161,7 +161,7 @@ class ValidationsOrderBy(sgqlc.types.Enum):
 
 class ValueType(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ANY_URI', 'DATE_TIME', 'DECIMAL', 'ENTITY', 'FLOAT', 'INTEGER', 'STRING')
+    __choices__ = ('ANY_URI', 'DATE', 'DATE_TIME', 'DECIMAL', 'ENTITY', 'FLOAT', 'INTEGER', 'STRING')
 
 
 
