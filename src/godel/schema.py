@@ -312,7 +312,7 @@ class QualifierInputRecordInput(sgqlc.types.Input):
 
 class StatementCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'is_mdt')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -325,6 +325,7 @@ class StatementCondition(sgqlc.types.Input):
     date_constraints_violated = sgqlc.types.Field(Datetime, graphql_name='dateConstraintsViolated')
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
+    is_mdt = sgqlc.types.Field(Boolean, graphql_name='isMdt')
 
 
 class StatementInputRecordInput(sgqlc.types.Input):
