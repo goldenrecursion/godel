@@ -1,4 +1,4 @@
-# Contributing to Golden's Token Simulation
+# Contributing to Godel
 
 Contributions are welcome through Pull Requests
 
