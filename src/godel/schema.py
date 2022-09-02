@@ -115,6 +115,11 @@ class TopUserValidatorsOrderBy(sgqlc.types.Enum):
     __choices__ = ('NATURAL', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_CONSENSUS_COUNT_ASC', 'VALIDATION_CONSENSUS_COUNT_DESC', 'VALIDATION_COUNT_ASC', 'VALIDATION_COUNT_DESC')
 
 
+class TripleFlagType(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('MALICIOUS',)
+
+
 class TripleRequestsOrderBy(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'SUBJECT_ENTITY_ID_ASC', 'SUBJECT_ENTITY_ID_DESC')
@@ -122,7 +127,7 @@ class TripleRequestsOrderBy(sgqlc.types.Enum):
 
 class TriplesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'DATE_SLASHED_ASC', 'DATE_SLASHED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_STATUS_ASC', 'VALIDATION_STATUS_DESC')
+    __choices__ = ('BANNED_AT_ASC', 'BANNED_AT_DESC', 'DATE_ACCEPTED_ASC', 'DATE_ACCEPTED_DESC', 'DATE_CREATED_ASC', 'DATE_CREATED_DESC', 'DATE_REJECTED_ASC', 'DATE_REJECTED_DESC', 'DATE_SLASHED_ASC', 'DATE_SLASHED_DESC', 'ID_ASC', 'ID_DESC', 'NATURAL', 'OBJECT_VALUE_ASC', 'OBJECT_VALUE_DESC', 'PREDICATE_ID_ASC', 'PREDICATE_ID_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_STATUS_ASC', 'VALIDATION_STATUS_DESC')
 
 
 class UUID(sgqlc.types.Scalar):
@@ -131,7 +136,7 @@ class UUID(sgqlc.types.Scalar):
 
 class UserFlagType(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('WELCOME_MODAL',)
+    __choices__ = ('TRUST_TRIPLE_FLAG', 'WELCOME_MODAL')
 
 
 class UserFlagsOrderBy(sgqlc.types.Enum):
@@ -222,6 +227,15 @@ class CreateStatementInput(sgqlc.types.Input):
     object_entity_id = sgqlc.types.Field(UUID, graphql_name='objectEntityId')
     citation_urls = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='citationUrls')
     qualifiers = sgqlc.types.Field(sgqlc.types.list_of('QualifierInputRecordInput'), graphql_name='qualifiers')
+
+
+class CreateTripleFlagInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'triple_id', 'flag', 'reason')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    triple_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleId')
+    flag = sgqlc.types.Field(sgqlc.types.non_null(TripleFlagType), graphql_name='flag')
+    reason = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='reason')
 
 
 class CreateUserFlagInput(sgqlc.types.Input):
@@ -373,7 +387,7 @@ class TopUserValidatorCondition(sgqlc.types.Input):
 
 class TripleCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'date_slashed', 'validation_status')
+    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'date_slashed', 'banned_at', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -382,6 +396,7 @@ class TripleCondition(sgqlc.types.Input):
     date_accepted = sgqlc.types.Field(Datetime, graphql_name='dateAccepted')
     date_rejected = sgqlc.types.Field(Datetime, graphql_name='dateRejected')
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
+    banned_at = sgqlc.types.Field(Datetime, graphql_name='bannedAt')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
 
 
@@ -500,6 +515,13 @@ class CreateStatementPayload(sgqlc.types.Type):
     )
 
 
+class CreateTripleFlagPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('client_mutation_id', 'query')
+    client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
+    query = sgqlc.types.Field('Query', graphql_name='query')
+
+
 class CreateUserFlagPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('client_mutation_id', 'user_flag', 'query', 'user_flag_edge')
@@ -606,7 +628,7 @@ class LedgerRecordsEdge(sgqlc.types.Type):
 
 class Mutation(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('authenticate', 'create_entity', 'create_qualifier', 'create_statement', 'create_user_flag', 'create_validation', 'fulfill_triple_request', 'get_authentication_message')
+    __field_names__ = ('authenticate', 'create_entity', 'create_qualifier', 'create_statement', 'create_triple_flag', 'create_user_flag', 'create_validation', 'fulfill_triple_request', 'get_authentication_message')
     authenticate = sgqlc.types.Field(AuthenticatePayload, graphql_name='authenticate', args=sgqlc.types.ArgDict((
         ('input', sgqlc.types.Arg(sgqlc.types.non_null(AuthenticateInput), graphql_name='input', default=None)),
 ))
@@ -621,6 +643,10 @@ class Mutation(sgqlc.types.Type):
     )
     create_statement = sgqlc.types.Field(CreateStatementPayload, graphql_name='createStatement', args=sgqlc.types.ArgDict((
         ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateStatementInput), graphql_name='input', default=None)),
+))
+    )
+    create_triple_flag = sgqlc.types.Field(CreateTripleFlagPayload, graphql_name='createTripleFlag', args=sgqlc.types.ArgDict((
+        ('input', sgqlc.types.Arg(sgqlc.types.non_null(CreateTripleFlagInput), graphql_name='input', default=None)),
 ))
     )
     create_user_flag = sgqlc.types.Field(CreateUserFlagPayload, graphql_name='createUserFlag', args=sgqlc.types.ArgDict((
