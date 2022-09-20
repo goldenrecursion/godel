@@ -9,10 +9,13 @@ __all__ = ('Operations',)
 
 
 def query_wallet_index():
-    _op = sgqlc.operation.Operation(_schema_root.query_type, name='WalletIndex')
+    _op = sgqlc.operation.Operation(_schema_root.query_type, name='WalletIndex', variables=dict(after=sgqlc.types.Arg(_schema.Cursor, default=None)))
     _op_current_user = _op.current_user()
     _op_current_user.id()
-    _op_current_user_ledger_records = _op_current_user.ledger_records(first=20, order_by='CREATED_AT_DESC')
+    _op_current_user_ledger_records = _op_current_user.ledger_records(first=20, after=sgqlc.types.Variable('after'), order_by='CREATED_AT_DESC')
+    _op_current_user_ledger_records_page_info = _op_current_user_ledger_records.page_info()
+    _op_current_user_ledger_records_page_info.has_next_page()
+    _op_current_user_ledger_records_page_info.end_cursor()
     _op_current_user_ledger_records_nodes = _op_current_user_ledger_records.nodes()
     _op_current_user_ledger_records_nodes.id()
     _op_current_user_ledger_records_nodes.created_at()
