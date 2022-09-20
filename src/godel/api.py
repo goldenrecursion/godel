@@ -508,6 +508,26 @@ class GoldenAPI:
         variables = self.generate_variables(op, params)
         data = self.endpoint(op, variables)
         return data
+    
+    # Create Triple Flag
+
+    def create_triple_flag(self, triple_id: str, flag: str, reason: str, **kwargs) -> dict:
+        query = f"""mutation MyMutation {{
+            createTripleFlag(
+              input: {{
+                tripleId: "{triple_id}"
+                flag: {flag}
+                reason: "{reason}"
+              }}
+              ) {{
+                clientMutationId
+              }}
+        }}"""
+        print(query)
+        variables = {}
+        data = self.endpoint(query, variables)
+        return data
+    
 
     def add_triple_to_entity(
         self,
