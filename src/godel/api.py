@@ -450,6 +450,14 @@ class GoldenAPI:
 
     # Entity Submissions
     def create_entity(self, create_entity_input: schema.CreateEntityInput, **kwargs):
+        """Create an entity given the MDTs/statement inputs required for entity creation.
+
+        Args:
+            input (CreateEntityInput): Create Entity input
+
+        Returns:
+            dict: created entity
+        """
         # TODO: Debug why entity link fragment isn't registered...for now use query
         # data = self.query(query=f"""
         # mutation MyMutation {{
@@ -482,7 +490,7 @@ class GoldenAPI:
         """Create statement triple given the statement input combinations of subject entity id, predicate id, object id/value, and citation url
 
         Args:
-            input (str): Create statement record input
+            input (CreateStatementInput): Create statement record input
 
         Returns:
             dict: created statement
@@ -508,10 +516,12 @@ class GoldenAPI:
         variables = self.generate_variables(op, params)
         data = self.endpoint(op, variables)
         return data
-    
+
     # Create Triple Flag
 
-    def create_triple_flag(self, triple_id: str, flag: str, reason: str, **kwargs) -> dict:
+    def create_triple_flag(
+        self, triple_id: str, flag: str, reason: str, **kwargs
+    ) -> dict:
         query = f"""mutation MyMutation {{
             createTripleFlag(
               input: {{
@@ -527,7 +537,6 @@ class GoldenAPI:
         variables = {}
         data = self.endpoint(query, variables)
         return data
-    
 
     def add_triple_to_entity(
         self,
@@ -538,8 +547,8 @@ class GoldenAPI:
         object_value: str = None,
         **kwargs,
     ) -> dict:
-        """ *WARNING: To be deprecated in near future version*
-        
+        """*WARNING: To be deprecated in near future version*
+
         Add a triple given the subject enity id, predicate id, object id/value, and citation url
 
         Args:
