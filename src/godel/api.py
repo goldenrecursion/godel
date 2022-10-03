@@ -453,7 +453,7 @@ class GoldenAPI:
         """Create an entity given the MDTs/statement inputs required for entity creation.
 
         Args:
-            input (str): Create Entity input
+            input (CreateEntityInput): Create Entity input
 
         Returns:
             dict: created entity
@@ -490,7 +490,7 @@ class GoldenAPI:
         """Create statement triple given the statement input combinations of subject entity id, predicate id, object id/value, and citation url
 
         Args:
-            input (str): Create statement record input
+            input (CreateStatementInput): Create statement record input
 
         Returns:
             dict: created statement
