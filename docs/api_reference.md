@@ -1,4 +1,4 @@
 ::: godel.api
     handler: python
     options:
-      show_source: true
+      show_source: false
