@@ -30,8 +30,16 @@ def query_current_user_validations():
     _op_current_user_validations_edges_node.created_at()
     _op_current_user_validations_edges_node.validation_type()
     _op_current_user_validations_edges_node.ground_truth_violation_reason()
+    _op_current_user_validations_edges_node_ground_truth_triple = _op_current_user_validations_edges_node.ground_truth_triple()
+    _op_current_user_validations_edges_node_ground_truth_triple.id()
+    _op_current_user_validations_edges_node_ground_truth_triple.validation_type()
+    _op_current_user_validations_edges_node_ground_truth_triple.reason()
     _op_current_user_validations_edges_node_triple = _op_current_user_validations_edges_node.triple()
     _op_current_user_validations_edges_node_triple.__fragment__(fragment_triple_widget())
+    _op_current_user_validations_edges_node_ledger_records_by_user_id_and_triple_id = _op_current_user_validations_edges_node.ledger_records_by_user_id_and_triple_id()
+    _op_current_user_validations_edges_node_ledger_records_by_user_id_and_triple_id_nodes = _op_current_user_validations_edges_node_ledger_records_by_user_id_and_triple_id.nodes()
+    _op_current_user_validations_edges_node_ledger_records_by_user_id_and_triple_id_nodes.amount()
+    _op_current_user_validations_edges_node_ledger_records_by_user_id_and_triple_id_nodes.type_id()
     return _op
 
 
