@@ -1,5 +1,5 @@
 from godel.fragments.TripleWidget import fragment_triple_widget
-from godel.fragments.EntitySummary import fragment_entity_summary
+from godel.fragments.EntityDetail import fragment_entity_detail
 import sgqlc.types
 import sgqlc.operation
 import godel.schema
