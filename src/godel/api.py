@@ -38,6 +38,7 @@ from godel.queries.LiveView import Operations as LiveViewOperations
 from godel.queries.Predicate import Operations as PredicateOperations
 from godel.queries.Templates import Operations as TemplatesOperations
 from godel.queries.EntityDetail import Operations as EntityDetailOperations
+from godel.queries.AssignValidation import Operations as AssignValidationOperations
 
 logger = logging.getLogger(__name__)
 
@@ -416,32 +417,63 @@ class GoldenAPI:
         data = self.endpoint(op)
         return data
 
-    def unvalidated_triple(self) -> dict:
-        """Get all templates
+    def assign_validation(self, **kwargs) -> dict:
+        """Get unvalidated triple id from queue
 
         Returns:
-            dict: List of available templates
+            dict: Unvalidated triple id
         """
-        query = """query MyQuery {
-            unvalidatedTriple {
+        op = AssignValidationOperations.mutation.assign_validation
+        data = self.endpoint(op)
+        return data
+
+    def unvalidated_triple(self) -> dict:
+        """Get unvalidated triple from queue
+
+        Returns:
+            dict: Unvalidated triple
+        """
+        assign_validation = self.assign_validation()
+        try:
+            triple_id = (
+                assign_validation.get("data")
+                .get("assignValidation")
+                .get("assignedValidation")
+                .get("tripleId")
+            )
+        except:
+            logger.warning(
+                f"Could not retrieve assigned validation: {assign_validation}"
+            )
+            return assign_validation
+
+        # TODO: Replaec once sgqlc supports GetTripleForValidation nested fragment
+        query = """query GetTripleForValidation($id: UUID!) {
+            triple(id: $id) {
               ... on Statement {
                 id
-                citationsByTripleId {
-                     nodes {
-                         url
-                     }
-                 }
                 dateCreated
-                objectEntityId
+                dateRejected
+                dateAccepted
+                dateSlashed
                 objectValue
+                objectEntityId
                 subjectId
                 userId
                 predicateId
+                citationsByTripleId {
+                  nodes {
+                    url
+                  }
+                }
               }
             }
-        }"""
-        variables = {}
+        }
+        """
+
+        variables = {"id": triple_id}
         data = self.endpoint(query, variables)
+
         return data
 
     ###############
