@@ -20,6 +20,7 @@ def query_wallet_nfts():
     _op_eligible_nfts_nodes_entity.__fragment__(fragment_entity_link())
     _op_eligible_nfts_nodes.ledger_record_amount_sum()
     _op_eligible_nfts_nodes.entity_ledger_record_amount_sum()
+    _op_eligible_nfts_nodes.ownership_percent()
     return _op
 
 

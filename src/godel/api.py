@@ -210,7 +210,7 @@ class GoldenAPI:
     ## Queries ##
     #############
 
-    # Entities
+    # Entities and Disambiguation
 
     def entity_by_name(self, name: str, first: int = 10, **kwargs) -> dict:
         """Retrieve entity by name
@@ -315,6 +315,39 @@ class GoldenAPI:
                       name
                     }}
                   }}
+                }}
+              }}
+            }}"""
+        variables = {}
+        data = self.endpoint(query, variables)
+        return data
+
+    def disambiguate_triples(self, predicate: str, object: str, validation_status: str, **kwargs) -> dict:
+        """Disambiguate entities given the predicate and object value or entity ID
+
+        Args:
+            predicate (str): predicate name i.e. CEO of
+            object (str): Either a string value or object entity ID
+            validation_status:
+
+        Returns:
+            dict: Entities with details
+        """
+        query = f"""query MyQuery {{
+              disambiguateTriples(
+                payload: {{
+                  triples: {{
+                    predicate: "{predicate}"
+                    object: "{object}"
+                  }}
+                  validationStatus: {validation_status}
+                }}
+              ) {{
+                errors
+                entities {{
+                  distance
+                  id
+                  reputation
                 }}
               }}
             }}"""
@@ -447,7 +480,7 @@ class GoldenAPI:
             )
             return assign_validation
 
-        # TODO: Replaec once sgqlc supports GetTripleForValidation nested fragment
+        # TODO: Replace once sgqlc supports GetTripleForValidation nested fragment
         query = """query GetTripleForValidation($id: UUID!) {
             triple(id: $id) {
               ... on Statement {
