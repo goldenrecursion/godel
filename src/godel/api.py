@@ -1,5 +1,6 @@
 import logging
 import os
+import uuid
 from importlib_metadata import version
 
 import sys
@@ -53,6 +54,9 @@ class GoldenAPI:
         self.headers[
             "User-Agent"
         ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
+        self.headers[
+            "X-Device-Id"
+        ] = str(uuid.UUID(int=uuid.getnode()))
         self.headers.update(
             {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
         )
