@@ -12,6 +12,7 @@ def query_current_user_ledger_records():
     _op = sgqlc.operation.Operation(_schema_root.query_type, name='CurrentUserLedgerRecords', variables=dict(after=sgqlc.types.Arg(_schema.Cursor, default=None), condition=sgqlc.types.Arg(sgqlc.types.non_null(_schema.LedgerRecordCondition))))
     _op_current_user = _op.current_user()
     _op_current_user_ledger_records = _op_current_user.ledger_records(first=20, after=sgqlc.types.Variable('after'), order_by='CREATED_AT_DESC', condition=sgqlc.types.Variable('condition'))
+    _op_current_user_ledger_records.total_count()
     _op_current_user_ledger_records_page_info = _op_current_user_ledger_records.page_info()
     _op_current_user_ledger_records_page_info.has_next_page()
     _op_current_user_ledger_records_page_info.end_cursor()
