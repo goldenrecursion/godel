@@ -55,7 +55,7 @@ class GoldenAPI:
             "User-Agent"
         ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
         self.headers[
-            "User-Node"
+            "X-Device-Id"
         ] = str(uuid.UUID(int=uuid.getnode()))
         self.headers.update(
             {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
