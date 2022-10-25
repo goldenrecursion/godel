@@ -42,11 +42,16 @@ from godel import GoldenAPI
 
 goldapi = GoldenAPI()
 
+# Operations that do not require authentication
 # Retrieve existing triple predicates
 goldapi.predicates()
 
-# Retrive existing entity templates 
+# Retrieve existing entity templates 
 goldapi.templates()
+
+# With signed authentication
+# Find your JSON Web Token(JWT) at "https://dapp.golden.xyz/profile" after signing in
+goldapi = GoldenAPI(jwt_token=<your_token>)
 
 # Search and query for specific entities
 goldapi.entity_search(name="Golden")
