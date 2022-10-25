@@ -349,6 +349,7 @@ class GoldenAPI:
               ) {{
                 errors
                 entities {{
+                  name
                   distance
                   id
                   reputation
