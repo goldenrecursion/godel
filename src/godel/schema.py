@@ -405,7 +405,7 @@ class QualifierInputRecordInput(sgqlc.types.Input):
 
 class StatementCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'is_mdt')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'is_mdt', 'validation_status_in', 'predicate_id_in')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     subject_id = sgqlc.types.Field(UUID, graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -419,6 +419,8 @@ class StatementCondition(sgqlc.types.Input):
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
     is_mdt = sgqlc.types.Field(Boolean, graphql_name='isMdt')
+    validation_status_in = sgqlc.types.Field(sgqlc.types.list_of(ValidationStatus), graphql_name='validationStatusIn')
+    predicate_id_in = sgqlc.types.Field(sgqlc.types.list_of(UUID), graphql_name='predicateIdIn')
 
 
 class StatementInputRecordInput(sgqlc.types.Input):
@@ -450,7 +452,7 @@ class TemplatePredicateCondition(sgqlc.types.Input):
 
 class TripleCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'date_slashed', 'date_banned', 'validation_status', 'validation_status_in')
+    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'date_slashed', 'date_banned', 'validation_status')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -461,7 +463,6 @@ class TripleCondition(sgqlc.types.Input):
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     date_banned = sgqlc.types.Field(Datetime, graphql_name='dateBanned')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
-    validation_status_in = sgqlc.types.Field(sgqlc.types.list_of(ValidationStatus), graphql_name='validationStatusIn')
 
 
 class TripleRequestCondition(sgqlc.types.Input):

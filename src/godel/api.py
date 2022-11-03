@@ -54,9 +54,7 @@ class GoldenAPI:
         self.headers[
             "User-Agent"
         ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
-        self.headers[
-            "X-Device-Id"
-        ] = str(uuid.UUID(int=uuid.getnode()))
+        self.headers["X-Device-Id"] = str(uuid.UUID(int=uuid.getnode()))
         self.headers.update(
             {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
         )
@@ -326,37 +324,53 @@ class GoldenAPI:
         data = self.endpoint(query, variables)
         return data
 
-    def disambiguate_triples(self, predicate: str, object: str, validation_status: str, **kwargs) -> dict:
+    def disambiguate_triples(
+        self,
+        predicates: Union[str, List],
+        objects: Union[str, List],
+        validation_status: str = "ACCEPTED",
+        **kwargs,
+    ) -> dict:
         """Disambiguate entities given the predicate and object value or entity ID
 
         Args:
-            predicate (str): predicate name i.e. CEO of
-            object (str): Either a string value or object entity ID
-            validation_status:
+            predicates (Union[str, List]): predicate name i.e. CEO of
+            objects (Union[str, List]): Either a string value or object entity ID
+            validation_status: "ACCEPTED", "REJECTED", "PENDING", "INVALID", "PAUSED"
 
         Returns:
             dict: Entities with details
         """
-        query = f"""query MyQuery {{
-              disambiguateTriples(
-                payload: {{
-                  triples: {{
-                    predicate: "{predicate}"
-                    object: "{object}"
-                  }}
-                  validationStatus: {validation_status}
-                }}
-              ) {{
+        if isinstance(predicates, str):
+            predicates = [predicates]
+            objects = [objects]
+        assert len(predicates) == len(objects)
+        predicate_object_pairs = []
+        for pred, obj in zip(predicates, objects):
+            predicate_object_pairs.append({"predicate": pred, "object": obj})
+        query = """query DisambiguateTriple(
+            $triples: [DisambiguationInputTripleModel!]!,
+            $validationStatus: ValidationStatus
+            ){
+                disambiguateTriples(
+                payload: {
+                    triples: $triples
+                    validationStatus: $validationStatus
+                }
+              ) {
                 errors
-                entities {{
+                entities {
                   name
                   distance
                   id
                   reputation
-                }}
-              }}
-            }}"""
-        variables = {}
+                }
+              }
+            }"""
+        variables = {
+            "triples": predicate_object_pairs,
+            "validationStatus": validation_status,
+        }
         data = self.endpoint(query, variables)
         return data
 
