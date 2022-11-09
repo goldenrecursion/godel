@@ -364,6 +364,12 @@ class GoldenAPI:
                   distance
                   id
                   reputation
+                  diff {
+                    inserts {
+                        object
+                        predicate
+                    }
+                  }
                 }
               }
             }"""
