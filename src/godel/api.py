@@ -1,9 +1,6 @@
 import logging
-import os
 import uuid
 from importlib_metadata import version
-
-import sys
 from typing import List, Union
 from platform import platform
 
@@ -46,11 +43,14 @@ logger = logging.getLogger(__name__)
 
 class GoldenAPI:
     def __init__(
-        self, url: str = "https://dapp.golden.xyz/graphql", jwt_token: str = ""
+        self,
+        url: str = "https://dapp.golden.xyz/graphql",
+        jwt_token: str = "",
+        headers: dict = {},
     ):
         self.url = url
         self.jwt_token = jwt_token
-        self.headers = {}
+        self.headers = headers
         self.headers[
             "User-Agent"
         ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
@@ -364,6 +364,12 @@ class GoldenAPI:
                   distance
                   id
                   reputation
+                  diff {
+                    inserts {
+                        object
+                        predicate
+                    }
+                  }
                 }
               }
             }"""
