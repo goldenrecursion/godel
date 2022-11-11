@@ -32,8 +32,9 @@ edit_uri: ''
 nav:
   - Welcome: 'index.md'
   - Guides:
+      - Quickstart: "user_guide/Quickstart.ipynb"
       - Authentication: "user_guide/Authentication.ipynb"
-      - Validating Triples: "user_guide/Validating Triples.ipynb"
+      - Validating Triples: "user_guide/Verification.ipynb"
       - Create Triples: "user_guide/Create Triples.ipynb"
       - Create Entities: "user_guide/Create Entities.ipynb"
   - Reference:
