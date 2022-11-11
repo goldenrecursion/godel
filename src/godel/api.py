@@ -337,9 +337,13 @@ class GoldenAPI:
         """Disambiguate entities given the predicate and object value or entity ID
 
         Args:
-            predicates (Union[str, List]): predicate name i.e. CEO of
-            objects (Union[str, List]): Either a string value or object entity ID
-            validation_status: "ACCEPTED", "REJECTED", "PENDING", "INVALID", "PAUSED"
+            triples (DisambiguationTripleDict): dict with <predicate, object> pairs. i.e: {"Name": "Twitter Inc.", "Website": "https://twitter.com"}
+            validation_status: None or ["ACCEPTED", "REJECTED", "PENDING", "INVALID", "PAUSED"]. If specified, will only search on submitted triples
+                               with the given status
+            distance_threshold: (float). Cutoff distance value for the resulting disambiguation candidates. 0.3 by default. 0 indicates a perfect
+                                match (more stringent), while 1 indicates total disparity (more relaxed)
+            with_diff: (bool). Indicates whether the response should include a full diff, indicating which of the submitted triples have already been
+                        added onto the graph, and which haven't.
 
         Returns:
             dict: Entities with details
