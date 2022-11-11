@@ -1,7 +1,7 @@
 import logging
 import uuid
 from importlib_metadata import version
-from typing import List, Union
+from typing import Optional
 from platform import platform
 
 import requests
@@ -37,6 +37,8 @@ from godel.queries.Predicate import Operations as PredicateOperations
 from godel.queries.Templates import Operations as TemplatesOperations
 from godel.queries.EntityDetail import Operations as EntityDetailOperations
 from godel.queries.AssignValidation import Operations as AssignValidationOperations
+
+from .models import DisambiguationTripleDict, DisambiguationValidationStatus
 
 logger = logging.getLogger(__name__)
 
@@ -326,9 +328,10 @@ class GoldenAPI:
 
     def disambiguate_triples(
         self,
-        predicates: Union[str, List],
-        objects: Union[str, List],
-        validation_status: str = "ACCEPTED",
+        triples: DisambiguationTripleDict,
+        validation_status: Optional[DisambiguationValidationStatus] = None,
+        distance_threshold: float = .3,
+        with_diff: bool = False,
         **kwargs,
     ) -> dict:
         """Disambiguate entities given the predicate and object value or entity ID
@@ -341,16 +344,29 @@ class GoldenAPI:
         Returns:
             dict: Entities with details
         """
-        if isinstance(predicates, str):
-            predicates = [predicates]
-            objects = [objects]
-        assert len(predicates) == len(objects)
         predicate_object_pairs = []
-        for pred, obj in zip(predicates, objects):
-            predicate_object_pairs.append({"predicate": pred, "object": obj})
+        for k, v in triples.items():
+            if isinstance(v, dict):
+                # Nested object. Need to disambiguate it first
+                r = self.disambiguate_triples(v, validation_status=validation_status, distance_threshold=distance_threshold, **kwargs)
+                candidate_entities = sorted(
+                    [e for e in r["data"]["disambiguateTriples"]["entities"]],
+                    key=lambda e: -e["reputation"]
+                )
+                if candidate_entities:
+                    v = candidate_entities[0]["id"]
+                else:
+                    continue
+            predicate_object = {
+                "predicate": k,
+                "object": v,
+            }
+            predicate_object_pairs.append(predicate_object)
+        
         query = """query DisambiguateTriple(
             $triples: [DisambiguationInputTripleModel!]!,
-            $validationStatus: ValidationStatus
+            $validationStatus: ValidationStatus,
+            $withDiff: Boolean! = false
             ){
                 disambiguateTriples(
                 payload: {
@@ -364,10 +380,28 @@ class GoldenAPI:
                   distance
                   id
                   reputation
-                  diff {
+                  diff @include(if: $withDiff) {
+                    matches {
+                        id
+                        validation_status
+                        predicate
+                        object
+                    }
                     inserts {
                         object
                         predicate
+                    }
+                    updates {
+                        source {
+                            id
+                            object
+                            predicate
+                            validation_status
+                        }
+                        update {
+                            object
+                            predicate
+                        }
                     }
                   }
                 }
@@ -376,8 +410,13 @@ class GoldenAPI:
         variables = {
             "triples": predicate_object_pairs,
             "validationStatus": validation_status,
+            "withDiff": with_diff,
         }
         data = self.endpoint(query, variables)
+        if ("data" in data) and ("disambiguateTriples" in data["data"]) and ("entities" in data["data"]["disambiguateTriples"]):
+            data["data"]["disambiguateTriples"]["entities"] = [
+                e for e in data["data"]["disambiguateTriples"]["entities"] if e["distance"] <= distance_threshold
+            ]
         return data
 
     # Predicates
