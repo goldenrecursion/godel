@@ -80,13 +80,10 @@ class GoldenAPI:
         )
         self.endpoint = HTTPEndpoint(self.url, self.headers)
 
-    def query(self, query: str = "", headers: dict = {}):
+    def query(self, query: str = "", variables: dict = {}) -> dict:
         """Generic method to query graphql endpoint"""
-        r = requests.post(self.url, json={"query": query}, headers=headers)
-        print(r.status_code)
-        if r.status_code == 400:
-            logger.warning(r)
-        return r.json()
+        data = self.endpoint(query, variables)
+        return data
 
     @classmethod
     def generate_variables(cls, op: Operation, params: dict) -> dict:
@@ -304,25 +301,27 @@ class GoldenAPI:
             dict: Entity with triples
         """
 
-        query = f"""query MyQuery {{
-              entity(id: "{id}") {{
+        query = """query entityWithTriples(
+            $id: UUID!
+            ){
+              entity(id: $id) {
               id
-                statementsBySubjectId {{
-                  nodes {{
+                statementsBySubjectId {
+                  nodes {
                     id
                     objectEntityId
                     objectValue
-                    predicate {{
+                    predicate {
                       name
-                    }}
-                    objectEntity {{
+                    }
+                    objectEntity {
                       name
-                    }}
-                  }}
-                }}
-              }}
-            }}"""
-        variables = {}
+                    }
+                  }
+                }
+              }
+            }"""
+        variables = {"id": id}
         data = self.endpoint(query, variables)
         return data
 
@@ -472,6 +471,10 @@ class GoldenAPI:
                 node {
                   id
                   name
+                  objectType
+                  label
+                  description
+                  citationRequirement
                   objectType
                 }
               }

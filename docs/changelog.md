@@ -1,3 +1,40 @@
+# v0.5.1
+
+## What's Changed
+* Update disamb call with args and multi-pred params by @aychang95 in https://github.com/goldenrecursion/godel/pull/33
+
+
+**Full Changelog**: https://github.com/goldenrecursion/godel/compare/v0.5.0...v0.5.1
+
+
+# v0.5.0
+
+## What's Changed
+* Variable + wording changes by @katkaypettitt in https://github.com/goldenrecursion/godel/pull/28
+* Api changes demo fix by @katkaypettitt in https://github.com/goldenrecursion/godel/pull/29
+* Add disambiguate triple query by @aychang95 in https://github.com/goldenrecursion/godel/pull/30
+* Add headers metric by @aychang95 in https://github.com/goldenrecursion/godel/pull/31
+* Sc 18593 by @aychang95 in https://github.com/goldenrecursion/godel/pull/32
+
+## New Contributors
+* @katkaypettitt made their first contribution in https://github.com/goldenrecursion/godel/pull/28
+
+**Full Changelog**: https://github.com/goldenrecursion/godel/compare/v0.4.3...v0.5.0
+
+
+# v0.4.3
+
+## What's Changed
+* Sc 18483/name delete by @aychang95 in https://github.com/goldenrecursion/godel/pull/25
+* Update changelog to v0.4.2 by @aychang95 in https://github.com/goldenrecursion/godel/pull/26
+* Query/assignvalidation by @aychang95 in https://github.com/goldenrecursion/godel/pull/27
+
+## Breaking Changes
+Previous versions <v0.4.3 will no longer be able to use the `unvalidated_triple()` method.
+
+**Full Changelog**: https://github.com/goldenrecursion/godel/compare/v0.4.2...v0.4.3
+
+
 # v0.4.2
 
 ## What's Changed
@@ -16,6 +53,7 @@ StatementInputRecordInput(
 ```
 
 **Full Changelog**: https://github.com/goldenrecursion/godel/compare/v0.4.1...v0.4.2
+
 
 # v0.4.1
 
