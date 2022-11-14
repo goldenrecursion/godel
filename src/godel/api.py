@@ -9,6 +9,13 @@ from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
 from godel import schema
+
+from godel.fragments.EntityLink import fragment_entity_link
+from godel.fragments.EntityDetail import fragment_entity_detail
+from godel.fragments.EntitySummary import fragment_entity_summary
+from godel.fragments.PredicateDetails import fragment_predicate_details
+from godel.fragments.TripleWidget import fragment_triple_widget
+
 from godel.queries.AddTripleToEntityById import (
     Operations as AddTripleToEntityByIdOperations,
 )
@@ -282,13 +289,34 @@ class GoldenAPI:
         Returns:
             dict: Entity with details
         """
-        params = locals()
-        params.pop("kwargs")
-        params.pop("self")
-        params.update(kwargs)
-        op = EntityDetailOperations.query.entity_detail
-        variables = self.generate_variables(op, params)
-        data = self.endpoint(op, variables)
+        query = """query EntityDetail($id: UUID!) {
+            entity(id: $id) {
+              ...EntityDetail
+              isEntityType
+            }
+            templates(orderBy: RANK_ASC) {
+              nodes {
+                entityId
+                templatePredicates(orderBy: RANK_ASC) {
+                  nodes {
+                    predicate {
+                      ...PredicateDetails
+                    }
+                  }
+                }
+              }
+            }
+        }
+              %s
+              %s
+              %s
+            """ % (
+            str(fragment_entity_detail()),
+            str(fragment_predicate_details()),
+            str(fragment_triple_widget()),
+        )
+        variables = {"id": id}
+        data = self.endpoint(query, variables)
         return data
 
     def entity_with_triples(self, id: str) -> dict:
