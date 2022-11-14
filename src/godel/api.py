@@ -329,7 +329,7 @@ class GoldenAPI:
         self,
         triples: DisambiguationTripleDict,
         validation_status: Optional[DisambiguationValidationStatus] = None,
-        distance_threshold: float = .3,
+        distance_threshold: float = 0.3,
         with_diff: bool = False,
         **kwargs,
     ) -> dict:
@@ -351,10 +351,15 @@ class GoldenAPI:
         for k, v in triples.items():
             if isinstance(v, dict):
                 # Nested object. Need to disambiguate it first
-                r = self.disambiguate_triples(v, validation_status=validation_status, distance_threshold=distance_threshold, **kwargs)
+                r = self.disambiguate_triples(
+                    v,
+                    validation_status=validation_status,
+                    distance_threshold=distance_threshold,
+                    **kwargs,
+                )
                 candidate_entities = sorted(
                     [e for e in r["data"]["disambiguateTriples"]["entities"]],
-                    key=lambda e: -e["reputation"]
+                    key=lambda e: -e["reputation"],
                 )
                 if candidate_entities:
                     v = candidate_entities[0]["id"]
@@ -365,7 +370,7 @@ class GoldenAPI:
                 "object": v,
             }
             predicate_object_pairs.append(predicate_object)
-        
+
         query = """query DisambiguateTriple(
             $triples: [DisambiguationInputTripleModel!]!,
             $validationStatus: ValidationStatus,
@@ -416,9 +421,15 @@ class GoldenAPI:
             "withDiff": with_diff,
         }
         data = self.endpoint(query, variables)
-        if ("data" in data) and ("disambiguateTriples" in data["data"]) and ("entities" in data["data"]["disambiguateTriples"]):
+        if (
+            ("data" in data)
+            and ("disambiguateTriples" in data["data"])
+            and ("entities" in data["data"]["disambiguateTriples"])
+        ):
             data["data"]["disambiguateTriples"]["entities"] = [
-                e for e in data["data"]["disambiguateTriples"]["entities"] if e["distance"] <= distance_threshold
+                e
+                for e in data["data"]["disambiguateTriples"]["entities"]
+                if e["distance"] <= distance_threshold
             ]
         return data
 
