@@ -35,6 +35,7 @@ nav:
       - Quickstart: "user_guide/Quickstart.ipynb"
       - Authentication: "user_guide/Authentication.ipynb"
       - Validating Triples: "user_guide/Verification.ipynb"
+      - Disambiguate Triple: "user_guide/Disambiguate Triples.ipynb"
       - Create Triples: "user_guide/Create Triples.ipynb"
       - Create Entities: "user_guide/Create Entities.ipynb"
   - Reference:
