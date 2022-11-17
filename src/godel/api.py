@@ -1,5 +1,7 @@
 import logging
 import uuid
+import json
+import time
 from importlib_metadata import version
 from typing import Optional
 from platform import platform
@@ -64,6 +66,7 @@ class GoldenAPI:
             "User-Agent"
         ] = f"golden sdk v-{get_godel_version()}_{platform().lower()}"
         self.headers["X-Device-Id"] = str(uuid.UUID(int=uuid.getnode()))
+        self.headers["X-metrics"] = "{}"
         self.headers.update(
             {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
         )
@@ -617,6 +620,12 @@ class GoldenAPI:
         variables = {"id": triple_id}
         data = self.endpoint(query, variables)
 
+        x_metrics = json.loads(self.headers.get("X-metrics"))
+        if x_metrics.get("cv"):
+            x_metrics.pop("cv")
+        x_metrics.update({"uv": time.time()})
+        self.headers["X-metrics"] = json.dumps(x_metrics)
+
         return data
 
     ###############
@@ -646,6 +655,12 @@ class GoldenAPI:
         # headers=self.headers,
         # )
         # return data
+        x_metrics = json.loads(self.headers.get("X-metrics"))
+        ce_metrics = time.time()
+        if x_metrics.get("ce"):
+            x_metrics.update({"ced": ce_metrics - x_metrics.get("ce")})
+        x_metrics.update({"ce": ce_metrics})
+        self.headers["X-metrics"] = json.dumps(x_metrics)
 
         input = create_entity_input.__to_json_value__()
         params = locals()
@@ -670,6 +685,13 @@ class GoldenAPI:
         Returns:
             dict: created statement
         """
+        x_metrics = json.loads(self.headers.get("X-metrics"))
+        ce_metrics = time.time()
+        if x_metrics.get("cs"):
+            x_metrics.update({"csd": ce_metrics - x_metrics.get("cs")})
+        x_metrics.update({"cs": ce_metrics})
+        self.headers["X-metrics"] = json.dumps(x_metrics)
+
         input = create_statement_input.__to_json_value__()
         params = locals()
         params.pop("kwargs")
@@ -683,6 +705,12 @@ class GoldenAPI:
     # Validation Submissions
 
     def create_validation(self, triple_id: str, validation_type: str, **kwargs) -> dict:
+        x_metrics = json.loads(self.headers.get("X-metrics"))
+        x_metrics.update({"cv": time.time()})
+        if x_metrics.get("uv"):
+            x_metrics.update({"vd": x_metrics.get("cv") - x_metrics.get("uv")})
+        self.headers["X-metrics"] = json.dumps(x_metrics)
+
         params = locals()
         params.pop("kwargs")
         params.pop("self")
