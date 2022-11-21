@@ -21,7 +21,7 @@ def fragment_entity_detail():
     _frag_is_a_nodes = _frag_is_a.nodes()
     _frag_is_a_nodes.id()
     _frag_is_a_nodes.name()
-    _frag_statements_by_subject_id = _frag.statements_by_subject_id()
+    _frag_statements_by_subject_id = _frag.statements_by_subject_id(condition={'validationStatusIn': ('ACCEPTED', 'PENDING')})
     _frag_statements_by_subject_id_nodes = _frag_statements_by_subject_id.nodes()
     _frag_statements_by_subject_id_nodes.__fragment__(fragment_triple_widget())
     return _frag

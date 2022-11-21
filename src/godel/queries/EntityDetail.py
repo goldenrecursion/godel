@@ -14,6 +14,7 @@ def query_entity_detail():
     _op = sgqlc.operation.Operation(_schema_root.query_type, name='EntityDetail', variables=dict(id=sgqlc.types.Arg(sgqlc.types.non_null(_schema.UUID))))
     _op_entity = _op.entity(id=sgqlc.types.Variable('id'))
     _op_entity.__fragment__(fragment_entity_detail())
+    _op_entity.is_entity_type()
     _op_templates = _op.templates(order_by='RANK_ASC')
     _op_templates_nodes = _op_templates.nodes()
     _op_templates_nodes.entity_id()

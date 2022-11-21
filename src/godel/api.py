@@ -25,6 +25,7 @@ from godel.queries.Authenticate import Operations as AuthenticateOperations
 from godel.queries.CreateEntity import Operations as CreateEntityOperations
 from godel.queries.CreateValidation import Operations as CreateValidationOperations
 from godel.queries.CreateStatement import Operations as CreateStatementOperations
+from godel.queries.CreateTripleFlag import Operations as CreateTripleFlagOperations
 
 # from godel.queries.CurrentUserBlockchainData import Operations as CurrentUserBlockchainDataOperations
 from godel.queries.CurrentUserValidations import (
@@ -705,6 +706,15 @@ class GoldenAPI:
     # Validation Submissions
 
     def create_validation(self, triple_id: str, validation_type: str, **kwargs) -> dict:
+        """Create verification vote
+
+        Args:
+            triple_id (str): Your triple id
+            validation_type (str): Verfication type "ACCEPTED", "REJECTED", "SKIPPED"
+
+        Returns:
+            dict: created verification task
+        """
         x_metrics = json.loads(self.headers.get("X-metrics"))
         x_metrics.update({"cv": time.time()})
         if x_metrics.get("uv"):
@@ -723,22 +733,29 @@ class GoldenAPI:
     # Create Triple Flag
 
     def create_triple_flag(
-        self, triple_id: str, flag: str, reason: str, **kwargs
+        self, create_triple_flag_input: schema.CreateTripleFlagInput, **kwargs
     ) -> dict:
-        query = f"""mutation MyMutation {{
-            createTripleFlag(
-              input: {{
-                tripleId: "{triple_id}"
-                flag: {flag}
-                reason: "{reason}"
-              }}
-              ) {{
-                clientMutationId
-              }}
-        }}"""
-        print(query)
-        variables = {}
-        data = self.endpoint(query, variables)
+        """Create triple flag given the triple flag inputs consisting of triple_id and your flag
+
+        Args:
+            create_triple_flag_input (schema.CreateTripleFlagInput): Triple flag input
+
+        Returns:
+            dict: created triple flag
+        """
+        # Special case for parsing input
+        variables = create_triple_flag_input.__to_json_value__()
+        for p, v in variables.items():
+            p = self.to_camel_case(p)
+            if p in variables:
+                variables[p] = v
+
+        params = locals()
+        params.pop("kwargs")
+        params.pop("self")
+        params.update(kwargs)
+        op = CreateTripleFlagOperations.mutation.create_triple_flag
+        data = self.endpoint(op, variables)
         return data
 
     def add_triple_to_entity(

@@ -50,7 +50,7 @@ class Datetime(sgqlc.types.Scalar):
 
 class EntitiesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ID_ASC', 'ID_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+    __choices__ = ('ID_ASC', 'ID_DESC', 'IS_ENTITY_TYPE_ASC', 'IS_ENTITY_TYPE_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
 
 
 class EnumPredicateConstraintTargetType(sgqlc.types.Enum):
@@ -100,7 +100,7 @@ class PoPredicateObjectConstraintTargetType(sgqlc.types.Enum):
 
 class PredicateConstraintType(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ENUM', 'FORMAT', 'PREDICATE_OBJECT')
+    __choices__ = ('ENUM', 'FORMAT', 'PREDICATE_OBJECT', 'UNIQUE_OBJECT')
 
 
 class PredicatesOrderBy(sgqlc.types.Enum):
@@ -132,7 +132,7 @@ class TemplatesOrderBy(sgqlc.types.Enum):
 
 class TripleFlagType(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('MALICIOUS',)
+    __choices__ = ('HATE_SPEECH', 'MALICIOUS', 'PII', 'SPAM', 'WRONG')
 
 
 class TripleRequestsOrderBy(sgqlc.types.Enum):
@@ -261,7 +261,7 @@ class CreateTripleFlagInput(sgqlc.types.Input):
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     triple_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='tripleId')
     flag = sgqlc.types.Field(sgqlc.types.non_null(TripleFlagType), graphql_name='flag')
-    reason = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='reason')
+    reason = sgqlc.types.Field(String, graphql_name='reason')
 
 
 class CreateUserFlagInput(sgqlc.types.Input):
@@ -305,8 +305,9 @@ class DisambiguationQueryInput(sgqlc.types.Input):
 
 class EntityCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id',)
+    __field_names__ = ('id', 'is_entity_type')
     id = sgqlc.types.Field(UUID, graphql_name='id')
+    is_entity_type = sgqlc.types.Field(Boolean, graphql_name='isEntityType')
 
 
 class FulfillTripleRequestInput(sgqlc.types.Input):
@@ -452,7 +453,7 @@ class TemplatePredicateCondition(sgqlc.types.Input):
 
 class TripleCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'date_slashed', 'date_banned', 'validation_status')
+    __field_names__ = ('id', 'date_created', 'predicate_id', 'object_value', 'user_id', 'date_accepted', 'date_rejected', 'date_slashed', 'date_banned', 'validation_status', 'validation_status_in')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     date_created = sgqlc.types.Field(Datetime, graphql_name='dateCreated')
     predicate_id = sgqlc.types.Field(UUID, graphql_name='predicateId')
@@ -463,6 +464,7 @@ class TripleCondition(sgqlc.types.Input):
     date_slashed = sgqlc.types.Field(Datetime, graphql_name='dateSlashed')
     date_banned = sgqlc.types.Field(Datetime, graphql_name='dateBanned')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
+    validation_status_in = sgqlc.types.Field(sgqlc.types.list_of(ValidationStatus), graphql_name='validationStatusIn')
 
 
 class TripleRequestCondition(sgqlc.types.Input):
@@ -1167,9 +1169,10 @@ class CurrentUserNftRequest(sgqlc.types.Type, Node):
 
 class Entity(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'date_created', 'template', 'triple_requests_by_subject_entity_id', 'po_predicate_constraint_rules_by_object_entity_id', 'enum_predicate_constraint_elements_by_object_entity_id', 'mdt_and_rules_by_entity_type_id', 'current_user_nft_request', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'nft_requests', 'pathname', 'thumbnail', 'website')
+    __field_names__ = ('id', 'date_created', 'is_entity_type', 'template', 'triple_requests_by_subject_entity_id', 'po_predicate_constraint_rules_by_object_entity_id', 'enum_predicate_constraint_elements_by_object_entity_id', 'mdt_and_rules_by_entity_type_id', 'current_user_nft_request', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'nft_requests', 'pathname', 'thumbnail', 'website')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
+    is_entity_type = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isEntityType')
     template = sgqlc.types.Field('Template', graphql_name='template')
     triple_requests_by_subject_entity_id = sgqlc.types.Field(sgqlc.types.non_null(TripleRequestsConnection), graphql_name='tripleRequestsBySubjectEntityId', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
@@ -1332,8 +1335,7 @@ class LedgerRecordType(sgqlc.types.Type, Node):
 
 class MdtAndRule(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'entity_type_id', 'entity_type', 'mdt_or_rules_by_and_rule_id')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    __field_names__ = ('entity_type_id', 'entity_type', 'mdt_or_rules_by_and_rule_id')
     entity_type_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='entityTypeId')
     entity_type = sgqlc.types.Field(sgqlc.types.non_null(Entity), graphql_name='entityType')
     mdt_or_rules_by_and_rule_id = sgqlc.types.Field(sgqlc.types.non_null(MdtOrRulesConnection), graphql_name='mdtOrRulesByAndRuleId', args=sgqlc.types.ArgDict((
@@ -1348,11 +1350,8 @@ class MdtAndRule(sgqlc.types.Type, Node):
 
 class MdtOrRule(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'and_rule_id', 'predicate_id', 'and_rule', 'predicate')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
-    and_rule_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='andRuleId')
+    __field_names__ = ('predicate_id', 'predicate')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
-    and_rule = sgqlc.types.Field(sgqlc.types.non_null(MdtAndRule), graphql_name='andRule')
     predicate = sgqlc.types.Field(sgqlc.types.non_null('Predicate'), graphql_name='predicate')
 
 
@@ -1509,7 +1508,7 @@ class Qualifier(sgqlc.types.Type, Node):
 
 class Query(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('query', 'node', 'base_predicate_constraints', 'citations', 'current_user_nft_requests', 'entities', 'leaderboard_stats', 'ledger_records', 'ledger_record_types', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'triples', 'triple_requests', 'user_flags', 'base_predicate_constraint', 'citation', 'current_user_nft_request', 'entity', 'enum_predicate_constraint', 'enum_predicate_constraint_element', 'format_predicate_constraint', 'ledger_record', 'ledger_record_type', 'mdt_and_rule', 'mdt_or_rule', 'po_predicate_constraint', 'po_predicate_constraint_rule', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_leaderboard_ranking', 'current_user_user_id', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'base_predicate_constraint_by_node_id', 'citation_by_node_id', 'current_user_nft_request_by_node_id', 'entity_by_node_id', 'enum_predicate_constraint_by_node_id', 'enum_predicate_constraint_element_by_node_id', 'format_predicate_constraint_by_node_id', 'ledger_record_by_node_id', 'ledger_record_type_by_node_id', 'mdt_and_rule_by_node_id', 'mdt_or_rule_by_node_id', 'po_predicate_constraint_by_node_id', 'po_predicate_constraint_rule_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id', 'disambiguate_triples')
+    __field_names__ = ('query', 'node', 'base_predicate_constraints', 'citations', 'current_user_nft_requests', 'entities', 'leaderboard_stats', 'ledger_records', 'ledger_record_types', 'predicates', 'qualifiers', 'statements', 'templates', 'template_predicates', 'triples', 'triple_requests', 'user_flags', 'base_predicate_constraint', 'citation', 'current_user_nft_request', 'entity', 'enum_predicate_constraint', 'enum_predicate_constraint_element', 'format_predicate_constraint', 'ledger_record', 'ledger_record_type', 'po_predicate_constraint', 'po_predicate_constraint_rule', 'predicate', 'predicate_by_name', 'qualifier', 'statement', 'template', 'template_by_entity_id', 'template_predicate', 'triple', 'triple_request', 'user_flag', 'user_flag_by_user_id_and_flag', 'validation', '_statement_by_sp', '_statements_by_sp', 'current_user', 'current_user_leaderboard_ranking', 'current_user_user_id', 'entity_by_golden_id', 'entity_by_name', 'pending_triple_request', 'base_predicate_constraint_by_node_id', 'citation_by_node_id', 'current_user_nft_request_by_node_id', 'entity_by_node_id', 'enum_predicate_constraint_by_node_id', 'enum_predicate_constraint_element_by_node_id', 'format_predicate_constraint_by_node_id', 'ledger_record_by_node_id', 'ledger_record_type_by_node_id', 'mdt_and_rule_by_node_id', 'mdt_or_rule_by_node_id', 'po_predicate_constraint_by_node_id', 'po_predicate_constraint_rule_by_node_id', 'predicate_by_node_id', 'qualifier_by_node_id', 'statement_by_node_id', 'template_by_node_id', 'template_predicate_by_node_id', 'triple_by_node_id', 'triple_request_by_node_id', 'user_flag_by_node_id', 'validation_by_node_id', 'disambiguate_triples')
     query = sgqlc.types.Field(sgqlc.types.non_null('Query'), graphql_name='query')
     node = sgqlc.types.Field(Node, graphql_name='node', args=sgqlc.types.ArgDict((
         ('node_id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='nodeId', default=None)),
@@ -1699,14 +1698,6 @@ class Query(sgqlc.types.Type, Node):
     )
     ledger_record_type = sgqlc.types.Field(LedgerRecordType, graphql_name='ledgerRecordType', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='id', default=None)),
-))
-    )
-    mdt_and_rule = sgqlc.types.Field(MdtAndRule, graphql_name='mdtAndRule', args=sgqlc.types.ArgDict((
-        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
-))
-    )
-    mdt_or_rule = sgqlc.types.Field(MdtOrRule, graphql_name='mdtOrRule', args=sgqlc.types.ArgDict((
-        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
     )
     po_predicate_constraint = sgqlc.types.Field(PoPredicateConstraint, graphql_name='poPredicateConstraint', args=sgqlc.types.ArgDict((
