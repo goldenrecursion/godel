@@ -3,7 +3,7 @@ import uuid
 import json
 import time
 from importlib_metadata import version
-from typing import Optional
+from typing import Optional, Literal
 from platform import platform
 
 import requests
@@ -48,7 +48,7 @@ from godel.queries.Templates import Operations as TemplatesOperations
 from godel.queries.EntityDetail import Operations as EntityDetailOperations
 from godel.queries.AssignValidation import Operations as AssignValidationOperations
 
-from .models import DisambiguationTripleDict, DisambiguationValidationStatus
+from .models import DisambiguationTripleDict, PredicateWeightDict, DisambiguationValidationStatus
 
 logger = logging.getLogger(__name__)
 
@@ -360,21 +360,32 @@ class GoldenAPI:
     def disambiguate_triples(
         self,
         triples: DisambiguationTripleDict,
+        predicate_weights: Optional[PredicateWeightDict] = None,
         validation_status: Optional[DisambiguationValidationStatus] = None,
         distance_threshold: float = 0.3,
         with_diff: bool = False,
+        source: Literal["PROTOCOL", "GOLDENCOM"] = "PROTOCOL",
         **kwargs,
     ) -> dict:
         """Disambiguate entities given the predicate and object value or entity ID
 
         Args:
             triples (DisambiguationTripleDict): dict with <predicate, object> pairs. i.e: {"Name": "Twitter Inc.", "Website": "https://twitter.com"}
+            predicate_weights: None or a dictionary indicating the specific weight of the predicates when calculating the distance metric.
+                               The default predicate weight is 1.0. A higher value will have more weight when calculating the overall entity distance
+                               while a lower one will be less important. Use only if your workload doesn't work well with the system's defaults.
+                               As a special case, predicates wight a weight of 0 will not be considered for distance calculations, nor for searching
+                               entity candidates that might match.
             validation_status: None or ["ACCEPTED", "REJECTED", "PENDING", "INVALID", "PAUSED"]. If specified, will only search on submitted triples
                                with the given status
             distance_threshold: (float). Cutoff distance value for the resulting disambiguation candidates. 0.3 by default. 0 indicates a perfect
                                 match (more stringent), while 1 indicates total disparity (more relaxed)
             with_diff: (bool). Indicates whether the response should include a full diff, indicating which of the submitted triples have already been
                         added onto the graph, and which haven't.
+            source: "PROTOCOL" or "GOLDENCOM". Indicates the source to execute disambiguation against. By default, disambiguation is performed against
+                    data submitted to the protocol but, if you want, you can also run it against data submitted against GOLDEN.COM. The predicate format
+                    is exactly the same. The only difference being that the id from the entity response will match the slug of the entity on Golden.com,
+                    instead of being a UUID.
 
         Returns:
             dict: Entities with details
@@ -385,8 +396,11 @@ class GoldenAPI:
                 # Nested object. Need to disambiguate it first
                 r = self.disambiguate_triples(
                     v,
+                    predicate_weights=predicate_weights,
                     validation_status=validation_status,
                     distance_threshold=distance_threshold,
+                    with_diff=False,
+                    source=source,
                     **kwargs,
                 )
                 candidate_entities = sorted(
@@ -402,9 +416,14 @@ class GoldenAPI:
                 "object": v,
             }
             predicate_object_pairs.append(predicate_object)
+        predicate_weight_pairs = [
+            {"predicate": k, "weight": v} for k, v in predicate_weights.items()
+        ] if predicate_weights else None
 
         query = """query DisambiguateTriple(
             $triples: [DisambiguationInputTripleModel!]!,
+            $predicateWeights: [PredicateWeightInput!],
+            $source: DisambiguationSource,
             $validationStatus: ValidationStatus,
             $withDiff: Boolean! = false
             ){
@@ -412,6 +431,8 @@ class GoldenAPI:
                 payload: {
                     triples: $triples
                     validationStatus: $validationStatus
+                    predicateWeights: $predicateWeights
+                    source: $source
                 }
               ) {
                 errors
@@ -451,6 +472,8 @@ class GoldenAPI:
             "triples": predicate_object_pairs,
             "validationStatus": validation_status,
             "withDiff": with_diff,
+            "predicateWeights": predicate_weight_pairs,
+            "source": source, 
         }
         data = self.endpoint(query, variables)
         if (
