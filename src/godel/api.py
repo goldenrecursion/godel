@@ -59,6 +59,7 @@ class GoldenAPI:
         url: str = "https://dapp.golden.xyz/graphql",
         jwt_token: str = "",
         headers: dict = {},
+        timeout: float = None,
     ):
         self.url = url
         self.jwt_token = jwt_token
@@ -71,7 +72,8 @@ class GoldenAPI:
         self.headers.update(
             {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
         )
-        self.endpoint = HTTPEndpoint(self.url, self.headers)
+        self.timeout = timeout
+        self.endpoint = HTTPEndpoint(self.url, self.headers, timeout=self.timeout)
         self.predicates_cache = self.predicates()
         self.templates_cache = self.templates()
 
@@ -89,7 +91,7 @@ class GoldenAPI:
         self.headers.update(
             {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
         )
-        self.endpoint = HTTPEndpoint(self.url, self.headers)
+        self.endpoint = HTTPEndpoint(self.url, self.headers, timeout=self.timeout)
 
     def query(self, query: str = "", variables: dict = {}) -> dict:
         """Generic method to query graphql endpoint"""
