@@ -19,6 +19,9 @@ services:
       - ./:/opt/godel/
   tests:
     image: godel
+    environment:
+      - WALLET_A=${WALLET_A}
+      - WALLET_PK=${WALLET_PK}
     volumes:
       - ./:/opt/godel/
     command: pytest /opt/godel/tests/
