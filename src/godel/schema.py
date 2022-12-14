@@ -48,9 +48,24 @@ class Datetime(sgqlc.types.Scalar):
     __schema__ = schema
 
 
+class DisambiguationSource(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('GOLDENCOM', 'PROTOCOL')
+
+
 class EntitiesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ID_ASC', 'ID_DESC', 'IS_ENTITY_TYPE_ASC', 'IS_ENTITY_TYPE_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+    __choices__ = ('ID_ASC', 'ID_DESC', 'IS_DEPRECATED_ASC', 'IS_DEPRECATED_DESC', 'IS_ENTITY_TYPE_ASC', 'IS_ENTITY_TYPE_DESC', 'NATURAL', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+
+
+class EntityHistoryFeedEvent(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ACCEPTED', 'NFT_MINTED', 'REJECTED', 'SUBMITTED')
+
+
+class EntityHistoryFeedsOrderBy(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ENTITY_ID_ASC', 'ENTITY_ID_DESC', 'EVENT_ASC', 'EVENT_DESC', 'NATURAL', 'TIMESTAMP_ASC', 'TIMESTAMP_DESC', 'TRIPLE_ID_ASC', 'TRIPLE_ID_DESC', 'USER_ID_ASC', 'USER_ID_DESC')
 
 
 class EnumPredicateConstraintTargetType(sgqlc.types.Enum):
@@ -70,7 +85,7 @@ class JwtToken(sgqlc.types.Scalar):
 
 class LeaderboardStatsOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ACCEPTED_STATEMENT_COUNT_ASC', 'ACCEPTED_STATEMENT_COUNT_DESC', 'NATURAL', 'POINTS_ASC', 'POINTS_DESC', 'SUBMITTED_STATEMENT_COUNT_ASC', 'SUBMITTED_STATEMENT_COUNT_DESC', 'TIME_PERIOD_ASC', 'TIME_PERIOD_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_CONSENSUS_COUNT_ASC', 'VALIDATION_CONSENSUS_COUNT_DESC', 'VALIDATION_COUNT_ASC', 'VALIDATION_COUNT_DESC')
+    __choices__ = ('ACCEPTED_STATEMENT_COUNT_ASC', 'ACCEPTED_STATEMENT_COUNT_DESC', 'NATURAL', 'POINTS_ASC', 'POINTS_DESC', 'POINTS_WITHOUT_REWARD_ASC', 'POINTS_WITHOUT_REWARD_DESC', 'SUBMITTED_STATEMENT_COUNT_ASC', 'SUBMITTED_STATEMENT_COUNT_DESC', 'TIME_PERIOD_ASC', 'TIME_PERIOD_DESC', 'USER_ID_ASC', 'USER_ID_DESC', 'VALIDATION_CONSENSUS_COUNT_ASC', 'VALIDATION_CONSENSUS_COUNT_DESC', 'VALIDATION_COUNT_ASC', 'VALIDATION_COUNT_DESC')
 
 
 class LeaderboardTimePeriod(sgqlc.types.Enum):
@@ -105,7 +120,7 @@ class PredicateConstraintType(sgqlc.types.Enum):
 
 class PredicatesOrderBy(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('CID_ASC', 'CID_DESC', 'CITATION_REQUIREMENT_ASC', 'CITATION_REQUIREMENT_DESC', 'DESCRIPTION_ASC', 'DESCRIPTION_DESC', 'ID_ASC', 'ID_DESC', 'INVERSE_ID_ASC', 'INVERSE_ID_DESC', 'LABEL_ASC', 'LABEL_DESC', 'MULTIPLIER_ASC', 'MULTIPLIER_DESC', 'NAME_ASC', 'NAME_DESC', 'NATURAL', 'OBJECT_TYPE_ASC', 'OBJECT_TYPE_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
+    __choices__ = ('CID_ASC', 'CID_DESC', 'CITATION_REQUIREMENT_ASC', 'CITATION_REQUIREMENT_DESC', 'DESCRIPTION_ASC', 'DESCRIPTION_DESC', 'ID_ASC', 'ID_DESC', 'INVERSE_ID_ASC', 'INVERSE_ID_DESC', 'IS_DEPRECATED_ASC', 'IS_DEPRECATED_DESC', 'LABEL_ASC', 'LABEL_DESC', 'MULTIPLIER_ASC', 'MULTIPLIER_DESC', 'NAME_ASC', 'NAME_DESC', 'NATURAL', 'OBJECT_TYPE_ASC', 'OBJECT_TYPE_DESC', 'PRIMARY_KEY_ASC', 'PRIMARY_KEY_DESC')
 
 
 class QualifiersOrderBy(sgqlc.types.Enum):
@@ -132,7 +147,7 @@ class TemplatesOrderBy(sgqlc.types.Enum):
 
 class TripleFlagType(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('HATE_SPEECH', 'MALICIOUS', 'PII', 'SPAM', 'WRONG')
+    __choices__ = ('MALICIOUS', 'SPAM', 'WRONG')
 
 
 class TripleRequestsOrderBy(sgqlc.types.Enum):
@@ -151,7 +166,7 @@ class UUID(sgqlc.types.Scalar):
 
 class UserFlagType(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('TRUST_TRIPLE_FLAG', 'WELCOME_MODAL')
+    __choices__ = ('AGREED_TO_TERMS', 'STAKED_TESTNET_POINTS', 'TRUST_TRIPLE_FLAG', 'TRUST_VALIDATION', 'WELCOME_MODAL')
 
 
 class UserFlagsOrderBy(sgqlc.types.Enum):
@@ -298,16 +313,29 @@ class DisambiguationInputTripleModel(sgqlc.types.Input):
 
 class DisambiguationQueryInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('validation_status', 'triples')
+    __field_names__ = ('validation_status', 'triples', 'predicate_weights', 'source')
     validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validationStatus')
     triples = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DisambiguationInputTripleModel))), graphql_name='triples')
+    predicate_weights = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('PredicateWeightInput')), graphql_name='predicateWeights')
+    source = sgqlc.types.Field(DisambiguationSource, graphql_name='source')
 
 
 class EntityCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'is_entity_type')
+    __field_names__ = ('id', 'is_entity_type', 'is_deprecated')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     is_entity_type = sgqlc.types.Field(Boolean, graphql_name='isEntityType')
+    is_deprecated = sgqlc.types.Field(Boolean, graphql_name='isDeprecated')
+
+
+class EntityHistoryFeedCondition(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('entity_id', 'triple_id', 'user_id', 'event', 'timestamp')
+    entity_id = sgqlc.types.Field(UUID, graphql_name='entityId')
+    triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
+    user_id = sgqlc.types.Field(String, graphql_name='userId')
+    event = sgqlc.types.Field(EntityHistoryFeedEvent, graphql_name='event')
+    timestamp = sgqlc.types.Field(Datetime, graphql_name='timestamp')
 
 
 class FulfillTripleRequestInput(sgqlc.types.Input):
@@ -329,7 +357,7 @@ class GetAuthenticationMessageInput(sgqlc.types.Input):
 
 class LeaderboardStatCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('user_id', 'time_period', 'submitted_statement_count', 'accepted_statement_count', 'validation_count', 'validation_consensus_count', 'points', 'totals')
+    __field_names__ = ('user_id', 'time_period', 'submitted_statement_count', 'accepted_statement_count', 'validation_count', 'validation_consensus_count', 'points', 'points_without_reward', 'totals')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     time_period = sgqlc.types.Field(LeaderboardTimePeriod, graphql_name='timePeriod')
     submitted_statement_count = sgqlc.types.Field(Int, graphql_name='submittedStatementCount')
@@ -337,6 +365,7 @@ class LeaderboardStatCondition(sgqlc.types.Input):
     validation_count = sgqlc.types.Field(Int, graphql_name='validationCount')
     validation_consensus_count = sgqlc.types.Field(Int, graphql_name='validationConsensusCount')
     points = sgqlc.types.Field(Int, graphql_name='points')
+    points_without_reward = sgqlc.types.Field(Int, graphql_name='pointsWithoutReward')
     totals = sgqlc.types.Field(Boolean, graphql_name='totals')
 
 
@@ -366,7 +395,7 @@ class LedgerRecordTypeCondition(sgqlc.types.Input):
 
 class PredicateCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'citation_requirement', 'multiplier', 'inverse_id')
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'citation_requirement', 'multiplier', 'inverse_id', 'is_deprecated')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     description = sgqlc.types.Field(String, graphql_name='description')
@@ -376,6 +405,14 @@ class PredicateCondition(sgqlc.types.Input):
     citation_requirement = sgqlc.types.Field(CitationRequirementType, graphql_name='citationRequirement')
     multiplier = sgqlc.types.Field(Int, graphql_name='multiplier')
     inverse_id = sgqlc.types.Field(UUID, graphql_name='inverseId')
+    is_deprecated = sgqlc.types.Field(Boolean, graphql_name='isDeprecated')
+
+
+class PredicateWeightInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('predicate', 'weight')
+    predicate = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='predicate')
+    weight = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='weight')
 
 
 class QualifierCondition(sgqlc.types.Input):
@@ -487,19 +524,26 @@ class UserFlagCondition(sgqlc.types.Input):
 
 class ValidationCondition(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('id', 'triple_id', 'user_id', 'validation_type', 'created_at', 'validation_consensus_status')
+    __field_names__ = ('id', 'triple_id', 'user_id', 'validation_type', 'created_at', 'validation_consensus_status', 'validation_type_in')
     id = sgqlc.types.Field(UUID, graphql_name='id')
     triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     validation_type = sgqlc.types.Field(ValidationType, graphql_name='validationType')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
     validation_consensus_status = sgqlc.types.Field(ValidationConsensusStatus, graphql_name='validationConsensusStatus')
+    validation_type_in = sgqlc.types.Field(sgqlc.types.list_of(ValidationType), graphql_name='validationTypeIn')
 
 
 
 ########################################################################
 # Output Objects and Interfaces
 ########################################################################
+class Node(sgqlc.types.Interface):
+    __schema__ = schema
+    __field_names__ = ('node_id',)
+    node_id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='nodeId')
+
+
 class AssignValidationPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('client_mutation_id', 'assigned_validation', 'query')
@@ -663,7 +707,7 @@ class DisambiguationDiff(sgqlc.types.Type):
 class DisambiguationEntityResponse(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('id', 'name', 'date_created', 'distance', 'reputation', 'diff')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='date_created')
     distance = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='distance')
@@ -674,10 +718,10 @@ class DisambiguationEntityResponse(sgqlc.types.Type):
 class DisambiguationGraphTripleModel(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('id', 'predicate', 'object', 'validation_status')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    id = sgqlc.types.Field(String, graphql_name='id')
     predicate = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='predicate')
     object = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='object')
-    validation_status = sgqlc.types.Field(sgqlc.types.non_null(ValidationStatus), graphql_name='validation_status')
+    validation_status = sgqlc.types.Field(ValidationStatus, graphql_name='validation_status')
 
 
 class DisambiguationQueryResponse(sgqlc.types.Type):
@@ -708,6 +752,33 @@ class EntitiesEdge(sgqlc.types.Type):
     __field_names__ = ('cursor', 'node')
     cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
     node = sgqlc.types.Field(sgqlc.types.non_null('Entity'), graphql_name='node')
+
+
+class EntityHistoryFeed(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('entity_id', 'triple_id', 'user_id', 'event', 'timestamp', 'triple')
+    entity_id = sgqlc.types.Field(UUID, graphql_name='entityId')
+    triple_id = sgqlc.types.Field(UUID, graphql_name='tripleId')
+    user_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='userId')
+    event = sgqlc.types.Field(sgqlc.types.non_null(EntityHistoryFeedEvent), graphql_name='event')
+    timestamp = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='timestamp')
+    triple = sgqlc.types.Field('Triple', graphql_name='triple')
+
+
+class EntityHistoryFeedsConnection(sgqlc.types.relay.Connection):
+    __schema__ = schema
+    __field_names__ = ('nodes', 'edges', 'page_info', 'total_count')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EntityHistoryFeed))), graphql_name='nodes')
+    edges = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EntityHistoryFeedsEdge'))), graphql_name='edges')
+    page_info = sgqlc.types.Field(sgqlc.types.non_null('PageInfo'), graphql_name='pageInfo')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+
+
+class EntityHistoryFeedsEdge(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('cursor', 'node')
+    cursor = sgqlc.types.Field(Cursor, graphql_name='cursor')
+    node = sgqlc.types.Field(sgqlc.types.non_null(EntityHistoryFeed), graphql_name='node')
 
 
 class EnumPredicateConstraintElementsConnection(sgqlc.types.relay.Connection):
@@ -760,7 +831,7 @@ class GroundTruthTriple(sgqlc.types.Type):
 
 class LeaderboardStat(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('user_id', 'time_period', 'submitted_statement_count', 'accepted_statement_count', 'validation_count', 'validation_consensus_count', 'points')
+    __field_names__ = ('user_id', 'time_period', 'submitted_statement_count', 'accepted_statement_count', 'validation_count', 'validation_consensus_count', 'points', 'points_without_reward')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
     time_period = sgqlc.types.Field(sgqlc.types.non_null(LeaderboardTimePeriod), graphql_name='timePeriod')
     submitted_statement_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='submittedStatementCount')
@@ -768,6 +839,7 @@ class LeaderboardStat(sgqlc.types.Type):
     validation_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='validationCount')
     validation_consensus_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='validationConsensusCount')
     points = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='points')
+    points_without_reward = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='pointsWithoutReward')
 
 
 class LeaderboardStatsConnection(sgqlc.types.relay.Connection):
@@ -926,12 +998,6 @@ class NftRequestsEdge(sgqlc.types.Type):
     node = sgqlc.types.Field(sgqlc.types.non_null(NftRequest), graphql_name='node')
 
 
-class Node(sgqlc.types.Interface):
-    __schema__ = schema
-    __field_names__ = ('node_id',)
-    node_id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='nodeId')
-
-
 class PageInfo(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('has_next_page', 'has_previous_page', 'start_cursor', 'end_cursor')
@@ -1087,19 +1153,21 @@ class UserFlagsEdge(sgqlc.types.Type):
 
 class UserLeaderboardRanking(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('user_id', 'submitted_statement_count', 'accepted_statement_count', 'validation_count', 'validation_consensus_count', 'points', 'time_period', 'ranking_submitted_statement_count', 'ranking_accepted_statement_count', 'ranking_validation_count', 'ranking_validation_consensus_count', 'ranking_points')
+    __field_names__ = ('user_id', 'time_period', 'submitted_statement_count', 'accepted_statement_count', 'validation_count', 'validation_consensus_count', 'points', 'points_without_reward', 'ranking_submitted_statement_count', 'ranking_accepted_statement_count', 'ranking_validation_count', 'ranking_validation_consensus_count', 'ranking_points', 'ranking_points_without_reward')
     user_id = sgqlc.types.Field(String, graphql_name='userId')
+    time_period = sgqlc.types.Field(LeaderboardTimePeriod, graphql_name='timePeriod')
     submitted_statement_count = sgqlc.types.Field(Int, graphql_name='submittedStatementCount')
     accepted_statement_count = sgqlc.types.Field(Int, graphql_name='acceptedStatementCount')
     validation_count = sgqlc.types.Field(Int, graphql_name='validationCount')
     validation_consensus_count = sgqlc.types.Field(Int, graphql_name='validationConsensusCount')
     points = sgqlc.types.Field(Int, graphql_name='points')
-    time_period = sgqlc.types.Field(LeaderboardTimePeriod, graphql_name='timePeriod')
+    points_without_reward = sgqlc.types.Field(Int, graphql_name='pointsWithoutReward')
     ranking_submitted_statement_count = sgqlc.types.Field(Int, graphql_name='rankingSubmittedStatementCount')
     ranking_accepted_statement_count = sgqlc.types.Field(Int, graphql_name='rankingAcceptedStatementCount')
     ranking_validation_count = sgqlc.types.Field(Int, graphql_name='rankingValidationCount')
     ranking_validation_consensus_count = sgqlc.types.Field(Int, graphql_name='rankingValidationConsensusCount')
     ranking_points = sgqlc.types.Field(Int, graphql_name='rankingPoints')
+    ranking_points_without_reward = sgqlc.types.Field(Int, graphql_name='rankingPointsWithoutReward')
 
 
 class UserStat(sgqlc.types.Type):
@@ -1109,6 +1177,14 @@ class UserStat(sgqlc.types.Type):
     agreed_with_consensus_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='agreedWithConsensusCount')
     disagreed_with_consensus_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='disagreedWithConsensusCount')
     pending_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='pendingCount')
+
+
+class ValidationMetric(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('total', 'accepted', 'rejected')
+    total = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='total')
+    accepted = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='accepted')
+    rejected = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='rejected')
 
 
 class ValidationsConnection(sgqlc.types.relay.Connection):
@@ -1169,10 +1245,11 @@ class CurrentUserNftRequest(sgqlc.types.Type, Node):
 
 class Entity(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'date_created', 'is_entity_type', 'template', 'triple_requests_by_subject_entity_id', 'po_predicate_constraint_rules_by_object_entity_id', 'enum_predicate_constraint_elements_by_object_entity_id', 'mdt_and_rules_by_entity_type_id', 'current_user_nft_request', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'is_a', 'name', 'nft_requests', 'pathname', 'thumbnail', 'website')
+    __field_names__ = ('id', 'date_created', 'is_entity_type', 'is_deprecated', 'template', 'triple_requests_by_subject_entity_id', 'po_predicate_constraint_rules_by_object_entity_id', 'enum_predicate_constraint_elements_by_object_entity_id', 'mdt_and_rules_by_entity_type_id', 'current_user_nft_request', 'qualifiers_by_object_entity_id', 'statements_by_subject_id', 'statements_by_object_entity_id', 'description', 'golden_id', 'history', 'is_a', 'name', 'nft_requests', 'pathname', 'thumbnail', 'website')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     date_created = sgqlc.types.Field(sgqlc.types.non_null(Datetime), graphql_name='dateCreated')
     is_entity_type = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isEntityType')
+    is_deprecated = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isDeprecated')
     template = sgqlc.types.Field('Template', graphql_name='template')
     triple_requests_by_subject_entity_id = sgqlc.types.Field(sgqlc.types.non_null(TripleRequestsConnection), graphql_name='tripleRequestsBySubjectEntityId', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
@@ -1241,6 +1318,16 @@ class Entity(sgqlc.types.Type, Node):
     )
     description = sgqlc.types.Field(String, graphql_name='description')
     golden_id = sgqlc.types.Field(String, graphql_name='goldenId')
+    history = sgqlc.types.Field(sgqlc.types.non_null(EntityHistoryFeedsConnection), graphql_name='history', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(EntityHistoryFeedsOrderBy)), graphql_name='orderBy', default=None)),
+        ('condition', sgqlc.types.Arg(EntityHistoryFeedCondition, graphql_name='condition', default=None)),
+))
+    )
     is_a = sgqlc.types.Field(sgqlc.types.non_null(EntitiesConnection), graphql_name='isA', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
@@ -1386,7 +1473,7 @@ class PoPredicateConstraintRule(sgqlc.types.Type, Node):
 
 class Predicate(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'citation_requirement', 'multiplier', 'inverse_id', 'inverse', 'predicates_by_inverse_id', 'triples', 'template_predicates', 'triple_requests', 'base_predicate_constraints', 'po_predicate_constraint_rules', 'mdt_or_rules', 'qualifiers', 'statements', 'show_in_infobox')
+    __field_names__ = ('id', 'name', 'description', 'object_type', 'cid', 'label', 'citation_requirement', 'multiplier', 'inverse_id', 'is_deprecated', 'inverse', 'predicates_by_inverse_id', 'triples', 'template_predicates', 'triple_requests', 'base_predicate_constraints', 'po_predicate_constraint_rules', 'mdt_or_rules', 'qualifiers', 'statements', 'show_in_infobox')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     description = sgqlc.types.Field(String, graphql_name='description')
@@ -1396,6 +1483,7 @@ class Predicate(sgqlc.types.Type, Node):
     citation_requirement = sgqlc.types.Field(sgqlc.types.non_null(CitationRequirementType), graphql_name='citationRequirement')
     multiplier = sgqlc.types.Field(Int, graphql_name='multiplier')
     inverse_id = sgqlc.types.Field(UUID, graphql_name='inverseId')
+    is_deprecated = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isDeprecated')
     inverse = sgqlc.types.Field('Predicate', graphql_name='inverse')
     predicates_by_inverse_id = sgqlc.types.Field(sgqlc.types.non_null(PredicatesConnection), graphql_name='predicatesByInverseId', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
@@ -1762,9 +1850,14 @@ class Query(sgqlc.types.Type, Node):
         ('predicate', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='predicate', default=None)),
 ))
     )
-    _statements_by_sp = sgqlc.types.Field('Statement', graphql_name='_statementsBySp', args=sgqlc.types.ArgDict((
+    _statements_by_sp = sgqlc.types.Field(StatementsConnection, graphql_name='_statementsBySp', args=sgqlc.types.ArgDict((
         ('subject', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='subject', default=None)),
         ('predicate', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='predicate', default=None)),
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
 ))
     )
     current_user = sgqlc.types.Field('User', graphql_name='currentUser')
@@ -1883,7 +1976,7 @@ class Query(sgqlc.types.Type, Node):
 
 class Statement(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'subject', 'predicate', 'object_entity', 'citations_by_triple_id', 'qualifiers_by_subject_id', 'is_mdt')
+    __field_names__ = ('id', 'subject_id', 'predicate_id', 'object_value', 'object_entity_id', 'user_id', 'date_created', 'date_accepted', 'date_rejected', 'date_constraints_violated', 'date_slashed', 'validation_status', 'subject', 'predicate', 'object_entity', 'citations_by_triple_id', 'qualifiers_by_subject_id', 'is_mdt', 'validation_metrics', 'validations')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     subject_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='subjectId')
     predicate_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='predicateId')
@@ -1920,6 +2013,17 @@ class Statement(sgqlc.types.Type, Node):
 ))
     )
     is_mdt = sgqlc.types.Field(Boolean, graphql_name='isMdt')
+    validation_metrics = sgqlc.types.Field(ValidationMetric, graphql_name='validationMetrics')
+    validations = sgqlc.types.Field(sgqlc.types.non_null(ValidationsConnection), graphql_name='validations', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('last', sgqlc.types.Arg(Int, graphql_name='last', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('before', sgqlc.types.Arg(Cursor, graphql_name='before', default=None)),
+        ('after', sgqlc.types.Arg(Cursor, graphql_name='after', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(ValidationsOrderBy)), graphql_name='orderBy', default=None)),
+        ('condition', sgqlc.types.Arg(ValidationCondition, graphql_name='condition', default=None)),
+))
+    )
 
 
 class Template(sgqlc.types.Type, Node):
@@ -1965,7 +2069,7 @@ class TripleRequest(sgqlc.types.Type, Node):
 
 class User(sgqlc.types.Type, Node):
     __schema__ = schema
-    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'ledger_records', 'user_flags', 'qualifiers', 'statements', 'balance', 'contributions_stats', 'remaining_skips', 'short_address', 'stats')
+    __field_names__ = ('id', 'nonce', 'created_at', 'stake_balance', 'token_balance', 'triples', 'validations', 'ledger_records', 'user_flags', 'qualifiers', 'statements', 'balance', 'contributions_stats', 'pending_points', 'remaining_skips', 'short_address', 'stats')
     id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
     nonce = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='nonce')
     created_at = sgqlc.types.Field(Datetime, graphql_name='createdAt')
@@ -2033,6 +2137,7 @@ class User(sgqlc.types.Type, Node):
     )
     balance = sgqlc.types.Field(BigInt, graphql_name='balance')
     contributions_stats = sgqlc.types.Field(sgqlc.types.non_null(UserStat), graphql_name='contributionsStats')
+    pending_points = sgqlc.types.Field(BigInt, graphql_name='pendingPoints')
     remaining_skips = sgqlc.types.Field(Int, graphql_name='remainingSkips')
     short_address = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='shortAddress')
     stats = sgqlc.types.Field(sgqlc.types.non_null(UserStat), graphql_name='stats')

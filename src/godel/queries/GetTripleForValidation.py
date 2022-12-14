@@ -21,9 +21,6 @@ def query_get_triple_for_validation():
     _op_triple__as__Statement_object_entity.__fragment__(fragment_entity_summary())
     _op_current_user = _op.current_user()
     _op_current_user.remaining_skips()
-    _op_current_user_user_flags = _op_current_user.user_flags()
-    _op_current_user_user_flags_nodes = _op_current_user_user_flags.nodes()
-    _op_current_user_user_flags_nodes.flag()
     return _op
 
 
