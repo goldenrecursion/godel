@@ -17,4 +17,7 @@ jobs:
     - name: Build the Docker image
       run: docker-compose build
     - name: Run Tests
+      env:
+        WALLET_A: ${{ secrets.WALLET_A }}
+        WALLET_PK: ${{ secrets.WALLET_PK }}
       run: docker-compose up tests
