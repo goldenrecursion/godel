@@ -12,15 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      env:
-        WALLET_A: ${{ secrets.WALLET_A }}
-        WALLET_PK: ${{ secrets.WALLET_PK }}
       run: docker-compose build
     - name: Run Tests
       env:
         WALLET_A: ${{ secrets.WALLET_A }}
         WALLET_PK: ${{ secrets.WALLET_PK }}
-      run: |
-        export WALLET_A="$WALLET_A" \
-        export WALLET_PK="$WALLET_PK" \
-        docker-compose up tests
+      run: docker-compose up tests
