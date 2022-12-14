@@ -17,4 +17,7 @@ jobs:
       env:
         WALLET_A: ${{ secrets.WALLET_A }}
         WALLET_PK: ${{ secrets.WALLET_PK }}
-      run: WALLET_A="$WALLET_A" WALLET_PK="$WALLET_PK" docker-compose up tests
+      run: |
+        export WALLET_A="$WALLET_A" \
+        export WALLET_PK="$WALLET_PK" \
+        docker-compose up tests
