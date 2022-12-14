@@ -56,6 +56,3 @@ RUN poetry install && \
 # Copy source code to the image
 COPY . ./godel
 ENV PYTHONPATH=/opt/godel/src:$PYTHONPATH
-
-from base as test
-RUN pytest

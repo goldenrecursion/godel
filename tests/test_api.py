@@ -24,7 +24,6 @@ def test_predicates():
 def test_templates():
     _GOLDAPI.templates()
 
-@pytest.mark.skip(reason="Needs config")
 def test_auntheticate():
     # Retrieve one-off nonce from GraphQL API
     message_response = _GOLDAPI.get_authentication_message(user_id=_WALLET_A)
@@ -50,7 +49,6 @@ def test_auntheticate():
     global _JWT_TOKEN
     _JWT_TOKEN = jwt_token
 
-@pytest.mark.skip(reason="Needs config")
 def test_create_entity():
     # Test connection with search
     search_results = _GOLDAPI.entity_search(name="Miles")
@@ -128,7 +126,6 @@ def test_create_entity():
     assert "errors" not in data
 
 
-@pytest.mark.skip(reason="Needs config")
 def test_create_triple():
     # Test with search
     search_results = _GOLDAPI.entity_search(name="Miles")
@@ -158,7 +155,6 @@ def test_create_triple():
     data = _GOLDAPI.create_statement(create_statement_input=create_statement_input)
     assert "errors" not in data
 
-@pytest.mark.skip(reason="Needs config")
 def test_create_verification():
     # Get an unvalidated triple
     data = _GOLDAPI.unvalidated_triple()["data"]
