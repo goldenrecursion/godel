@@ -11,6 +11,7 @@ __all__ = ('Operations',)
 def query_profile_index():
     _op = sgqlc.operation.Operation(_schema_root.query_type, name='ProfileIndex')
     _op_current_user = _op.current_user()
+    _op_current_user.ens_name()
     _op_current_user_user_flags = _op_current_user.user_flags()
     _op_current_user_user_flags_nodes = _op_current_user_user_flags.nodes()
     _op_current_user_user_flags_nodes.flag()

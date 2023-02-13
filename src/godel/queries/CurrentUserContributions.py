@@ -26,6 +26,10 @@ def query_current_user_contributions():
     _op_statements_edges.cursor()
     _op_statements_edges_node = _op_statements_edges.node()
     _op_statements_edges_node.__fragment__(fragment_triple_widget())
+    _op_statements_edges_node_ledger_records_by_user_id_and_triple_id = _op_statements_edges_node.ledger_records_by_user_id_and_triple_id()
+    _op_statements_edges_node_ledger_records_by_user_id_and_triple_id_nodes = _op_statements_edges_node_ledger_records_by_user_id_and_triple_id.nodes()
+    _op_statements_edges_node_ledger_records_by_user_id_and_triple_id_nodes.amount()
+    _op_statements_edges_node_ledger_records_by_user_id_and_triple_id_nodes.type_id()
     return _op
 
 

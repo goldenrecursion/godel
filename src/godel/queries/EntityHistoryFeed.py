@@ -9,7 +9,7 @@ __all__ = ('Operations',)
 
 
 def query_entity_history_feed():
-    _op = sgqlc.operation.Operation(_schema_root.query_type, name='EntityHistoryFeed', variables=dict(id=sgqlc.types.Arg(sgqlc.types.non_null(_schema.UUID)), first=sgqlc.types.Arg(_schema.Int, default=20), offset=sgqlc.types.Arg(_schema.Int), orderBy=sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(_schema.EntityHistoryFeedsOrderBy)), default=('TIMESTAMP_DESC',))))
+    _op = sgqlc.operation.Operation(_schema_root.query_type, name='EntityHistoryFeed', variables=dict(id=sgqlc.types.Arg(sgqlc.types.non_null(_schema.UUID)), first=sgqlc.types.Arg(_schema.Int, default=20), offset=sgqlc.types.Arg(_schema.Int), orderBy=sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(_schema.EntityHistoriesOrderBy)), default=('TIMESTAMP_DESC', 'TRIPLE_ID_ASC'))))
     _op_entity = _op.entity(id=sgqlc.types.Variable('id'))
     _op_entity.id()
     _op_entity_history = _op_entity.history(order_by=sgqlc.types.Variable('orderBy'), offset=sgqlc.types.Variable('offset'), first=sgqlc.types.Variable('first'))
@@ -20,7 +20,6 @@ def query_entity_history_feed():
     _op_entity_history_nodes = _op_entity_history.nodes()
     _op_entity_history_nodes.event()
     _op_entity_history_nodes.timestamp()
-    _op_entity_history_nodes.user_id()
     _op_entity_history_nodes_triple = _op_entity_history_nodes.triple()
     _op_entity_history_nodes_triple__as__Statement = _op_entity_history_nodes_triple.__as__(_schema.Statement)
     _op_entity_history_nodes_triple__as__Statement.id()
