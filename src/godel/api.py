@@ -28,9 +28,9 @@ from godel.queries.CreateStatement import Operations as CreateStatementOperation
 from godel.queries.CreateTripleFlag import Operations as CreateTripleFlagOperations
 
 # from godel.queries.CurrentUserBlockchainData import Operations as CurrentUserBlockchainDataOperations
-#from godel.queries.CurrentUserValidations import (
-    #Operations as CurrentUserValidationsOperations,
-#)
+# from godel.queries.CurrentUserValidations import (
+# Operations as CurrentUserValidationsOperations,
+# )
 from godel.queries.EntityByName import Operations as EntityByNameOperations
 from godel.queries.EntityGolden import Operations as EntityGoldenOperations
 from godel.queries.EntitySearch import Operations as EntitySearchOperations
@@ -48,7 +48,11 @@ from godel.queries.Templates import Operations as TemplatesOperations
 from godel.queries.EntityDetail import Operations as EntityDetailOperations
 from godel.queries.AssignValidation import Operations as AssignValidationOperations
 
-from .models import DisambiguationTripleDict, PredicateWeightDict, DisambiguationValidationStatus
+from .models import (
+    DisambiguationTripleDict,
+    PredicateWeightDict,
+    DisambiguationValidationStatus,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +64,9 @@ class GoldenAPI:
         jwt_token: str = "",
         headers: dict = {},
         timeout: float = None,
+        load_test: bool = False,
     ):
+        self.load_test = load_test
         self.url = url
         self.jwt_token = jwt_token
         self.headers = headers
@@ -155,6 +161,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = GetAuthenticationMessageOperations.mutation.get_authentication_message
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -174,6 +183,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = AuthenticateOperations.mutation.authenticate
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -242,6 +254,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = EntityByNameOperations.query.entity_by_name
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -264,6 +279,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = EntityGoldenOperations.query.entity_golden
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -283,6 +301,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = EntitySearchOperations.query.entity_search
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -322,6 +343,9 @@ class GoldenAPI:
             str(fragment_triple_widget()),
         )
         variables = {"id": id}
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
         return data
 
@@ -356,6 +380,9 @@ class GoldenAPI:
               }
             }"""
         variables = {"id": id}
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
         return data
 
@@ -418,9 +445,11 @@ class GoldenAPI:
                 "object": v,
             }
             predicate_object_pairs.append(predicate_object)
-        predicate_weight_pairs = [
-            {"predicate": k, "weight": v} for k, v in predicate_weights.items()
-        ] if predicate_weights else None
+        predicate_weight_pairs = (
+            [{"predicate": k, "weight": v} for k, v in predicate_weights.items()]
+            if predicate_weights
+            else None
+        )
 
         query = """query DisambiguateTriple(
             $triples: [DisambiguationInputTripleModel!]!,
@@ -475,8 +504,11 @@ class GoldenAPI:
             "validationStatus": validation_status,
             "withDiff": with_diff,
             "predicateWeights": predicate_weight_pairs,
-            "source": source, 
+            "source": source,
         }
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
         if (
             ("data" in data)
@@ -524,6 +556,9 @@ class GoldenAPI:
             }}
         }}"""
         variables = {}
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
         return data
 
@@ -549,6 +584,9 @@ class GoldenAPI:
             }
         }"""
         variables = {}
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
         return data
 
@@ -574,6 +612,9 @@ class GoldenAPI:
             }
         }"""
         variables = {}
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
         return data
 
@@ -589,7 +630,7 @@ class GoldenAPI:
         data = self.endpoint(op)
         return data
 
-    def assign_validation(self, **kwargs) -> dict:
+    def assign_validation(self, force: bool = False, **kwargs) -> dict:
         """Get unvalidated triple id from queue
 
         Returns:
@@ -597,6 +638,11 @@ class GoldenAPI:
         """
         op = AssignValidationOperations.mutation.assign_validation
         data = self.endpoint(op)
+        if self.load_test and not force:
+            json_body = {
+                "query": bytes(op).decode("utf-8"),
+            }
+            return json_body, self.url, self.headers
         return data
 
     def unvalidated_triple(self) -> dict:
@@ -605,7 +651,7 @@ class GoldenAPI:
         Returns:
             dict: Unvalidated triple
         """
-        assign_validation = self.assign_validation()
+        assign_validation = self.assign_validation(force=True)
         try:
             triple_id = (
                 assign_validation.get("data")
@@ -644,6 +690,9 @@ class GoldenAPI:
         """
 
         variables = {"id": triple_id}
+        if self.load_test:
+            json_body = {"query": query, "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(query, variables)
 
         x_metrics = json.loads(self.headers.get("X-metrics"))
@@ -695,6 +744,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = CreateEntityOperations.mutation.create_entity
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -725,6 +777,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = CreateStatementOperations.mutation.create_statement
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -752,6 +807,9 @@ class GoldenAPI:
         params.update(kwargs)
         op = CreateValidationOperations.mutation.create_validation
         variables = self.generate_variables(op, params)
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
@@ -780,6 +838,9 @@ class GoldenAPI:
         params.pop("self")
         params.update(kwargs)
         op = CreateTripleFlagOperations.mutation.create_triple_flag
+        if self.load_test:
+            json_body = {"query": bytes(op).decode("utf-8"), "variables": variables}
+            return json_body, self.url, self.headers
         data = self.endpoint(op, variables)
         return data
 
