@@ -13,7 +13,7 @@ def query_get_current_user():
     _op_current_user = _op.current_user()
     _op_current_user.id()
     _op_current_user.short_address()
-    _op_current_user.nonce()
+    _op_current_user.ens_name()
     _op_current_user.balance()
     _op_current_user.token_balance()
     _op_current_user.stake_balance()

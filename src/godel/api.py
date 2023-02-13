@@ -28,9 +28,9 @@ from godel.queries.CreateStatement import Operations as CreateStatementOperation
 from godel.queries.CreateTripleFlag import Operations as CreateTripleFlagOperations
 
 # from godel.queries.CurrentUserBlockchainData import Operations as CurrentUserBlockchainDataOperations
-from godel.queries.CurrentUserValidations import (
-    Operations as CurrentUserValidationsOperations,
-)
+#from godel.queries.CurrentUserValidations import (
+    #Operations as CurrentUserValidationsOperations,
+#)
 from godel.queries.EntityByName import Operations as EntityByNameOperations
 from godel.queries.EntityGolden import Operations as EntityGoldenOperations
 from godel.queries.EntitySearch import Operations as EntitySearchOperations

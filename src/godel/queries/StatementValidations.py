@@ -21,7 +21,9 @@ def query_statement_validations():
     _op_statement_validations_nodes.id()
     _op_statement_validations_nodes.created_at()
     _op_statement_validations_nodes.validation_type()
-    _op_statement_validations_nodes.user_id()
+    _op_statement_validations_nodes_user = _op_statement_validations_nodes.user()
+    _op_statement_validations_nodes_user.id()
+    _op_statement_validations_nodes_user.ens_name()
     _op_statement_validations_nodes.triple_id()
     return _op
 
