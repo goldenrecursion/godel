@@ -80,8 +80,6 @@ class GoldenAPI:
         )
         self.timeout = timeout
         self.endpoint = HTTPEndpoint(self.url, self.headers, timeout=self.timeout)
-        self.predicates_cache = self.predicates()
-        self.templates_cache = self.templates()
 
     #####################
     ## Utility Methods ##
