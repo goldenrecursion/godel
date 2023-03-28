@@ -465,7 +465,7 @@ class GoldenAPI:
                 }
               ) {
                 errors
-                call_id
+                disambiguationCallId
                 entities {
                   name
                   distance

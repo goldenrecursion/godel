@@ -280,9 +280,10 @@ class CreateAllNftRequestsInput(sgqlc.types.Input):
 
 class CreateEntityInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('client_mutation_id', 'statements')
+    __field_names__ = ('client_mutation_id', 'statements', 'disambiguation_call_id')
     client_mutation_id = sgqlc.types.Field(String, graphql_name='clientMutationId')
     statements = sgqlc.types.Field(sgqlc.types.list_of('StatementInputRecordInput'), graphql_name='statements')
+    disambiguation_call_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='disambiguationCallId')
 
 
 class CreateQualifierInput(sgqlc.types.Input):
